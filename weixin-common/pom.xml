@@ -9,16 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <artifactId>weixin-common</artifactId>
 
-    <artifactId>weixin-pay</artifactId>
-
-    <dependencies>
-    <dependency>
-        <groupId>com.github.sung</groupId>
-        <artifactId>weixin-common</artifactId>
-        <version>${project.version}</version>
-    </dependency>
-    </dependencies>
 
 
 </project>
