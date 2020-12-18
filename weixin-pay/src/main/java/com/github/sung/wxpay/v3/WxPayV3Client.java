@@ -13,7 +13,7 @@ import com.github.sung.wxpay.v3.bean.request.WxMediaUploadV3Request;
 import com.github.sung.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.github.sung.wxpay.v3.bean.result.WxCertificatesV3Result;
 import com.github.sung.wxpay.v3.bean.result.WxMediaUploadV3Result;
-import com.github.sung.wxpay.v3.bean.result.inner.WxPayV3Certificate;
+import com.github.sung.wxpay.v3.bean.cert.WxPayV3Certificate;
 import com.github.sung.wxpay.constant.WxPayConstants;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;

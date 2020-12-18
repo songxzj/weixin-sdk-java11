@@ -1,12 +1,9 @@
 package com.github.sung.wxpay.v3.bean.result;
 
-
-import com.github.sung.wxpay.v3.bean.result.inner.AuditDetail;
 import com.google.gson.annotations.SerializedName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -80,6 +77,43 @@ public class WxApplymentSubStateV3Result extends BaseWxPayV3Result {
      */
     @SerializedName("audit_detail")
     private List<AuditDetail> auditDetailList;
+
+    @Data
+    @Builder(builderMethodName = "newBuilder")
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AuditDetail implements Serializable {
+        private static final long serialVersionUID = 4909218873339164626L;
+
+        /**
+         * 字段名
+         * field
+         * string
+         * 否
+         */
+        @SerializedName("field")
+        private String field;
+
+
+        /**
+         * 字段名称
+         * field_name
+         * string
+         * 否
+         */
+        @SerializedName("field_name")
+        private String fieldName;
+
+        /**
+         * 驳回原因
+         * reject_reason
+         * string
+         * 否
+         */
+        @SerializedName("reject_reason")
+        private String rejectReason;
+
+    }
 
 
 

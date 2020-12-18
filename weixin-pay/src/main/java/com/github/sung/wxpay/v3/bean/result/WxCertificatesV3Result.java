@@ -1,6 +1,6 @@
 package com.github.sung.wxpay.v3.bean.result;
 
-import com.github.sung.wxpay.v3.bean.result.inner.WxPayV3Certificate;
+import com.github.sung.wxpay.v3.bean.cert.WxPayV3Certificate;
 import com.google.common.collect.Lists;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;

@@ -4,7 +4,7 @@ package com.github.sung.wxpay.util;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 import com.github.sung.wxpay.v2.bean.result.inner.WxPayCertificate;
-import com.github.sung.wxpay.v3.bean.result.inner.WxPayV3Certificate;
+import com.github.sung.wxpay.v3.bean.cert.WxPayV3Certificate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
 
