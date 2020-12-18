@@ -1,4 +1,4 @@
-package com.github.sung.wxpay.v2.bean.result.inner;
+package com.github.sung.wxpay.v2.bean.cert;
 
 import com.google.gson.annotations.SerializedName;
 import lombok.AllArgsConstructor;

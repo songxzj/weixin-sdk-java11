@@ -1,7 +1,7 @@
 package com.github.sung.wxpay.v2.bean.result;
 
 import com.github.sung.wxcommon.json.WxGsonBuilder;
-import com.github.sung.wxpay.v2.bean.result.inner.WxPayCertificate;
+import com.github.sung.wxpay.v2.bean.cert.WxPayCertificate;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
