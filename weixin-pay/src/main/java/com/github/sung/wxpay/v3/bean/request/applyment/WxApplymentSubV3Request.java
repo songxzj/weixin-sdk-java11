@@ -1,10 +1,11 @@
-package com.github.sung.wxpay.v3.bean.request;
+package com.github.sung.wxpay.v3.bean.request.applyment;
 
 import com.github.sung.wxcommon.annotation.Required;
 import com.github.sung.wxcommon.bean.BaseV3Inner;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 
-import com.github.sung.wxpay.v3.bean.result.WxApplymentSubV3Result;
+import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
+import com.github.sung.wxpay.v3.bean.result.applyment.WxApplymentSubV3Result;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxpay.v3.enums.IDDocTypeEnum;
 import com.github.sung.wxpay.v3.enums.SalesScenesTypeEnum;
