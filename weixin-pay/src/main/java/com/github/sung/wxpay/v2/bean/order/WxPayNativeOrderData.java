@@ -11,7 +11,8 @@ import java.io.Serializable;
 @Data
 @Builder
 public class WxPayNativeOrderData implements Serializable {
-    private static final long serialVersionUID = -7427427635279463172L;
+    private static final long serialVersionUID = -8280926784905245526L;
+
 
     private String codeUrl;
 }
