@@ -170,22 +170,22 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 否
          */
         @SerializedName("special_operation_info")
-        private List<SpecialOperationInfo> specialOperationInfoList;
+        private List<SpecialOperationInfo> specialOperationInfos;
 
 
         @Override
         public void checkConstraints() throws WxErrorException {
             if ((AuthorizeSubjectTypeEnum.SUBJECT_TYPE_INDIVIDUAL.name().equals(this.subjectType) || AuthorizeSubjectTypeEnum.SUBJECT_TYPE_ENTERPRISE.name().equals(this.subjectType)) && this.businessLicenceInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为企业或个体户时，营业执照信息必填。");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为企业或个体户时，营业执照信息必填");
             }
             if ((AuthorizeSubjectTypeEnum.SUBJECT_TYPE_INSTITUTIONS_CLONED.name().equals(this.subjectType) || AuthorizeSubjectTypeEnum.SUBJECT_TYPE_OTHERS.name().equals(this.subjectType)) && this.certificateInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为事业单位或其他组织时，登记证书信息必填。");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为事业单位或其他组织时，登记证书信息必填");
             }
             if (AuthorizeSubjectTypeEnum.SUBJECT_TYPE_INSTITUTIONS_CLONED.name().equals(this.subjectType) && StringUtils.isBlank(this.companyProveCopy)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为事业单位时，单位证明函照片必填。");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为事业单位时，单位证明函照片必填");
             }
             if (AuthorizeSubjectTypeEnum.SUBJECT_TYPE_MICRO.name().equals(this.subjectType) && this.assistProveInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为小微商户时，辅助证明材料信息必填。");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为小微商户时，辅助证明材料信息必填");
             }
             if (this.businessLicenceInfo != null) {
                 this.businessLicenceInfo.checkConstraints();
@@ -196,8 +196,8 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
             if (this.assistProveInfo != null) {
                 this.assistProveInfo.checkConstraints();
             }
-            if (this.specialOperationInfoList != null) {
-                for (SpecialOperationInfo specialOperationInfo : this.specialOperationInfoList) {
+            if (this.specialOperationInfos != null) {
+                for (SpecialOperationInfo specialOperationInfo : this.specialOperationInfos) {
                     specialOperationInfo.checkConstraints();
                 }
             }
@@ -235,7 +235,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 否
          */
         @SerializedName("store_indoor_copy")
-        private List<String> storeIndoorCopy;
+        private List<String> storeIndoorCopys;
 
 
         @Override

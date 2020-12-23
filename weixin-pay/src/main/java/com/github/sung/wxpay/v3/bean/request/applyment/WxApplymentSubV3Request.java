@@ -500,7 +500,7 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
          */
         @Required
         @SerializedName("sales_scenes_type")
-        private List<String> salesScenesType;
+        private List<String> salesScenesTypes;
 
         /**
          * 线下门店场景
@@ -552,23 +552,23 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_STORE.name()) && this.bizStoreInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择“SALES_SCENES_STORE“，biz_store_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_STORE.name()) && this.bizStoreInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择“SALES_SCENES_STORE“，线下门店场景必填");
             }
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_MP.name()) && this.mpInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_MP“，mp_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_MP.name()) && this.mpInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_MP“，公众号场景必填");
             }
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_MINI_PROGRAM.name()) && this.miniProgramInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_MINI_PROGRAM“，mini_program_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_MINI_PROGRAM.name()) && this.miniProgramInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_MINI_PROGRAM“，小程序场景必填");
             }
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_APP.name()) && this.appInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_APP“，app_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_APP.name()) && this.appInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_APP“，APP场景必填");
             }
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_WEB.name()) && this.webInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_WEB“，web_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_WEB.name()) && this.webInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_WEB“，互联网网站场景必填");
             }
-            if (this.salesScenesType.contains(SalesScenesTypeEnum.SALES_SCENES_WEWORK.name()) && this.weworkInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_WEWORK“，wework_info 必填");
+            if (this.salesScenesTypes.contains(SalesScenesTypeEnum.SALES_SCENES_WEWORK.name()) && this.weworkInfo == null) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当“经营场景类型“选择”SALES_SCENES_WEWORK“，企业微信场景必填");
             }
             if (this.bizStoreInfo != null) {
                 this.bizStoreInfo.checkConstraints();
@@ -672,13 +672,13 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
         @Override
         public void checkConstraints() throws WxErrorException {
             if ((SubjectTypeEnum.SUBJECT_TYPE_INDIVIDUAL.name().equals(this.subjectType) || SubjectTypeEnum.SUBJECT_TYPE_ENTERPRISE.name().equals(this.subjectType)) && this.businessLicenseInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体为个体户/企业，business_license_info 必填");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体为个体户/企业，营业执照必填");
             }
             if ((SubjectTypeEnum.SUBJECT_TYPE_INSTITUTIONS.name().equals(this.subjectType) || SubjectTypeEnum.SUBJECT_TYPE_OTHERS.name().equals(this.subjectType)) && this.certificateInfo == null) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体为党政、机关及事业单位/其他组织，certificate_info 必填");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体为党政、机关及事业单位/其他组织，登记证书必填");
             }
             if (SubjectTypeEnum.SUBJECT_TYPE_INSTITUTIONS.name().equals(this.subjectType) && StringUtils.isBlank(this.certificateLetterCopy)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为党政、机关及事业单位，certificate_letter_copy 必填");
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "主体类型为党政、机关及事业单位，单位证明函照片必填");
             }
             if (!this.identityInfo.getOwner() && this.uboInfo == null) {
                 throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "若经营者/法人不是最终受益所有人，则需提填写受益所有人信息");
@@ -1155,7 +1155,7 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
          */
         @Required
         @SerializedName("store_entrance_pic")
-        private List<String> storeEntrancePic;
+        private List<String> storeEntrancePics;
 
         /**
          * 店内环境照片
@@ -1165,7 +1165,7 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
          */
         @Required
         @SerializedName("indoor_pic")
-        private List<String> indoorPic;
+        private List<String> indoorPics;
 
         /**
          * 线下场所对应的商家APPID

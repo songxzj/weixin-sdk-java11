@@ -70,8 +70,7 @@ public class WxPayOrderQueryRequest extends BaseWxPayRequest<WxPayOrderQueryResu
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-        if ((StringUtils.isBlank(this.transactionId) && StringUtils.isBlank(this.outTradeNo)) ||
-                (StringUtils.isNotBlank(this.transactionId) && StringUtils.isNotBlank(this.outTradeNo))) {
+        if (StringUtils.isBlank(this.transactionId) == StringUtils.isBlank(this.outTradeNo)) {
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "transaction_id 和 out_trade_no 不能同时存在或同时为空，必须二选一");
         }
 
