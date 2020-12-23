@@ -1,7 +1,8 @@
-package com.github.sung.wxpay.v3.bean.request;
+package com.github.sung.wxpay.v3.bean.request.applyment;
 
 import com.github.sung.wxcommon.annotation.Required;
-import com.github.sung.wxpay.v3.bean.result.WxApplymentAuthorizeVerifyStateV3Result;
+import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
+import com.github.sung.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeVerifyStateV3Result;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;

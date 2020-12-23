@@ -1,5 +1,6 @@
-package com.github.sung.wxpay.v3.bean.result;
+package com.github.sung.wxpay.v3.bean.result.applyment;
 
+import com.github.sung.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

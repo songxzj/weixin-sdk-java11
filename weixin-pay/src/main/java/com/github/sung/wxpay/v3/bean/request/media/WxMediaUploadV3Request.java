@@ -1,8 +1,9 @@
-package com.github.sung.wxpay.v3.bean.request;
+package com.github.sung.wxpay.v3.bean.request.media;
 
 import com.github.sung.wxcommon.annotation.GsonExclude;
 import com.github.sung.wxcommon.annotation.Required;
-import com.github.sung.wxpay.v3.bean.result.WxMediaUploadV3Result;
+import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
+import com.github.sung.wxpay.v3.bean.result.media.WxMediaUploadV3Result;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxpay.constant.WxMediaConstants;
 import com.google.gson.annotations.SerializedName;
