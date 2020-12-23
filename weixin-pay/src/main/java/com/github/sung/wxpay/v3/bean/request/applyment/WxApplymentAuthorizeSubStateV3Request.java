@@ -1,12 +1,13 @@
 package com.github.sung.wxpay.v3.bean.request.applyment;
 
-import com.github.sung.wxcommon.annotation.Required;
+import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.sung.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubStateV3Result;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 
 /**
@@ -29,13 +30,25 @@ public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<Wx
      * string(128)
      * 是
      */
-    @Required
     @SerializedName("business_code")
     private String businessCode;
 
+    /**
+     * 申请单编号
+     * applyment_id
+     * uint64
+     * 是
+     */
+    @SerializedName("applyment_id")
+    private String applymentId;
+
     @Override
     public String routing() {
-        return "/v3/apply4subject/applyment?business_code=" + this.businessCode;
+        if (!StringUtils.isBlank(this.businessCode)) {
+            return "/v3/apply4subject/applyment?business_code=" + this.businessCode;
+        } else {
+            return "/v3/apply4subject/applyment?applyment_id=" + this.applymentId;
+        }
     }
 
     @Override
@@ -50,5 +63,8 @@ public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<Wx
 
     @Override
     protected void checkConstraints() throws WxErrorException {
+        if (StringUtils.isAllBlank(this.businessCode, this.applymentId)) {
+            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "申请单编号与业务申请编号不能都为空");
+        }
     }
 }
