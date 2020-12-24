@@ -9,6 +9,7 @@ import com.github.sung.wxpay.util.CertKeyUtils;
 import com.github.sung.wxpay.util.SignUtils;
 import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.sung.wxpay.v3.bean.request.WxCertificatesV3Request;
+import com.github.sung.wxpay.v3.bean.request.bill.WxDownloadBillRequest;
 import com.github.sung.wxpay.v3.bean.request.media.WxMediaUploadV3Request;
 import com.github.sung.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.github.sung.wxpay.v3.bean.result.WxCertificatesV3Result;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -290,6 +292,56 @@ public class WxPayV3Client {
                     requestUrl, requestHeaderStr, hasError ? "failed" : "succeeded", System.currentTimeMillis() - begin, httpStatus, responseHeaderStr, responseContent);
         }
 
+    }
+
+
+    /**
+     * 下载账单特定
+     *
+     * @param request
+     * @return
+     * @throws WxErrorException
+     */
+    public InputStream downloadBill(WxDownloadBillRequest request) throws WxErrorException {
+
+        String token = checkAndSignAndGetToken(request);
+        String requestUrl = getServerUrl() + request.routing();
+
+        boolean hasError = false;
+        String requestHeaderStr = null;
+        String requestContent = request.toJsonString();
+        HttpStatus httpStatus = null;
+
+        long begin = System.currentTimeMillis();
+        try {
+            RestTemplate restClient = getRestClient();
+            HttpHeaders requestHeaders = getRequestHeaders(token);
+            requestHeaderStr = requestHeaders.toString();
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(requestContent, requestHeaders);
+            ResponseEntity<Resource> responseEntity = restClient.exchange(requestUrl, request.getHttpMethod(), requestEntity, Resource.class);
+
+            httpStatus = responseEntity.getStatusCode();
+
+            return responseEntity.getBody().getInputStream();
+        } catch (Exception e) {
+            e.printStackTrace();
+            String errMsg = e.getMessage();
+            if (e instanceof HttpStatusCodeException) {
+                HttpStatusCodeException e1 = (HttpStatusCodeException) e;
+                httpStatus = e1.getStatusCode();
+                errMsg = e1.getMessage() + e1.getResponseBodyAsString();
+            }
+            log.error(errMsg, e);
+            hasError = true;
+            throw new WxErrorException(WxErrorExceptionFactor.HTTP_REQUEST_FAIL_CODE, errMsg);
+        } finally {
+            log.warn("wxpay url: {}\n" +
+                            "request header: \n{}\n" +
+                            "request content: \n{}\n" +
+                            "wxpay request {}, cost time: {}, http status code: {}\n",
+                    requestUrl, requestHeaderStr, requestContent, hasError ? "failed" : "succeeded", System.currentTimeMillis() - begin, httpStatus);
+        }
     }
 
     private ByteArrayOutputStream getRequestByteArray(WxMediaUploadV3Request request) throws WxErrorException {
