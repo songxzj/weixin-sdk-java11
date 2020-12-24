@@ -593,10 +593,10 @@ public class WxPayPartnerTransactionsRequest extends BaseWxPayV3Request<WxPayTra
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-        if (TradeTypeEnum.JSAPI.equals(tradeTypeEnum) && this.payer == null) {
+        if (TradeTypeEnum.JSAPI.equals(this.tradeTypeEnum) && this.payer == null) {
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "JSAPI 支付，支付者必填");
         }
-        if (TradeTypeEnum.H5.equals(tradeTypeEnum) && this.sceneInfo == null) {
+        if (TradeTypeEnum.H5.equals(this.tradeTypeEnum) && this.sceneInfo == null) {
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "H5 支付，场景信息必填");
         }
 

@@ -209,7 +209,7 @@ public class WxPayPartnerTransactionsStateResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class Amount implements Serializable {
-        private static final long serialVersionUID = 6341873471086570457L;
+        private static final long serialVersionUID = 1147456185347879238L;
         /**
          * 总金额
          * total
