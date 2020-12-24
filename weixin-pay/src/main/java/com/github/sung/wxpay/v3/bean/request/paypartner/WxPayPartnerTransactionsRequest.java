@@ -17,15 +17,17 @@ import org.springframework.http.HttpMethod;
 import java.util.List;
 
 /**
+ * version:2020.05.26
  * 普通支付（服务商模式）
- * APP下单API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/pay/transactions/chapter5_1.shtml">
  * JSAPI/小程序下单API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/pay/transactions/chapter5_2.shtml">
- * Native下单API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/pay/transactions/chapter5_3.shtml">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_1_1.shtml">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_5_1.shtml">
+ * APP下单API
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_2_1.shtml">
  * H5下单API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/pay/transactions/chapter5_4.shtml">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_3_1.shtml">
+ * Native下单API
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter4_4_1.shtml">
  */
 
 @Data

@@ -23,6 +23,15 @@ import org.springframework.http.HttpMethod;
 public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<WxApplymentAuthorizeSubStateV3Result> {
     private static final long serialVersionUID = -4629107064469064525L;
 
+    /**
+     * 申请单编号
+     * applyment_id
+     * uint64
+     * 是
+     */
+    @SerializedName("applyment_id")
+    private String applymentId;
+
 
     /**
      * 业务申请编号
@@ -33,21 +42,12 @@ public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<Wx
     @SerializedName("business_code")
     private String businessCode;
 
-    /**
-     * 申请单编号
-     * applyment_id
-     * uint64
-     * 是
-     */
-    @SerializedName("applyment_id")
-    private String applymentId;
-
     @Override
     public String routing() {
-        if (!StringUtils.isBlank(this.businessCode)) {
-            return "/v3/apply4subject/applyment?business_code=" + this.businessCode;
-        } else {
+        if (!StringUtils.isBlank(this.applymentId)) {
             return "/v3/apply4subject/applyment?applyment_id=" + this.applymentId;
+        } else {
+            return "/v3/apply4subject/applyment?business_code=" + this.businessCode;
         }
     }
 
