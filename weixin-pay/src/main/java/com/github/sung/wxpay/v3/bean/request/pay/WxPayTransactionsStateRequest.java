@@ -13,7 +13,7 @@ import org.springframework.http.HttpMethod;
 
 /**
  * version:2020.05.26
- * 普通支付（直连模式）
+ * 基础支付（直连模式）
  * 查询订单API
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_2.shtml">
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_2.shtml">

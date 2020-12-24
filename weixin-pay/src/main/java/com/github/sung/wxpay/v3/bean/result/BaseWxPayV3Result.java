@@ -17,6 +17,9 @@ public abstract class BaseWxPayV3Result implements Serializable {
     public static <T extends BaseWxPayV3Result> T fromJson(String jsonString, Class<T> clz) {
         try {
             BaseWxPayV3Result t = WxGsonBuilder.create().fromJson(jsonString, clz);
+            if (t == null) {
+                return clz.newInstance();
+            }
             t.compose();
             return (T) t;
         } catch (Exception e) {
