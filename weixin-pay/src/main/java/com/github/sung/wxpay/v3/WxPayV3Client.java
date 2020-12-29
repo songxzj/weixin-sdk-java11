@@ -104,18 +104,53 @@ public class WxPayV3Client {
         return wxCertificateStr;
     }
 
-    public WxPayV3Client(String mchId, String serialNo, String wxSerialNo, String privateKey, String wxCertificateStr, String apiv3Key) throws WxErrorException {
+    private WxPayV3Client(String mchId, String serialNo, String privateKeyStr, String apiv3Key) throws WxErrorException {
         this.mchId = mchId;
         this.serialNo = serialNo;
-        this.wxSerialNo = wxSerialNo;
-        this.privateKey = CertKeyUtils.loadPrivateKey(privateKey);
-        this.wxCertificateStr = wxCertificateStr;
+        this.privateKey = CertKeyUtils.loadPrivateKey(privateKeyStr);
         this.apiv3Key = apiv3Key;
+        getV3Certificate(null);
     }
 
-    // 仅用于不需要平台证书包含在HTTP头的时候
-    public WxPayV3Client(String mchId, String serialNo, String privateKey, String apiv3Key) throws WxErrorException {
-        this(mchId, serialNo, null, privateKey, null, apiv3Key);
+    public static WxPayV3Client.WxPayV3ClientBuilder builder() {
+        return new WxPayV3Client.WxPayV3ClientBuilder();
+    }
+
+    public static class WxPayV3ClientBuilder {
+
+        private String mchId;
+
+        private String serialNo;
+
+        private String privateKeyStr;
+
+        private String apiv3Key;
+
+        public WxPayV3ClientBuilder mchId(String mchId) {
+            this.mchId = mchId;
+            return this;
+        }
+
+        public WxPayV3ClientBuilder serialNo(String serialNo) {
+            this.serialNo = serialNo;
+            return this;
+        }
+
+
+        public WxPayV3ClientBuilder privateKeyStr(String privateKeyStr) {
+            this.privateKeyStr = privateKeyStr;
+            return this;
+        }
+
+
+        public WxPayV3ClientBuilder apiv3Key(String apiv3Key) {
+            this.apiv3Key = apiv3Key;
+            return this;
+        }
+
+        public WxPayV3Client build() throws WxErrorException {
+            return new WxPayV3Client(this.mchId, this.serialNo, this.privateKeyStr, this.apiv3Key);
+        }
     }
 
 

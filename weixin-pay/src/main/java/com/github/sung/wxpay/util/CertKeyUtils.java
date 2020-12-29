@@ -3,6 +3,7 @@ package com.github.sung.wxpay.util;
 
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
+import com.github.sung.wxpay.constant.WxPayConstants;
 import com.github.sung.wxpay.v2.bean.cert.WxPayCertificate;
 import com.github.sung.wxpay.v3.bean.cert.WxPayV3Certificate;
 import lombok.extern.slf4j.Slf4j;
@@ -11,8 +12,7 @@ import org.springframework.util.Base64Utils;
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -80,6 +80,28 @@ public class CertKeyUtils {
         }
     }
 
+    /**
+     * 加载 v3 商户密钥
+     *
+     * @param inputStream
+     * @return
+     * @throws WxErrorException
+     */
+    public static PrivateKey loadPrivateKey(InputStream inputStream) throws WxErrorException {
+        try {
+            ByteArrayOutputStream array = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) != -1) {
+                array.write(buffer, 0, length);
+            }
+            String privateKeyStr = array.toString(WxPayConstants.DEFAULT_CHARSET);
+            return loadPrivateKey(privateKeyStr);
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+            throw new WxErrorException(WxErrorExceptionFactor.KEY_ERROR_ERROR);
+        }
+    }
 
     /**
      * 加载 v3 商户密钥
