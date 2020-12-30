@@ -13,6 +13,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.net.URL;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -153,6 +154,40 @@ public class CertKeyUtils {
      */
     public static X509Certificate loadCertificate(String certificateStr) throws WxErrorException {
         return loadCertificate(new ByteArrayInputStream(certificateStr.getBytes()));
+    }
+
+
+    /**
+     * 从配置路径 加载文件 信息（本地路径、网络url）
+     *
+     * @param filePath 配置路径
+     * @return
+     * @throws WxErrorException
+     */
+    public static InputStream loadInputStream(String filePath) throws WxErrorException {
+        InputStream inputStream;
+        if (filePath.startsWith("http://") || filePath.startsWith("https://")) {
+            try {
+                inputStream = new URL(filePath).openStream();
+                if (inputStream == null) {
+                    throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+                }
+            } catch (IOException e) {
+                throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+            }
+        } else {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+            }
+
+            try {
+                inputStream = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+            }
+        }
+        return inputStream;
     }
 
 }
