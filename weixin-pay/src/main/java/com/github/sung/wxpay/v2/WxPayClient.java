@@ -68,10 +68,6 @@ public class WxPayClient {
      * 商户号.
      */
     private final String mchId;
-    /**
-     * 商户密钥.
-     */
-    private final String mchKey;
 
     /**
      * 服务商模式下的子商户号.
@@ -79,14 +75,20 @@ public class WxPayClient {
     private final String subMchId;
 
     /**
-     * 签名方式.
-     * 有两种HMAC_SHA256 和MD5
+     * 商户密钥.
      */
-    private final String signType;
+    private final String mchKey;
+
     /**
      * p12证书文件的绝对路径或者以classpath:开头的类路径.
      */
     private final String keyPath;
+
+    /**
+     * 签名方式.
+     * 有两种HMAC_SHA256 和MD5
+     */
+    private final String signType;
 
     /**
      * 微信支付是否使用仿真测试环境.
@@ -104,32 +106,74 @@ public class WxPayClient {
         return this.serverUrl;
     }
 
-    /**
-     * 初始化ssl.
-     *
-     * @return the ssl context
-     */
-    private SSLContext initSSLContext() throws WxErrorException {
-        if (StringUtils.isBlank(this.mchId)) {
-            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "mchId is empty");
-        }
-        if (StringUtils.isBlank(this.keyPath)) {
-            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "cert path is empty");
+
+    public static WxPayClientBuilder newBuilder() {
+        return new WxPayClientBuilder();
+    }
+
+    public static class WxPayClientBuilder {
+
+        private String appId;
+
+        private String subAppId;
+
+        private String mchId;
+
+        private String subMchId;
+
+        private String mchKey;
+
+        private String keyPath;
+
+        private String signType;
+
+        private WxPayClientBuilder() {
         }
 
-        File file = new File(this.keyPath);
-        if (!file.exists()) {
-            throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+        public WxPayClientBuilder appId(String appId) {
+            this.appId = appId;
+            return this;
         }
 
-        try (InputStream inputStream = new FileInputStream(file)) {
-            KeyStore keystore = KeyStore.getInstance("PKCS12");
-            char[] partnerId2charArray = this.mchId.toCharArray();
-            keystore.load(inputStream, partnerId2charArray);
-            return SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_ERROR_CODE, e.getMessage());
+        public WxPayClientBuilder subAppId(String subAppId) {
+            this.subAppId = subAppId;
+            return this;
+        }
+
+        public WxPayClientBuilder mchId(String mchId) {
+            this.mchId = mchId;
+            return this;
+        }
+
+        public WxPayClientBuilder subMchId(String subMchId) {
+            this.subMchId = subMchId;
+            return this;
+        }
+
+        public WxPayClientBuilder mchKey(String mchKey) {
+            this.mchKey = mchKey;
+            return this;
+        }
+
+        public WxPayClientBuilder keyPath(String keyPath) {
+            this.keyPath = keyPath;
+            return this;
+        }
+
+        public WxPayClientBuilder signType(String signType) {
+            this.signType = signType;
+            return this;
+        }
+
+        public WxPayClient build() throws WxErrorException {
+            if (StringUtils.isBlank(this.mchId)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "mchId 必须提供值");
+            }
+            if (StringUtils.isBlank(this.mchKey)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "mchKey 必须提供值");
+            }
+
+            return new WxPayClient(this.appId, this.subAppId, this.mchId, this.subMchId, this.mchKey, this.keyPath, this.signType);
         }
     }
 
@@ -144,38 +188,14 @@ public class WxPayClient {
      * @param mchKey
      * @param signType
      */
-    public WxPayClient(String appId, String subAppId, String mchId, String subMchId, String keyPath, String mchKey, String signType) {
+    private WxPayClient(String appId, String subAppId, String mchId, String subMchId, String mchKey, String keyPath, String signType) {
         this.appId = appId;
         this.subAppId = subAppId;
         this.mchId = mchId;
         this.subMchId = subMchId;
-        this.keyPath = keyPath;
         this.mchKey = mchKey;
+        this.keyPath = keyPath;
         this.signType = signType;
-    }
-
-    /**
-     * 商户接口相关构造函数（tips：不需要传 appid 的构造函数）
-     *
-     * @param mchId
-     * @param keyPath
-     * @param mchKey
-     * @param signType
-     */
-    public WxPayClient(String mchId, String subMchId, String keyPath, String mchKey, String signType) {
-        this(null, null, mchId, subMchId, keyPath, mchKey, signType);
-    }
-
-    /**
-     * 商户接口相关构造函数（tips：不需要传 appid 的构造函数）
-     *
-     * @param mchId
-     * @param keyPath
-     * @param mchKey
-     * @param signType
-     */
-    public WxPayClient(String mchId, String keyPath, String mchKey, String signType) {
-        this(mchId, null, keyPath, mchKey, signType);
     }
 
     /**
@@ -396,6 +416,35 @@ public class WxPayClient {
         restClient.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName(WxPayConstants.DEFAULT_CHARSET)));
 
         return restClient;
+    }
+
+    /**
+     * 初始化ssl.
+     *
+     * @return the ssl context
+     */
+    private SSLContext initSSLContext() throws WxErrorException {
+        if (StringUtils.isBlank(this.mchId)) {
+            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "mchId 必须提供值");
+        }
+        if (StringUtils.isBlank(this.keyPath)) {
+            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "keyPath 必须提供值");
+        }
+
+        File file = new File(this.keyPath);
+        if (!file.exists()) {
+            throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
+        }
+
+        try (InputStream inputStream = new FileInputStream(file)) {
+            KeyStore keystore = KeyStore.getInstance("PKCS12");
+            char[] partnerId2charArray = this.mchId.toCharArray();
+            keystore.load(inputStream, partnerId2charArray);
+            return SSLContexts.custom().loadKeyMaterial(keystore, partnerId2charArray).build();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_ERROR_CODE, e.getMessage());
+        }
     }
 
     /**

@@ -144,8 +144,8 @@ public class WxPayV3Client {
         getWxCertificate(null);
     }
 
-    public static WxPayV3Client.WxPayV3ClientBuilder newBuilder() {
-        return new WxPayV3Client.WxPayV3ClientBuilder();
+    public static WxPayV3ClientBuilder newBuilder() {
+        return new WxPayV3ClientBuilder();
     }
 
     public static class WxPayV3ClientBuilder {
@@ -161,6 +161,9 @@ public class WxPayV3Client {
         private String privateKeyPath;
 
         private String apiv3Key;
+
+        private WxPayV3ClientBuilder() {
+        }
 
         public WxPayV3ClientBuilder mchId(String mchId) {
             this.mchId = mchId;
@@ -186,7 +189,6 @@ public class WxPayV3Client {
             this.privateKeyPath = privateKeyPath;
             return this;
         }
-
 
         public WxPayV3ClientBuilder apiv3Key(String apiv3Key) {
             this.apiv3Key = apiv3Key;
