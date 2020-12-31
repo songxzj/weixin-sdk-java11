@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * 敏感信息字段
  **/
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface SpecEncrypt {
+@Target({ElementType.FIELD, ElementType.TYPE})
+public @interface SensitiveEncrypt {
 
 }

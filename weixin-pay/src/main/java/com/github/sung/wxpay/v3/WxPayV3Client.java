@@ -1,11 +1,13 @@
 package com.github.sung.wxpay.v3;
 
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 import com.github.sung.wxpay.util.CertKeyUtils;
+import com.github.sung.wxpay.util.SensitiveEncryptUtils;
 import com.github.sung.wxpay.util.SignUtils;
 import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.sung.wxpay.v3.bean.request.WxCertificatesV3Request;
@@ -19,6 +21,7 @@ import com.github.sung.wxpay.constant.WxPayConstants;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -31,6 +34,7 @@ import java.io.*;
 import java.nio.charset.Charset;
 import java.security.PrivateKey;
 import java.security.cert.X509Certificate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -51,6 +55,21 @@ public class WxPayV3Client {
      * http请求数据读取等待时间.
      */
     private int readTimeout = 10000;
+
+    /**
+     * 微信证书更新间隔时间
+     */
+    private int hoursInterval = 12;
+
+    /**
+     * 微信证书上一次更新时间
+     */
+    private LocalDateTime lastDateTime;
+
+    /**
+     * 微信证书更新锁
+     */
+    private final Object lock = new Object();
 
     /**
      * 返回所设置的微信支付接口请求地址域名.
@@ -101,6 +120,20 @@ public class WxPayV3Client {
      */
     private final String apiv3Key;
 
+    private X509Certificate getWxCertificate(String responseWxSerialNo) throws WxErrorException {
+        if (!StringUtils.isBlank(responseWxSerialNo) && responseWxSerialNo.equals(this.wxSerialNo)) {
+            return this.wxCertificate;
+        }
+        LocalDateTime nowDateTime = LocalDateTimeUtil.now();
+        if (!ObjectUtils.isEmpty(this.lastDateTime) && nowDateTime.isBefore(this.lastDateTime.plusHours(this.hoursInterval))) {
+            return this.wxCertificate;
+        }
+        synchronized (this.lock) {
+            getWxV3Certificate(responseWxSerialNo);
+            this.lastDateTime = nowDateTime;
+        }
+        return this.wxCertificate;
+    }
 
     private WxPayV3Client(String mchId, X509Certificate certificate, PrivateKey privateKey, String apiv3Key) throws WxErrorException {
         this.mchId = mchId;
@@ -108,10 +141,10 @@ public class WxPayV3Client {
         this.certificate = certificate;
         this.privateKey = privateKey;
         this.apiv3Key = apiv3Key;
-        getWxV3Certificate(null);
+        getWxCertificate(null);
     }
 
-    public static WxPayV3Client.WxPayV3ClientBuilder builder() {
+    public static WxPayV3Client.WxPayV3ClientBuilder newBuilder() {
         return new WxPayV3Client.WxPayV3ClientBuilder();
     }
 
@@ -161,17 +194,30 @@ public class WxPayV3Client {
         }
 
         public WxPayV3Client build() throws WxErrorException {
+            if (StringUtils.isBlank(this.mchId)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "mchId 必须提供值");
+            }
+            if (StringUtils.isAllBlank(this.privateCertPath, this.privateCertStr)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "商户证书信息必须提供值");
+            }
+            if (StringUtils.isAllBlank(this.privateKeyPath, this.privateKeyStr)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "商户密钥信息必须提供值");
+            }
+            if (StringUtils.isBlank(this.apiv3Key)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "apiv3Key 必须提供值");
+            }
+
             X509Certificate certificate;
-            if (!StringUtils.isBlank(this.privateCertStr)) {
-                certificate = CertKeyUtils.loadCertificate(this.privateCertStr);
-            } else {
+            if (!StringUtils.isBlank(this.privateCertPath)) {
                 certificate = CertKeyUtils.loadCertificate(CertKeyUtils.loadInputStream(this.privateCertPath));
+            } else {
+                certificate = CertKeyUtils.loadCertificate(this.privateCertStr);
             }
             PrivateKey privateKey;
-            if (!StringUtils.isBlank(this.privateKeyStr)) {
-                privateKey = CertKeyUtils.loadPrivateKey(this.privateKeyStr);
-            } else {
+            if (!StringUtils.isBlank(this.privateKeyPath)) {
                 privateKey = CertKeyUtils.loadPrivateKey(CertKeyUtils.loadInputStream(this.privateKeyPath));
+            } else {
+                privateKey = CertKeyUtils.loadPrivateKey(this.privateKeyStr);
             }
 
             return new WxPayV3Client(this.mchId, certificate, privateKey, this.apiv3Key);
@@ -199,14 +245,18 @@ public class WxPayV3Client {
     /**
      * 检查参数，并设置签名.
      * 1、检查参数（注意：子类实现需要检查参数的而外功能时，请在调用父类的方法前进行相应判断）
-     * 2、生成签名
-     * 3、生成 http 头认证
+     * 2、敏感信息加密
+     * 3、生成签名
+     * 2、生成 http 头认证
      * </pre>
      *
      * @throws WxErrorException the wx pay exception
      */
     private <T extends BaseWxPayV3Result> String checkAndSignAndGetToken(BaseWxPayV3Request<T> request) throws WxErrorException {
         request.checkFields();
+        if (request.isSensitiveEncrypt()) {
+            SensitiveEncryptUtils.encryptFieldsV3(request, getWxCertificate(null));
+        }
 
         long timestamp = System.currentTimeMillis() / 1000;
         String nonceStr = RandomUtil.randomString(32);
@@ -451,9 +501,9 @@ public class WxPayV3Client {
         String responseTimestamp = responseHeaders.getFirst("Wechatpay-Timestamp");
         String responseNonce = responseHeaders.getFirst("Wechatpay-Nonce");
         String responseSignature = responseHeaders.getFirst("Wechatpay-Signature");
-        String responseSerial = responseHeaders.getFirst("Wechatpay-Serial");
+        String responseSerialNo = responseHeaders.getFirst("Wechatpay-Serial");
 
-        if (StringUtils.isAnyBlank(responseTimestamp, responseNonce, responseSignature, responseSerial)) {
+        if (StringUtils.isAnyBlank(responseTimestamp, responseNonce, responseSignature, responseSerialNo)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
         }
         if (StringUtils.isBlank(responseContent)) {
@@ -465,9 +515,7 @@ public class WxPayV3Client {
                 .append(responseNonce).append("\n")
                 .append(responseContent).append("\n");
 
-        getWxV3Certificate(responseSerial);
-
-        if (!SignUtils.checkSHA256withRSASign(wxCertificate, toSign.toString(), responseSignature)) {
+        if (!SignUtils.checkSHA256withRSASign(getWxCertificate(responseSerialNo), toSign.toString(), responseSignature)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
         }
     }
@@ -480,9 +528,7 @@ public class WxPayV3Client {
      * @throws WxErrorException
      */
     private void getWxV3Certificate(String responseWxSerialNo) throws WxErrorException {
-        if (!StringUtils.isBlank(responseWxSerialNo) && responseWxSerialNo.equals(this.wxSerialNo)) {
-            return;
-        }
+
         WxCertificatesV3Request request = WxCertificatesV3Request.newBuilder().build();
         WxCertificatesV3Result result = execute(request);
         List<WxPayV3Certificate> wxPayV3CertificateList = result.getWxPayV3CertificateList();

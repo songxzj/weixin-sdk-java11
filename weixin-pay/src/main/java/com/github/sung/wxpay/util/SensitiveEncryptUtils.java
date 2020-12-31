@@ -1,7 +1,6 @@
 package com.github.sung.wxpay.util;
 
-;
-import com.github.sung.wxcommon.annotation.SpecEncrypt;
+import com.github.sung.wxcommon.annotation.SensitiveEncrypt;
 import com.github.sung.wxcommon.exception.WxErrorException;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 import com.github.sung.wxpay.constant.WxPayConstants;
@@ -11,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Base64Utils;
 
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import java.lang.reflect.Field;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
@@ -53,7 +51,14 @@ public class SensitiveEncryptUtils {
     }
 
 
-    public static void encryptFields(Object encryptObject, X509Certificate certificate) throws WxErrorException {
+    /**
+     * v3 对象敏感加密
+     *
+     * @param encryptObject
+     * @param certificate
+     * @throws WxErrorException
+     */
+    public static void encryptFieldsV3(Object encryptObject, X509Certificate certificate) throws WxErrorException {
         try {
             encryptField(encryptObject, certificate);
         } catch (Exception e) {
@@ -67,24 +72,17 @@ public class SensitiveEncryptUtils {
         for (Field field : fields) {
             boolean isAccessible = field.isAccessible();
             field.setAccessible(true);
-            if (field.isAnnotationPresent(SpecEncrypt.class)) {
+            if (field.isAnnotationPresent(SensitiveEncrypt.class) && field.get(encryptObject) != null) {
                 //字段使用了@SpecEncrypt进行标识
-                if (field.getType().getTypeName().equals(JAVA_LANG_STRING)) {
-                    Object oldValue = field.get(encryptObject);
-                    if (oldValue != null) {
-                        String oldStr = (String) oldValue;
-                        if (!oldStr.trim().equals("'")) {
-                            field.set(encryptObject, rsaEncryptOAEPV3(oldStr, certificate));
-                        }
-                    }
+                Object obj = field.get(encryptObject);
+                if (obj instanceof String) {
+                    String oldStr = obj.toString();
+                    field.set(encryptObject, rsaEncryptOAEPV3(oldStr, certificate));
                 } else {
-                    Object obj = field.get(encryptObject);
-                    if (obj != null) {
-                        encryptField(field.get(encryptObject), certificate);
-                    }
+                    encryptField(obj, certificate);
                 }
-                field.setAccessible(isAccessible);
             }
+            field.setAccessible(isAccessible);
         }
     }
 

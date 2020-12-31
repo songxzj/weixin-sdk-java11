@@ -84,5 +84,14 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
         return true;
     }
 
+    /**
+     * 默认不进行敏感加密
+     *
+     * @return
+     */
+    public boolean isSensitiveEncrypt() {
+        return false;
+    }
+
 
 }

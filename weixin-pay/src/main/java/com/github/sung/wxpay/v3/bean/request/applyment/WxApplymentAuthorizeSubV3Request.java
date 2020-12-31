@@ -1,6 +1,7 @@
 package com.github.sung.wxpay.v3.bean.request.applyment;
 
 import com.github.sung.wxcommon.annotation.Required;
+import com.github.sung.wxcommon.annotation.SensitiveEncrypt;
 import com.github.sung.wxcommon.bean.BaseV3Inner;
 import com.github.sung.wxcommon.exception.WxErrorExceptionFactor;
 import com.github.sung.wxpay.v3.bean.request.BaseWxPayV3Request;
@@ -55,6 +56,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
      * 是
      */
     @Required
+    @SensitiveEncrypt
     @SerializedName("contact_info")
     private ContactInfo contactInfo;
 
@@ -75,6 +77,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
      * 是
      */
     @Required
+    @SensitiveEncrypt
     @SerializedName("identification_info")
     private IdentificationInfo identificationInfo;
 
@@ -515,6 +518,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 是
          */
         @Required
+        @SensitiveEncrypt
         @SerializedName("name")
         private String name;
 
@@ -525,6 +529,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 是
          */
         @Required
+        @SensitiveEncrypt
         @SerializedName("mobile")
         private String mobile;
 
@@ -535,6 +540,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 是
          */
         @Required
+        @SensitiveEncrypt
         @SerializedName("id_card_number")
         private String idCardNumber;
 
@@ -575,6 +581,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 是
          */
         @Required
+        @SensitiveEncrypt
         @SerializedName("identification_name")
         private String identificationName;
 
@@ -585,6 +592,7 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
          * 是
          */
         @Required
+        @SensitiveEncrypt
         @SerializedName("identification_number")
         private String identificationNumber;
 
@@ -624,5 +632,8 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
         }
     }
 
-
+    @Override
+    public boolean isSensitiveEncrypt() {
+        return true;
+    }
 }
