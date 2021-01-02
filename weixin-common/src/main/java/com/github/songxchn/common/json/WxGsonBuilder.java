@@ -43,7 +43,6 @@ public class WxGsonBuilder {
         /**
          * 是否排除对应的类
          * 同时这里也可以 排除 int 类型的属性 不进行序列化
-         * <p>
          * 若不排除任何 类  直接 返回false 即可
          *
          * @param aClass

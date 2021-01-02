@@ -21,14 +21,11 @@ import java.util.List;
 public class WxRiskGetCertficatesResult extends BaseWxPayResult {
     private static final long serialVersionUID = -9068944046721157238L;
     /**
-     * <pre>
      * 平台证书信息
      * certificates
      * 是
      * String(6000)
-     *
      * 包含了平台证书序列号serial_no、证书启用时间effective_time、证书弃用时间expire_time、加密证书信息包encrypt_certificate，请根据平台证书解密指引获取证书明文（证书明文为PEM格式），方可使用
-     * </pre>
      **/
     @XStreamAlias("certificates")
     private String certificates;
@@ -46,7 +43,8 @@ public class WxRiskGetCertficatesResult extends BaseWxPayResult {
     public void composeCertificates() {
         Gson gson = WxGsonBuilder.create();
         JsonArray data = gson.fromJson(this.certificates, JsonObject.class).getAsJsonArray("data");
-        this.wxPayCertificateList = gson.fromJson(data.toString(), new TypeToken<List<WxPayCertificate>>() {}.getType());
+        this.wxPayCertificateList = gson.fromJson(data.toString(), new TypeToken<List<WxPayCertificate>>() {
+        }.getType());
     }
 
 

@@ -19,8 +19,6 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
 
     /**
      * 具体路由
-     *
-     * @return
      */
     public abstract String routing();
 
@@ -33,8 +31,6 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
 
     /**
      * 请求方式
-     *
-     * @return
      */
     public abstract HttpMethod getHttpMethod();
 
@@ -77,8 +73,6 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
 
     /**
      * 默认检查签名
-     *
-     * @return
      */
     public boolean isCheckSign() {
         return true;
@@ -86,8 +80,6 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
 
     /**
      * 默认不进行敏感加密
-     *
-     * @return
      */
     public boolean isSensitiveEncrypt() {
         return false;

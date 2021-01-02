@@ -92,7 +92,6 @@ public class WxPayTransactionsRequest extends BaseWxPayV3Request<WxPayTransactio
      * time_expire
      * string[1,64]
      * 否
-     * </pre>
      */
     @SerializedName("time_expire")
     private String timeExpire;

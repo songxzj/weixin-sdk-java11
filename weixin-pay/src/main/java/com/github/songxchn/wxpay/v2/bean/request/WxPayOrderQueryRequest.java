@@ -28,27 +28,23 @@ public class WxPayOrderQueryRequest extends BaseWxPayRequest<WxPayOrderQueryResu
 
 
     /**
-     * <pre>
      * 微信订单号
      * transaction_id
      * 二选一
      * String(32)
      * 013467007045764
      * 微信的订单号，优先使用
-     * </pre>
      */
     @XStreamAlias("transaction_id")
     private String transactionId;
 
     /**
-     * <pre>
      * 商户订单号
      * out_trade_no
      * 二选一
      * String(32)
      * 1217752501201407033233368018
      * 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。
-     * </pre>
      */
     @XStreamAlias("out_trade_no")
     private String outTradeNo;

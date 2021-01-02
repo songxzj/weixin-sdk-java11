@@ -26,14 +26,12 @@ public class WxPayCloseOrderRequest extends BaseWxPayRequest<WxPayCloseOrderResu
 
 
     /**
-     * <pre>
      * 商户订单号
      * out_trade_no
      * 是
      * String(32)
      * 1217752501201407033233368018
      * 商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。
-     * </pre>
      */
     @Required
     @XStreamAlias("out_trade_no")

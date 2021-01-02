@@ -23,40 +23,29 @@ public class WxPayV3Certificate implements Serializable {
     private String serialNo;
 
     /**
-     * <pre>
      * 证书启用时间.
      * effective_time
      * 是
      * String
      * 2019-09-04T10:12:51+08:00
-     *
-     * </pre>
      */
     @SerializedName("effective_time")
     private String effectiveTime;
 
     /**
-     * <pre>
      * 证书弃用时间.
      * expire_time
      * 是
      * String
      * 2019-09-04T10:12:51+08:00
-     *
-     * </pre>
      */
     @SerializedName("expire_time")
     private String expireTime;
 
     /**
-     * <pre>
      * 加密证书.
      * certificate
      * 是
-     *
-     *
-     *
-     * </pre>
      */
     @SerializedName("encrypt_certificate")
     private EncryptV3Certificate encryptV3Certificate;

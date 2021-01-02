@@ -291,11 +291,9 @@ public class WxPayClient {
 
 
     /**
-     * <pre>
      * 检查参数，并设置签名.
      * 1、检查参数（注意：子类实现需要检查参数的而外功能时，请在调用父类的方法前进行相应判断）
      * 2、生成签名，并设置进去
-     * </pre>
      *
      * @throws WxErrorException the wx pay exception
      */

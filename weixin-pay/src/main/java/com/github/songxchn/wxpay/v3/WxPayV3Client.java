@@ -229,11 +229,6 @@ public class WxPayV3Client {
 
     /**
      * 通用执行方法
-     *
-     * @param request
-     * @param <T>
-     * @return
-     * @throws WxErrorException
      */
     public <T extends BaseWxPayV3Result> T execute(BaseWxPayV3Request<T> request) throws WxErrorException {
         String token = checkAndSignAndGetToken(request);
@@ -250,7 +245,6 @@ public class WxPayV3Client {
      * 2、敏感信息加密
      * 3、生成签名
      * 2、生成 http 头认证
-     * </pre>
      *
      * @throws WxErrorException the wx pay exception
      */

@@ -14,14 +14,12 @@ public class WxPayReverseResult extends BaseWxPayResult {
     private static final long serialVersionUID = -4588641483003862208L;
 
     /**
-     * <pre>
      * 是否重调
      * recall
      * 是
      * String(1)
      * Y
      * 是否需要继续调用撤销，Y-需要，N-不需要
-     * </pre>
      **/
     @XStreamAlias("recall")
     private String isRecall;

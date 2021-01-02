@@ -27,26 +27,22 @@ public class WxPayReverseRequest extends BaseWxPayRequest<WxPayReverseResult> {
 
 
     /**
-     * <pre>
      * 微信订单号
      * transaction_id
      * 跟out_trade_no二选一
      * String(32)
      * 1217752501201407033233368018
      * 微信的订单号，优先使用
-     * </pre>
      */
     @XStreamAlias("transaction_id")
     private String transactionId;
     /**
-     * <pre>
      * 商户订单号
      * out_trade_no
      * 跟transaction_id二选一
      * String(32)
      * 1217752501201407033233368018
      * 商户系统内部的订单号,transaction_id、out_trade_no二选一，如果同时存在优先级：transaction_id> out_trade_no
-     * </pre>
      */
     @XStreamAlias("out_trade_no")
     private String outTradeNo;

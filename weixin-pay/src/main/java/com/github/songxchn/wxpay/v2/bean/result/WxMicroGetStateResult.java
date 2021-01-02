@@ -15,20 +15,17 @@ public class WxMicroGetStateResult extends BaseWxPayResult {
 
 
     /**
-     * <pre>
      * 商户申请单号
      * applyment_id
      * 是
      * String(32)
      * 1230000109
      * 微信支付分配的申请单号
-     * </pre>
      **/
     @XStreamAlias("applyment_id")
     private String applymentId;
 
     /**
-     * <pre>
      * 申请状态
      * applyment_state
      * 是
@@ -39,40 +36,34 @@ public class WxMicroGetStateResult extends BaseWxPayResult {
      * FROZEN:已冻结
      * TO_BE_SIGNED:待签约
      * FINISH:完成
-     * </pre>
      **/
     @XStreamAlias("applyment_state")
     private String applymentState;
 
     /**
-     * <pre>
      * 申请状态描述
      * applyment_state_desc
      * 是
      * String(32)
      * 已驳回
      * 申请状态描述
-     * </pre>
      **/
     @XStreamAlias("applyment_state_desc")
     private String applymentStateDesc;
 
 
     /**
-     * <pre>
      * 签约链接
      * sign_url
      * 否
      * String(256)
      * https://pay.weixin.qq.com
      * 当申请状态为TO_BE_SIGNED或FINISH时才返回
-     * </pre>
      **/
     @XStreamAlias("sign_url")
     private String signUrl;
 
     /**
-     * <pre>
      * 审核详情
      * audit_detail
      * 否
@@ -90,7 +81,6 @@ public class WxMicroGetStateResult extends BaseWxPayResult {
      *     ]
      * }
      * 各项被驳回资料的驳回理由。当申请状态为REJECTED时才返回。字段值为json格式
-     * </pre>
      **/
     @XStreamAlias("audit_detail")
     private String auditDetail;

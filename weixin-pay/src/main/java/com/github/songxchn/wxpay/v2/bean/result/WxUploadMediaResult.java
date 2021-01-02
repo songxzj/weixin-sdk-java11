@@ -14,14 +14,12 @@ import org.w3c.dom.Document;
 public class WxUploadMediaResult extends BaseWxPayResult {
     private static final long serialVersionUID = -2595631560521777952L;
     /**
-     * <pre>
      * 媒体标识Id
      * media_id
      * 是
      * String(256)
      * 9UYfXi- WMUhgWXvJtEw4_gBl e_EfrD_pIL0bS8GAsK8
      * 微信返回的媒体文件标识Id
-     * </pre>
      **/
     @XStreamAlias("media_id")
     private String mediaId;

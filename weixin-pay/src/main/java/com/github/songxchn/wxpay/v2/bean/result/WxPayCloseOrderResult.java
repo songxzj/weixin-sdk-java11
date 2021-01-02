@@ -16,14 +16,12 @@ public class WxPayCloseOrderResult extends BaseWxPayResult {
 
 
     /**
-     * <pre>
      * 业务结果描述
      * result_msg
      * 是
      * String(16)
      * OK
      * 对业务结果的补充说明
-     * </pre>
      **/
     @XStreamAlias("result_msg")
     private String resultMsg;

@@ -36,14 +36,11 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
     private File file;
 
     /**
-     * <pre>
      * 媒体文件内容hash值
      * media_hash
      * 是
      * String(32)
-     *
      * 根据媒体文件内容进行MD5计算后的值，注意小写
-     * </pre>
      */
     @Required
     @XStreamAlias("media_hash")
@@ -93,7 +90,6 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
     public boolean isIgnoreSubMchId() {
         return true;
     }
-
 
 
 }

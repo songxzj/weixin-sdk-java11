@@ -28,14 +28,12 @@ public class WxMicroGetStateRequest extends BaseWxPayRequest<WxMicroGetStateResu
 
 
     /**
-     * <pre>
      * 接口版本号
      * version
      * 是
      * String(32)
      * 1.0
      * 默认值1.0
-     * </pre>
      */
     @Builder.Default
     @Required
@@ -43,27 +41,23 @@ public class WxMicroGetStateRequest extends BaseWxPayRequest<WxMicroGetStateResu
     private String version = "1.0";
 
     /**
-     * <pre>
      * 商户申请单号
      * applyment_id
      * 否
      * String(32)
      * 1230000109
      * 微信支付分配的申请单号。applyment_id、business_code两者不能同时为空。
-     * </pre>
      */
     @XStreamAlias("applyment_id")
     private String applymentId;
 
     /**
-     * <pre>
      * 业务申请编号
      * business_code
      * 否
      * String(32)
      * 123456
      * 服务商自定义的商户唯一编号。当applyment_id已填写时，此字段无效。
-     * </pre>
      */
     @XStreamAlias("business_code")
     private String businessCode;

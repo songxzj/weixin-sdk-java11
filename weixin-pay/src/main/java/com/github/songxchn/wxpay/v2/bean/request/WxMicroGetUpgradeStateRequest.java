@@ -24,14 +24,12 @@ import java.util.Map;
 public class WxMicroGetUpgradeStateRequest extends BaseWxPayRequest<WxMicroGetUpgradeStateResult> {
     private static final long serialVersionUID = -8597240185724291301L;
     /**
-     * <pre>
      * 接口版本号
      * version
      * 是
      * String(32)
      * 1.0
      * 默认值1.0
-     * </pre>
      */
     @Builder.Default
     @Required
