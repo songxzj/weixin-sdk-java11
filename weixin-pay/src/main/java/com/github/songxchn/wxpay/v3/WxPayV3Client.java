@@ -2,8 +2,10 @@ package com.github.songxchn.wxpay.v3;
 
 
 import cn.hutool.core.date.LocalDateTimeUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.github.songxchn.common.bean.SignatureHeader;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.util.CertKeyUtils;
@@ -19,6 +21,7 @@ import com.github.songxchn.wxpay.v3.bean.result.WxCertificatesV3Result;
 import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadV3Result;
 import com.github.songxchn.wxpay.v3.bean.cert.WxPayV3Certificate;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
+import com.github.songxchn.wxpay.v3.bean.result.notify.WxNotifyResult;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
@@ -495,26 +498,68 @@ public class WxPayV3Client {
      * @throws WxErrorException
      */
     private void checkResult(HttpHeaders responseHeaders, String responseContent) throws WxErrorException {
-        String responseTimestamp = responseHeaders.getFirst("Wechatpay-Timestamp");
-        String responseNonce = responseHeaders.getFirst("Wechatpay-Nonce");
-        String responseSignature = responseHeaders.getFirst("Wechatpay-Signature");
-        String responseSerialNo = responseHeaders.getFirst("Wechatpay-Serial");
+        SignatureHeader header = SignatureHeader.newBuilder()
+                .timestamp(responseHeaders.getFirst("Wechatpay-Timestamp"))
+                .nonce(responseHeaders.getFirst("Wechatpay-Nonce"))
+                .signature(responseHeaders.getFirst("Wechatpay-Signature"))
+                .serialNo(responseHeaders.getFirst("Wechatpay-Serial"))
+                .build();
 
-        if (StringUtils.isAnyBlank(responseTimestamp, responseNonce, responseSignature, responseSerialNo)) {
+        if (!verifySignature(header, responseContent)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
+        }
+    }
+
+    /**
+     * 校验签名
+     *
+     * @param header
+     * @param responseContent
+     * @return
+     * @throws WxErrorException
+     */
+    public boolean verifySignature(SignatureHeader header, String responseContent) throws WxErrorException {
+        if (ObjectUtil.isNull(header) || StringUtils.isAnyBlank(header.getTimestamp(), header.getNonce(), header.getSignature(), header.getSerialNo())) {
+            return false;
         }
         if (StringUtils.isBlank(responseContent)) {
             responseContent = "";
         }
 
         StringBuilder toSign = new StringBuilder();
-        toSign.append(responseTimestamp).append("\n")
-                .append(responseNonce).append("\n")
+        toSign.append(header.getTimestamp()).append("\n")
+                .append(header.getNonce()).append("\n")
                 .append(responseContent).append("\n");
 
-        if (!SignUtils.checkSHA256withRSASign(getWxCertificate(responseSerialNo), toSign.toString(), responseSignature)) {
+        if (!SignUtils.checkSHA256withRSASign(getWxCertificate(header.getSerialNo()), toSign.toString(), header.getSignature())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 校验并转换成实体类
+     *
+     * @param header
+     * @param responseContent
+     * @param clz
+     * @param <T>
+     * @return
+     * @throws WxErrorException
+     */
+    public <T extends BaseWxPayV3Result> WxNotifyResult verifyNotifySignatureAndGetResult(SignatureHeader header, String responseContent, Class<T> clz) throws WxErrorException {
+        if (!verifySignature(header, responseContent)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
         }
+        WxNotifyResult wxNotifyResult = BaseWxPayV3Result.fromJson(responseContent, WxNotifyResult.class);
+        if (ObjectUtil.isNull(wxNotifyResult) || ObjectUtil.isNull(wxNotifyResult.getResource())) {
+            throw new WxErrorException(WxErrorExceptionFactor.NOTIFY_CONTENT_ERROR);
+        }
+
+        WxNotifyResult.Resource resource = wxNotifyResult.getResource();
+        wxNotifyResult.setWxPayResult(BaseWxPayV3Result.fromJson(DecryptUtils.decryptV3(this.apiv3Key, resource.getNonce(), resource.getAssociatedData(), resource.getCipherText()), clz));
+
+        return wxNotifyResult;
     }
 
     /**
@@ -541,7 +586,7 @@ public class WxPayV3Client {
         WxPayV3Certificate.EncryptV3Certificate encryptV3Certificate = wxPayV3Certificate.getEncryptV3Certificate();
 
         this.wxSerialNo = wxPayV3Certificate.getSerialNo();
-        this.wxCertificate = CertKeyUtils.loadCertificate(DecryptUtils.decryptV3(this.apiv3Key, encryptV3Certificate.getNonce(), encryptV3Certificate.getAssociatedData(),encryptV3Certificate.getCipherText()));
+        this.wxCertificate = CertKeyUtils.loadCertificate(DecryptUtils.decryptV3(this.apiv3Key, encryptV3Certificate.getNonce(), encryptV3Certificate.getAssociatedData(), encryptV3Certificate.getCipherText()));
     }
 
     /**

@@ -1,12 +1,16 @@
 package com.github.songxchn.wxpay.v3.bean.result;
 
+import com.github.songxchn.common.exception.WxErrorException;
+import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.common.json.WxGsonBuilder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
 
 @Data
+@Slf4j
 public abstract class BaseWxPayV3Result implements Serializable {
     private static final long serialVersionUID = 7765784097135990901L;
 
@@ -14,7 +18,7 @@ public abstract class BaseWxPayV3Result implements Serializable {
     public void compose() {
     }
 
-    public static <T extends BaseWxPayV3Result> T fromJson(String jsonString, Class<T> clz) {
+    public static <T extends BaseWxPayV3Result> T fromJson(String jsonString, Class<T> clz) throws WxErrorException {
         try {
             BaseWxPayV3Result t = WxGsonBuilder.create().fromJson(jsonString, clz);
             if (t == null) {
@@ -23,7 +27,8 @@ public abstract class BaseWxPayV3Result implements Serializable {
             t.compose();
             return (T) t;
         } catch (Exception e) {
-            throw new RuntimeException("parse json error", e);
+            log.error(e.getMessage(), e);
+            throw new WxErrorException(WxErrorExceptionFactor.PARSE_JSON_ERROR);
         }
     }
 }

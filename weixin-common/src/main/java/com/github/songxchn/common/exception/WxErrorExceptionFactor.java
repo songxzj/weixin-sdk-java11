@@ -70,5 +70,15 @@ public class WxErrorExceptionFactor implements Serializable {
     public static final WxErrorExceptionFactor FILE_ERROR =
             new WxErrorExceptionFactor(FILE_ERROR_CODE, "所需文件处理错误");
 
+    public static final String PARSE_JSON_ERROR_CODE = "80015";
+    public static final WxErrorExceptionFactor PARSE_JSON_ERROR =
+            new WxErrorExceptionFactor(PARSE_JSON_ERROR_CODE, "解析JSON错误");
+
+    public static final String NOTIFY_CONTENT_ERROR_CODE = "80016";
+    public static final WxErrorExceptionFactor NOTIFY_CONTENT_ERROR =
+            new WxErrorExceptionFactor(NOTIFY_CONTENT_ERROR_CODE, "回调通知数据错误");
+
+
+
 
 }

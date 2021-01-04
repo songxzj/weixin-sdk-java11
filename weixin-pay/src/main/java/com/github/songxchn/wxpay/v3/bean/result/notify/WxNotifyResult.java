@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxNotifyResult extends BaseWxPayV3Result {
+public class WxNotifyResult<T extends BaseWxPayV3Result> extends BaseWxPayV3Result {
     private static final long serialVersionUID = -6489635647461474994L;
 
     /**
@@ -65,6 +65,11 @@ public class WxNotifyResult extends BaseWxPayV3Result {
      */
     @SerializedName("summary")
     private String summary;
+
+    /**
+     * 最终的解密出来的数据
+     */
+    private T wxPayResult;
 
     /**
      * 通知数据
