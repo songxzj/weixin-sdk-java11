@@ -79,10 +79,11 @@ public class WxApplymentSubStateV3Result extends BaseWxPayV3Result {
     @SerializedName("audit_detail")
     private List<AuditDetail> auditDetailList;
 
+    /**
+     * 驳回原因详情
+     */
     @Data
-    @Builder(builderMethodName = "newBuilder")
     @NoArgsConstructor
-    @AllArgsConstructor
     public static class AuditDetail implements Serializable {
         private static final long serialVersionUID = 4909218873339164626L;
 

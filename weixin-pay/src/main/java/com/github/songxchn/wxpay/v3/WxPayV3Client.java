@@ -7,6 +7,7 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.util.CertKeyUtils;
+import com.github.songxchn.wxpay.util.DecryptUtils;
 import com.github.songxchn.wxpay.util.SensitiveEncryptUtils;
 import com.github.songxchn.wxpay.util.SignUtils;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
@@ -537,9 +538,10 @@ public class WxPayV3Client {
                 }
             }
         }
-        wxPayV3Certificate = CertKeyUtils.decryptV3Certificate(this.apiv3Key, wxPayV3Certificate);
+        WxPayV3Certificate.EncryptV3Certificate encryptV3Certificate = wxPayV3Certificate.getEncryptV3Certificate();
+
         this.wxSerialNo = wxPayV3Certificate.getSerialNo();
-        this.wxCertificate = CertKeyUtils.loadCertificate(wxPayV3Certificate.getCertificateStr());
+        this.wxCertificate = CertKeyUtils.loadCertificate(DecryptUtils.decryptV3(this.apiv3Key, encryptV3Certificate.getNonce(), encryptV3Certificate.getAssociatedData(),encryptV3Certificate.getCipherText()));
     }
 
     /**

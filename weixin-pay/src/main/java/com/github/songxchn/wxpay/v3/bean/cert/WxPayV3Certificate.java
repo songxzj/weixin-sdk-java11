@@ -53,11 +53,14 @@ public class WxPayV3Certificate implements Serializable {
     private String certificateStr;
 
     @Data
+    @NoArgsConstructor
     public static class EncryptV3Certificate implements Serializable {
         private static final long serialVersionUID = 8098660117605659126L;
 
+        @SerializedName("algorithm")
         private String algorithm;
 
+        @SerializedName("nonce")
         private String nonce;
 
         @SerializedName("associated_data")

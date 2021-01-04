@@ -5,7 +5,6 @@ import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.v2.bean.cert.WxPayCertificate;
-import com.github.songxchn.wxpay.v3.bean.cert.WxPayV3Certificate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
 
@@ -50,31 +49,6 @@ public class CertKeyUtils {
             cipher.updateAAD(encryptCertificate.getAssociatedData().getBytes());
             wxPayCertificate.setCertificateStr(new String(cipher.doFinal(Base64Utils.decodeFromString(encryptCertificate.getCipherText()))));
             return wxPayCertificate;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new WxErrorException(WxErrorExceptionFactor.DECRYPT_CERTIFICATE_ERROR);
-        }
-    }
-
-    /**
-     * 平台证书解密 （v3）
-     *
-     * @param apiv3Key
-     * @param wxPayV3Certificate
-     * @return
-     * @throws WxErrorException
-     */
-    public static WxPayV3Certificate decryptV3Certificate(String apiv3Key, WxPayV3Certificate wxPayV3Certificate) throws WxErrorException {
-        try {
-            WxPayV3Certificate.EncryptV3Certificate encryptV3Certificate = wxPayV3Certificate.getEncryptV3Certificate();
-
-            final Cipher cipher = Cipher.getInstance(TRANSFORMATION_NoPadding);
-            SecretKeySpec key = new SecretKeySpec(apiv3Key.getBytes(), ALGORITHM);
-            GCMParameterSpec spec = new GCMParameterSpec(TAG_LENGTH_BIT, encryptV3Certificate.getNonce().getBytes());
-            cipher.init(Cipher.DECRYPT_MODE, key, spec);
-            cipher.updateAAD(encryptV3Certificate.getAssociatedData().getBytes());
-            wxPayV3Certificate.setCertificateStr(new String(cipher.doFinal(Base64Utils.decodeFromString(encryptV3Certificate.getCipherText()))));
-            return wxPayV3Certificate;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new WxErrorException(WxErrorExceptionFactor.DECRYPT_CERTIFICATE_ERROR);
