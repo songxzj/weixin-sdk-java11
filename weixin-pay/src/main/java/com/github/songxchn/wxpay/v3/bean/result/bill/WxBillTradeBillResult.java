@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxFundFlowBillResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 1809827322772857393L;
-
+public class WxBillTradeBillResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = 999539107441808168L;
 
     /**
      * 哈希类型

@@ -11,7 +11,7 @@ import com.github.songxchn.wxpay.util.SensitiveEncryptUtils;
 import com.github.songxchn.wxpay.util.SignUtils;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.request.WxCertificatesV3Request;
-import com.github.songxchn.wxpay.v3.bean.request.bill.WxDownloadBillRequest;
+import com.github.songxchn.wxpay.v3.bean.request.bill.WxBillDownloadBillRequest;
 import com.github.songxchn.wxpay.v3.bean.request.media.WxMediaUploadV3Request;
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.github.songxchn.wxpay.v3.bean.result.WxCertificatesV3Result;
@@ -408,7 +408,7 @@ public class WxPayV3Client {
      * @return
      * @throws WxErrorException
      */
-    public InputStream downloadBill(WxDownloadBillRequest request) throws WxErrorException {
+    public InputStream downloadBill(WxBillDownloadBillRequest request) throws WxErrorException {
 
         String token = checkAndSignAndGetToken(request);
         String requestUrl = getServerUrl() + request.routing();

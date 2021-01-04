@@ -4,7 +4,7 @@ import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.bill.WxDownloadBillResult;
+import com.github.songxchn.wxpay.v3.bean.result.bill.WxBillDownloadBillResult;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -32,7 +32,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxDownloadBillRequest extends BaseWxPayV3Request<WxDownloadBillResult> {
+public class WxBillDownloadBillRequest extends BaseWxPayV3Request<WxBillDownloadBillResult> {
     private static final long serialVersionUID = 9015582895079592905L;
 
     /**
@@ -51,8 +51,8 @@ public class WxDownloadBillRequest extends BaseWxPayV3Request<WxDownloadBillResu
     }
 
     @Override
-    public Class<WxDownloadBillResult> getResultClass() {
-        return WxDownloadBillResult.class;
+    public Class<WxBillDownloadBillResult> getResultClass() {
+        return WxBillDownloadBillResult.class;
     }
 
     @Override
