@@ -7,7 +7,7 @@
     <groupId>com.github.songxchn</groupId>
     <artifactId>weixin-sdk-java</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <name>weixin sdk java</name>
     <description>weixin sdk java</description>
     <url>https://github.com/SongXCHN/weixin-sdk-java</url>

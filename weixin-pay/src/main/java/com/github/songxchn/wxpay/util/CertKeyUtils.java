@@ -7,6 +7,7 @@ import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.v2.bean.cert.WxPayCertificate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.ResourceUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -132,7 +133,7 @@ public class CertKeyUtils {
 
 
     /**
-     * 从配置路径 加载文件 信息（本地路径、网络url）
+     * 从配置路径 加载文件 信息（classpath、本地路径、网络url）
      *
      * @param filePath 配置路径
      * @return
@@ -150,14 +151,10 @@ public class CertKeyUtils {
                 throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
             }
         } else {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
-            }
-
             try {
-                inputStream = new FileInputStream(file);
+                inputStream = new FileInputStream(ResourceUtils.getFile(filePath));
             } catch (FileNotFoundException e) {
+                log.error(e.getMessage(), e);
                 throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
             }
         }
