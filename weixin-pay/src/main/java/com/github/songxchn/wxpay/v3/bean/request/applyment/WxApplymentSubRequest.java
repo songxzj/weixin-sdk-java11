@@ -474,7 +474,9 @@ public class WxApplymentSubRequest extends BaseWxPayV3Request<WxApplymentSubResu
 
         @Override
         public void checkConstraints() throws WxErrorException {
-
+            if (this.salesInfo != null) {
+                this.salesInfo.checkConstraints();
+            }
         }
     }
 

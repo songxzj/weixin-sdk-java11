@@ -17,7 +17,6 @@ import org.springframework.http.HttpMethod;
 import java.util.List;
 
 /**
- *
  * 合单支付
  * 合单APP下单API version:2020.05.21
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter5_1_1.shtml">
@@ -172,8 +171,8 @@ public class WxCombineTransactionsRequest extends BaseWxPayV3Request<WxCombineTr
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (h5Info != null) {
-                h5Info.checkConstraints();
+            if (this.h5Info != null) {
+                this.h5Info.checkConstraints();
             }
         }
     }
@@ -259,11 +258,11 @@ public class WxCombineTransactionsRequest extends BaseWxPayV3Request<WxCombineTr
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (amount != null) {
-                amount.checkConstraints();
+            if (this.amount != null) {
+                this.amount.checkConstraints();
             }
-            if (settleInfo != null) {
-                settleInfo.checkConstraints();
+            if (this.settleInfo != null) {
+                this.settleInfo.checkConstraints();
             }
         }
     }
@@ -446,16 +445,16 @@ public class WxCombineTransactionsRequest extends BaseWxPayV3Request<WxCombineTr
         if (TradeTypeEnum.H5.equals(tradeTypeEnum) && this.sceneInfo == null) {
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "H5 支付，场景信息必填");
         }
-        if (sceneInfo != null) {
-            sceneInfo.checkConstraints();
+        if (this.sceneInfo != null) {
+            this.sceneInfo.checkConstraints();
         }
-        if (subOrders != null) {
-            for (SubOrder subOrder : subOrders) {
+        if (this.subOrders != null) {
+            for (SubOrder subOrder : this.subOrders) {
                 subOrder.checkConstraints();
             }
         }
-        if (combinePayerInfo != null) {
-            combinePayerInfo.checkConstraints();
+        if (this.combinePayerInfo != null) {
+            this.combinePayerInfo.checkConstraints();
         }
     }
 }

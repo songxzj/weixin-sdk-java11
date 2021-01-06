@@ -16,7 +16,6 @@ import java.io.File;
 /**
  * 图片上传API
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/chapter3_1.shtml">
- *
  * 视频上传API
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/chapter3_2.shtml"><
  */

@@ -10,6 +10,15 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 通用如下：
+ * 支付通知
+ * （https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_1_5.shtml）
+ * （https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_2_5.shtml）
+ * （https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_3_5.shtml）
+ * （https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_4_5.shtml）
+ * （https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter3_5_5.shtml）
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor

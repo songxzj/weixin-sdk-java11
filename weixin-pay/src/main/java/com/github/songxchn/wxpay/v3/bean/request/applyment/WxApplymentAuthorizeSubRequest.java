@@ -208,7 +208,7 @@ public class WxApplymentAuthorizeSubRequest extends BaseWxPayV3Request<WxApplyme
     }
 
     /**
-     * +经营许可证信息
+     * 经营许可证信息
      * 特殊行业的经营许可证信息
      */
 
