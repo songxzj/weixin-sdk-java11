@@ -124,6 +124,26 @@ public class WxPayV3Client {
      */
     private final String apiv3Key;
 
+    public String getMchId() {
+        return mchId;
+    }
+
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public X509Certificate getCertificate() {
+        return certificate;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public String getApiv3Key() {
+        return apiv3Key;
+    }
+
     private X509Certificate getWxCertificate(String responseWxSerialNo) throws WxErrorException {
         if (!StringUtils.isBlank(responseWxSerialNo) && responseWxSerialNo.equals(this.wxSerialNo)) {
             return this.wxCertificate;
