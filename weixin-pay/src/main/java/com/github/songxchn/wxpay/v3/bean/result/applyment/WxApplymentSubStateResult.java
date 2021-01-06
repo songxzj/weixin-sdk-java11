@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxApplymentSubStateV3Result extends BaseWxPayV3Result {
+public class WxApplymentSubStateResult extends BaseWxPayV3Result {
     private static final long serialVersionUID = -241227059481834449L;
 
 

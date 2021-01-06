@@ -15,10 +15,10 @@ import com.github.songxchn.wxpay.util.SignUtils;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.request.WxCertificatesV3Request;
 import com.github.songxchn.wxpay.v3.bean.request.bill.WxBillDownloadBillRequest;
-import com.github.songxchn.wxpay.v3.bean.request.media.WxMediaUploadV3Request;
+import com.github.songxchn.wxpay.v3.bean.request.media.WxMediaUploadRequest;
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.github.songxchn.wxpay.v3.bean.result.WxCertificatesV3Result;
-import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadResult;
 import com.github.songxchn.wxpay.v3.bean.cert.WxPayV3Certificate;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.v3.bean.result.notify.WxNotifyResult;
@@ -357,7 +357,7 @@ public class WxPayV3Client {
      * @return
      * @throws WxErrorException
      */
-    public WxMediaUploadV3Result uploadMedia(WxMediaUploadV3Request request) throws WxErrorException {
+    public WxMediaUploadResult uploadMedia(WxMediaUploadRequest request) throws WxErrorException {
         String sha256;
         File file = request.getFile();
         try {
@@ -474,7 +474,7 @@ public class WxPayV3Client {
         }
     }
 
-    private ByteArrayOutputStream getRequestByteArray(WxMediaUploadV3Request request) throws WxErrorException {
+    private ByteArrayOutputStream getRequestByteArray(WxMediaUploadRequest request) throws WxErrorException {
         StringBuffer sb1 = new StringBuffer();
         sb1.append("--boundary").append("\r\n")
                 .append("Content-Disposition: form-data; name=\"meta\";").append("\r\n")

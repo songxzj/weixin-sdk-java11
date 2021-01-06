@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxApplymentAuthorizeVerifyStateV3Result extends BaseWxPayV3Result {
+public class WxApplymentAuthorizeVerifyStateResult extends BaseWxPayV3Result {
     private static final long serialVersionUID = 1473687025896489163L;
 
 

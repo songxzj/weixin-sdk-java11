@@ -5,7 +5,7 @@ import com.github.songxchn.common.annotation.SensitiveEncrypt;
 import com.github.songxchn.common.bean.BaseV3Inner;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubResult;
 import com.github.songxchn.wxpay.v3.enums.AuthorizeSubjectTypeEnum;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
@@ -26,7 +26,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApplymentAuthorizeSubV3Result> {
+public class WxApplymentAuthorizeSubRequest extends BaseWxPayV3Request<WxApplymentAuthorizeSubResult> {
     private static final long serialVersionUID = -1102379109688853899L;
 
 
@@ -88,8 +88,8 @@ public class WxApplymentAuthorizeSubV3Request extends BaseWxPayV3Request<WxApply
     }
 
     @Override
-    public Class<WxApplymentAuthorizeSubV3Result> getResultClass() {
-        return WxApplymentAuthorizeSubV3Result.class;
+    public Class<WxApplymentAuthorizeSubResult> getResultClass() {
+        return WxApplymentAuthorizeSubResult.class;
     }
 
     @Override

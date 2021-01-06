@@ -4,7 +4,7 @@ import com.github.songxchn.common.annotation.GsonExclude;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.wxpay.constant.WxMediaConstants;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -28,7 +28,7 @@ import java.io.File;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxMediaUploadV3Request extends BaseWxPayV3Request<WxMediaUploadV3Result> {
+public class WxMediaUploadRequest extends BaseWxPayV3Request<WxMediaUploadResult> {
     private static final long serialVersionUID = 3501150685142010901L;
 
 
@@ -71,8 +71,8 @@ public class WxMediaUploadV3Request extends BaseWxPayV3Request<WxMediaUploadV3Re
     }
 
     @Override
-    public Class<WxMediaUploadV3Result> getResultClass() {
-        return WxMediaUploadV3Result.class;
+    public Class<WxMediaUploadResult> getResultClass() {
+        return WxMediaUploadResult.class;
     }
 
     @Override

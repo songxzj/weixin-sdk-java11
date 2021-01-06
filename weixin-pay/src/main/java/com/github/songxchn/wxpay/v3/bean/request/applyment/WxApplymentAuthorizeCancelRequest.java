@@ -1,7 +1,7 @@
 package com.github.songxchn.wxpay.v3.bean.request.applyment;
 
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeCancelV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeCancelResult;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentAuthorizeCancelV3Request extends BaseWxPayV3Request<WxApplymentAuthorizeCancelV3Result> {
+public class WxApplymentAuthorizeCancelRequest extends BaseWxPayV3Request<WxApplymentAuthorizeCancelResult> {
     private static final long serialVersionUID = 8750355463940420185L;
 
 
@@ -54,8 +54,8 @@ public class WxApplymentAuthorizeCancelV3Request extends BaseWxPayV3Request<WxAp
     }
 
     @Override
-    public Class<WxApplymentAuthorizeCancelV3Result> getResultClass() {
-        return WxApplymentAuthorizeCancelV3Result.class;
+    public Class<WxApplymentAuthorizeCancelResult> getResultClass() {
+        return WxApplymentAuthorizeCancelResult.class;
     }
 
     @Override

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxMediaUploadV3Result extends BaseWxPayV3Result {
+public class WxMediaUploadResult extends BaseWxPayV3Result {
     private static final long serialVersionUID = -5296759796748982463L;
 
     /**

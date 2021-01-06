@@ -9,17 +9,15 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxApplymentSubV3Result extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 1077154716465200038L;
+public class WxApplymentAuthorizeSubResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = 7804206972010689907L;
 
     /**
-     * 微信支付申请单号
+     * 申请单编号
      * applyment_id
      * uint64
      * 是
      */
     @SerializedName("applyment_id")
     private String applymentId;
-
-
 }

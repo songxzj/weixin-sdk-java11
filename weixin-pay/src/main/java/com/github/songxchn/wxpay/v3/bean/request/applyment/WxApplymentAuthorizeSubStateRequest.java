@@ -1,7 +1,7 @@
 package com.github.songxchn.wxpay.v3.bean.request.applyment;
 
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubStateV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubStateResult;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
@@ -20,7 +20,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<WxApplymentAuthorizeSubStateV3Result> {
+public class WxApplymentAuthorizeSubStateRequest extends BaseWxPayV3Request<WxApplymentAuthorizeSubStateResult> {
     private static final long serialVersionUID = -4629107064469064525L;
 
     /**
@@ -52,8 +52,8 @@ public class WxApplymentAuthorizeSubStateV3Request extends BaseWxPayV3Request<Wx
     }
 
     @Override
-    public Class<WxApplymentAuthorizeSubStateV3Result> getResultClass() {
-        return WxApplymentAuthorizeSubStateV3Result.class;
+    public Class<WxApplymentAuthorizeSubStateResult> getResultClass() {
+        return WxApplymentAuthorizeSubStateResult.class;
     }
 
     @Override

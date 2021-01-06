@@ -8,7 +8,7 @@ import com.github.songxchn.wxpay.v3.enums.IDDocTypeEnum;
 import com.github.songxchn.wxpay.v3.enums.SalesScenesTypeEnum;
 import com.github.songxchn.wxpay.v3.enums.SubjectTypeEnum;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentSubV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentSubResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -29,7 +29,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3Result> {
+public class WxApplymentSubRequest extends BaseWxPayV3Request<WxApplymentSubResult> {
     private static final long serialVersionUID = -1025236917297379236L;
 
     /**
@@ -105,8 +105,8 @@ public class WxApplymentSubV3Request extends BaseWxPayV3Request<WxApplymentSubV3
     }
 
     @Override
-    public Class<WxApplymentSubV3Result> getResultClass() {
-        return WxApplymentSubV3Result.class;
+    public Class<WxApplymentSubResult> getResultClass() {
+        return WxApplymentSubResult.class;
     }
 
     @Override

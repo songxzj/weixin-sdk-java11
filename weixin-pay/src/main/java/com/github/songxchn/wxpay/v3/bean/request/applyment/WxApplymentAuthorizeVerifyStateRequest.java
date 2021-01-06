@@ -2,7 +2,7 @@ package com.github.songxchn.wxpay.v3.bean.request.applyment;
 
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeVerifyStateV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeVerifyStateResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentAuthorizeVerifyStateV3Request extends BaseWxPayV3Request<WxApplymentAuthorizeVerifyStateV3Result> {
+public class WxApplymentAuthorizeVerifyStateRequest extends BaseWxPayV3Request<WxApplymentAuthorizeVerifyStateResult> {
     private static final long serialVersionUID = -497855020735377041L;
 
 
@@ -41,8 +41,8 @@ public class WxApplymentAuthorizeVerifyStateV3Request extends BaseWxPayV3Request
     }
 
     @Override
-    public Class<WxApplymentAuthorizeVerifyStateV3Result> getResultClass() {
-        return WxApplymentAuthorizeVerifyStateV3Result.class;
+    public Class<WxApplymentAuthorizeVerifyStateResult> getResultClass() {
+        return WxApplymentAuthorizeVerifyStateResult.class;
     }
 
     @Override

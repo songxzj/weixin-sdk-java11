@@ -2,7 +2,7 @@ package com.github.songxchn.wxpay.v3.bean.request.applyment;
 
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentSubStateV3Result;
+import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentSubStateResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxApplymentSubStateV3Request  extends BaseWxPayV3Request<WxApplymentSubStateV3Result> {
+public class WxApplymentSubStateRequest extends BaseWxPayV3Request<WxApplymentSubStateResult> {
     private static final long serialVersionUID = -7055710642500290503L;
 
     /**
@@ -52,8 +52,8 @@ public class WxApplymentSubStateV3Request  extends BaseWxPayV3Request<WxApplymen
     }
 
     @Override
-    public Class<WxApplymentSubStateV3Result> getResultClass() {
-        return WxApplymentSubStateV3Result.class;
+    public Class<WxApplymentSubStateResult> getResultClass() {
+        return WxApplymentSubStateResult.class;
     }
 
     @Override
