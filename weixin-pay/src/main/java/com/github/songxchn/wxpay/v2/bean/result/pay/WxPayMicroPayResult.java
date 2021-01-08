@@ -1,5 +1,6 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.pay;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -49,7 +50,7 @@ public class WxPayMicroPayResult extends BaseWxPayResult {
 
     /**
      * 是否关注公众账号.
-     * is_subscribe
+     * sub_is_subscribe
      * 是
      * String(1)
      * Y
@@ -202,8 +203,8 @@ public class WxPayMicroPayResult extends BaseWxPayResult {
      * 新增返回，单品优惠功能字段，需要接入请见详细说明
      *
      **/
-  /*@XStreamAlias("promotion_detail")
-  private String promotionDetail;*/
+  @XStreamAlias("promotion_detail")
+  private String promotionDetail;
 
     /**
      * 从XML结构中加载额外的熟悉
@@ -228,7 +229,7 @@ public class WxPayMicroPayResult extends BaseWxPayResult {
         outTradeNo = readXMLString(d, "out_trade_no");
         attach = readXMLString(d, "attach");
         timeEnd = readXMLString(d, "time_end");
-        //promotionDetail = readXMLString(d, "promotion_detail");
+        promotionDetail = readXMLString(d, "promotion_detail");
     }
 
 }

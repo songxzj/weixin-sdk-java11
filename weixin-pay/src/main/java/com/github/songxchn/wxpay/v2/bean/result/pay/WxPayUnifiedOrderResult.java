@@ -1,5 +1,6 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.pay;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,7 +54,10 @@ public class WxPayUnifiedOrderResult extends BaseWxPayResult {
     private String codeUrl;
 
     /**
-     * mweb_url 支付跳转链接
+     * 支付跳转链接
+     * mweb_url
+     * 是
+     * String(64)
      */
     @XStreamAlias("mweb_url")
     private String mwebUrl;

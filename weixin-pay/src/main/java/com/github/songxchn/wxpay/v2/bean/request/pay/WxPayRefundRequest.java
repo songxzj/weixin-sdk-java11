@@ -1,23 +1,34 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxPayRefundResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
-import com.github.songxchn.wxpay.constant.WxPayConstants;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayRefundResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.Map;
 
 /**
  * 申请退款
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_4&index=6">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_4&index=4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_4">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native_sl.php?chapter=9_4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app_sl.php?chapter=9_4&index=6">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=9_4&index=4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_sl_api.php?chapter=9_4">
  */
 
 @Data
@@ -29,11 +40,6 @@ import java.util.Map;
 @Accessors(chain = true)
 public class WxPayRefundRequest extends BaseWxPayRequest<WxPayRefundResult> {
     private static final long serialVersionUID = -3368136183226852178L;
-
-
-    private static final String[] REFUND_ACCOUNT = new String[]{
-            WxPayConstants.RefundAccountSource.RECHARGE_FUNDS, WxPayConstants.RefundAccountSource.UNSETTLED_FUNDS};
-
 
     /**
      * 微信订单号
@@ -137,6 +143,16 @@ public class WxPayRefundRequest extends BaseWxPayRequest<WxPayRefundResult> {
     @XStreamAlias("notify_url")
     private String notifyUrl;
 
+    /**
+     * 商品详情
+     * detail
+     * 否
+     * String(6000)
+     * 单品优惠功能字段，需要接入请见详细说明
+     **/
+    @XStreamAlias("detail")
+    private String detail;
+
     @Override
     public String routing() {
         return "/secapi/pay/refund";
@@ -154,13 +170,6 @@ public class WxPayRefundRequest extends BaseWxPayRequest<WxPayRefundResult> {
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-        if (StringUtils.isNotBlank(this.refundAccount)) {
-            if (!ArrayUtils.contains(REFUND_ACCOUNT, this.refundAccount)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE,
-                        String.format("refund_account目前必须为%s其中之一,实际值：%s", Arrays.toString(REFUND_ACCOUNT), this.getRefundAccount()));
-            }
-        }
-
         if (StringUtils.isBlank(this.outTradeNo) && StringUtils.isBlank(this.transactionId)) {
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "transaction_id 和 out_trade_no 不能同时为空");
         }
@@ -178,5 +187,6 @@ public class WxPayRefundRequest extends BaseWxPayRequest<WxPayRefundResult> {
         map.put("refund_account", this.refundAccount);
         map.put("refund_desc", this.refundDesc);
         map.put("notify_url", this.notifyUrl);
+        map.put("detail", this.detail);
     }
 }

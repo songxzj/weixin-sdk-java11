@@ -1,8 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxPayCloseOrderResult;
 import com.github.songxchn.common.exception.WxErrorException;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayCloseOrderResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -11,7 +12,16 @@ import java.util.Map;
 
 /**
  * 关闭订单
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_3">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_3">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_3&index=5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_3">
+ * 服务商
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_3">
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/native_sl.php?chapter=9_3">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app_sl.php?chapter=9_3&index=5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=9_3&index=3">
  */
 
 @Data

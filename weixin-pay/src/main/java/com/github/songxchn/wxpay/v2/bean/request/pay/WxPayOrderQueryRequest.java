@@ -1,8 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
-import com.github.songxchn.wxpay.v2.bean.result.WxPayOrderQueryResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayOrderQueryResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -12,9 +13,21 @@ import java.util.Map;
 
 /**
  * 查询订单
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_2&index=4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_2&index=2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_2">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native_sl.php?chapter=9_2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app_sl.php?chapter=9_2&index=4">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=9_2&index=2">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_sl_api.php?chapter=9_2">
  */
-
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -26,6 +39,18 @@ import java.util.Map;
 public class WxPayOrderQueryRequest extends BaseWxPayRequest<WxPayOrderQueryResult> {
     private static final long serialVersionUID = -7763874253238697120L;
 
+
+    /**
+     * 字段名：接口版本号.
+     * 变量名：version
+     * 是否必填：单品优惠必填
+     * 类型：String(32)
+     * 示例值：1.0
+     * 描述：单品优惠新增字段，区分原接口，固定填写1.0
+     * 更多信息，详见文档：https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_201&index=5
+     */
+    @XStreamAlias("version")
+    private String version;
 
     /**
      * 微信订单号
@@ -74,6 +99,7 @@ public class WxPayOrderQueryRequest extends BaseWxPayRequest<WxPayOrderQueryResu
 
     @Override
     protected void storeMap(Map<String, String> map) {
+        map.put("version", this.version);
         map.put("transaction_id", this.transactionId);
         map.put("out_trade_no", this.outTradeNo);
     }

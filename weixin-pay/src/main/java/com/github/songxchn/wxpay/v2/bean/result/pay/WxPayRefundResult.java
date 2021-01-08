@@ -1,5 +1,6 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.pay;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.AllArgsConstructor;
@@ -162,6 +163,18 @@ public class WxPayRefundResult extends BaseWxPayResult {
     @XStreamAlias("coupon_refund_fee")
     private Integer couponRefundFee;
 
+    /**
+     * 营销详情.
+     * promotion_detail
+     * 否
+     * String(6000)
+     * 示例见下文
+     * 新增返回，单品优惠功能字段，需要接入请见详细说明
+     *
+     **/
+    @XStreamAlias("promotion_detail")
+    private String promotionDetail;
+
     private List<WxPayRefundCouponInfo> refundCoupons;
 
     @Override
@@ -209,6 +222,7 @@ public class WxPayRefundResult extends BaseWxPayResult {
         cashRefundFee = readXMLInteger(d, "cash_refund_fee");
         couponRefundCount = readXMLInteger(d, "coupon_refund_count");
         couponRefundFee = readXMLInteger(d, "coupon_refund_fee");
+        promotionDetail = readXMLString(d, "promotion_detail");
     }
 
     /**

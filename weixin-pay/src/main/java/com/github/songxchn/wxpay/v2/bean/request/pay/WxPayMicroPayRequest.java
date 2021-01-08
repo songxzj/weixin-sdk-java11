@@ -1,8 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxPayMicroPayResult;
 import com.github.songxchn.common.exception.WxErrorException;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayMicroPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -11,6 +12,9 @@ import java.util.Map;
 
 /**
  * 付款码支付
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_10&index=1">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_10&index=1">
  */
 
@@ -44,8 +48,8 @@ public class WxPayMicroPayRequest extends BaseWxPayRequest<WxPayMicroPayResult> 
      * 描述：单品优惠新增字段，区分原接口，固定填写1.0
      * 更多信息，详见文档：https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_101&index=1
      */
-    /*@XStreamAlias("version")
-    private String version;*/
+    @XStreamAlias("version")
+    private String version;
 
     /**
      * 商品描述
@@ -250,7 +254,7 @@ public class WxPayMicroPayRequest extends BaseWxPayRequest<WxPayMicroPayResult> 
     @Override
     protected void storeMap(Map<String, String> map) {
         map.put("device_info", this.deviceInfo);
-        //map.put("version", version);
+        map.put("version", this.version);
         map.put("body", this.body);
         map.put("detail", this.detail);
         map.put("attach", this.attach);

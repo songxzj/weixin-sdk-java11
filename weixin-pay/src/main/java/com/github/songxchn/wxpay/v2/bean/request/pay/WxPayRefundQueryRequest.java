@@ -1,9 +1,10 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
 
-import com.github.songxchn.wxpay.v2.bean.result.WxPayRefundQueryResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayRefundQueryResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -13,7 +14,20 @@ import java.util.Map;
 
 /**
  * 查询退款
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_5&index=7">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_5&index=5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_5">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native_sl.php?chapter=9_5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app_sl.php?chapter=9_5&index=7">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=9_5&index=5">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_sl_api.php?chapter=9_5">
  */
 
 @Data
@@ -111,10 +125,10 @@ public class WxPayRefundQueryRequest extends BaseWxPayRequest<WxPayRefundQueryRe
 
     @Override
     protected void storeMap(Map<String, String> map) {
-        map.put("transaction_id", transactionId);
-        map.put("out_trade_no", outTradeNo);
-        map.put("out_refund_no", outRefundNo);
-        map.put("refund_id", refundId);
-        map.put("offset", offset);
+        map.put("transaction_id", this.transactionId);
+        map.put("out_trade_no", this.outTradeNo);
+        map.put("out_refund_no", this.outRefundNo);
+        map.put("refund_id", this.refundId);
+        map.put("offset", this.offset);
     }
 }

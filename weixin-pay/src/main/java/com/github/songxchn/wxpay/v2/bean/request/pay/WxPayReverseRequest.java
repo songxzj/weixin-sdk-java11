@@ -1,8 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
-import com.github.songxchn.wxpay.v2.bean.result.WxPayReverseResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayReverseResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -12,6 +13,9 @@ import java.util.Map;
 
 /**
  * 撤销订单
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay.php?chapter=9_11&index=3">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/micropay_sl.php?chapter=9_11&index=3">
  */
 
@@ -71,7 +75,7 @@ public class WxPayReverseRequest extends BaseWxPayRequest<WxPayReverseResult> {
 
     @Override
     protected void storeMap(Map<String, String> map) {
-        map.put("transaction_id", transactionId);
-        map.put("out_trade_no", outTradeNo);
+        map.put("transaction_id", this.transactionId);
+        map.put("out_trade_no", this.outTradeNo);
     }
 }

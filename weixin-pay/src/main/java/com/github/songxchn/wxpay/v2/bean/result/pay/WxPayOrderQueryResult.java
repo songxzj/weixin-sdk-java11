@@ -1,8 +1,12 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.pay;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.w3c.dom.Document;
 
 import java.io.Serializable;
@@ -258,8 +262,8 @@ public class WxPayOrderQueryResult extends BaseWxPayResult {
      * 示例值：[{"promotion_detail":[{"promotion_id":"109519","name":"单品惠-6","scope":"SINGLE","type":"DISCOUNT","amount":5,"activity_id":"931386","wxpay_contribute":0,"merchant_contribute":0,"other_contribute":5,"goods_detail":[{"goods_id":"a_goods1","goods_remark":"商品备注","quantity":7,"price":1,"discount_amount":4},{"goods_id":"a_goods2","goods_remark":"商品备注","quantity":1,"price":2,"discount_amount":1}]}]}
      * 描述：单品优惠专用参数，详见https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_201&index=3
      */
-  /*@XStreamAlias("promotion_detail")
-  private String promotionDetail;*/
+  @XStreamAlias("promotion_detail")
+  private String promotionDetail;
     @Override
     public void compose() {
         composeCoupons();
@@ -307,14 +311,13 @@ public class WxPayOrderQueryResult extends BaseWxPayResult {
         attach = readXMLString(d, "attach");
         timeEnd = readXMLString(d, "time_end");
         tradeStateDesc = readXMLString(d, "trade_state_desc");
-        //promotionDetail = readXMLString(d, "promotion_detail");
+        promotionDetail = readXMLString(d, "promotion_detail");
     }
 
     /**
      * The type Coupon.
      */
     @Data
-    @Builder(builderMethodName = "newBuilder")
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Coupon implements Serializable {

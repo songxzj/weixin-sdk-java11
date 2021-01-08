@@ -1,9 +1,13 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.pay;
 
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.w3c.dom.Document;
 
 import java.io.Serializable;
@@ -93,8 +97,8 @@ public class WxPayRefundQueryResult extends BaseWxPayResult {
      * 35
      * 订单总共已发生的部分退款次数，当请求参数传入offset后有返回
      */
-    @XStreamAlias("refund_count")
-    private Integer refundCount;
+    @XStreamAlias("total_refund_count")
+    private Integer totalRefundCount;
 
 
     /**
@@ -105,8 +109,20 @@ public class WxPayRefundQueryResult extends BaseWxPayResult {
      * 1
      * 当前返回退款笔数
      */
-    @XStreamAlias("total_refund_count")
-    private Integer totalRefundCount;
+    @XStreamAlias("refund_count")
+    private Integer refundCount;
+
+    /**
+     * 营销详情.
+     * promotion_detail
+     * 否
+     * String(6000)
+     * 示例见下文
+     * 新增返回，单品优惠功能字段，需要接入请见详细说明
+     *
+     **/
+    @XStreamAlias("promotion_detail")
+    private String promotionDetail;
 
 
     private List<RefundRecord> refundRecords;
@@ -175,6 +191,7 @@ public class WxPayRefundQueryResult extends BaseWxPayResult {
         cashFee = readXMLInteger(d, "cash_fee");
         refundCount = readXMLInteger(d, "refund_count");
         totalRefundCount = readXMLInteger(d, "total_refund_count");
+        promotionDetail = readXMLString(d, "promotion_detail");
     }
 
     /**
@@ -224,7 +241,6 @@ public class WxPayRefundQueryResult extends BaseWxPayResult {
     }
 
     @Data
-    @Builder(builderMethodName = "newBuilder")
     @NoArgsConstructor
     @AllArgsConstructor
     public static class RefundRecord implements Serializable {

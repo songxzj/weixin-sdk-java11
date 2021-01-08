@@ -1,10 +1,11 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+package com.github.songxchn.wxpay.v2.bean.request.pay;
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxPayUnifiedOrderResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.pay.WxPayUnifiedOrderResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -14,9 +15,19 @@ import java.util.Map;
 
 /**
  * 统一下单
+ * 普通商户
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=9_20&index=1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_api.php?chapter=9_1">
+ * 服务商
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/jsapi_sl.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/native_sl.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/app/app_sl.php?chapter=9_1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=9_20&index=1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/wxa/wxa_sl_api.php?chapter=9_1">
  */
-
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,10 +47,9 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest<WxPayUnifiedOrder
      * 描述：单品优惠新增字段，接口版本号，区分原接口，默认填写1.0。
      * 入参新增version后，则支付通知接口也将返回单品优惠信息字段promotion_detail，请确保支付通知的签名验证能通过。
      * 更多信息，详见文档：https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_102&index=2
-     *
      */
-  /*@XStreamAlias("version")
-  private String version;*/
+    @XStreamAlias("version")
+    private String version;
 
     /**
      * 设备号
@@ -274,11 +284,11 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest<WxPayUnifiedOrder
      * 字段名：浏览器指纹.
      * 变量名：fingerprint
      * 是否必填：否
-     * 详细参考 https://pay.weixin.qq.com/wiki/doc/api/H5.php?chapter=15_7&index=6
+     * 详细参考 https://pay.weixin.qq.com/wiki/doc/api/H5_sl.php?chapter=15_7&index=6
      *
      */
-    /*@XStreamAlias("fingerprint")
-    private String fingerprint;*/
+    @XStreamAlias("fingerprint")
+    private String fingerprint;
     /**
      * 字段名：是否指定服务商分账.
      * 变量名：profit_sharing
@@ -314,35 +324,35 @@ public class WxPayUnifiedOrderRequest extends BaseWxPayRequest<WxPayUnifiedOrder
     @Override
     protected void checkConstraints() throws WxErrorException {
         if (WxPayConstants.TradeType.NATIVE.equals(this.tradeType) && StringUtils.isBlank(this.productId)) {
-            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当trade_type是'NATIVE'时，需指定非空的product_id值");
+            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "当trade_type是'NATIVE'时，需指定非空的 product_id 值");
         }
     }
 
 
     @Override
     protected void storeMap(Map<String, String> map) {
-        //map.put("version", version);
-        map.put("device_info", deviceInfo);
-        map.put("receipt", receipt);
-        map.put("body", body);
-        map.put("detail", detail);
-        map.put("attach", attach);
-        map.put("out_trade_no", outTradeNo);
-        map.put("fee_type", feeType);
-        map.put("total_fee", totalFee.toString());
-        map.put("spbill_create_ip", spbillCreateIp);
-        map.put("time_start", timeStart);
-        map.put("time_expire", timeExpire);
-        map.put("goods_tag", goodsTag);
-        map.put("notify_url", notifyUrl);
-        map.put("trade_type", tradeType);
-        map.put("product_id", productId);
-        map.put("limit_pay", limitPay);
-        map.put("openid", openid);
-        map.put("sub_openid", subOpenid);
-        map.put("scene_info", sceneInfo);
-        //map.put("fingerprint", fingerprint);
-        map.put("profit_sharing", profitSharing);
+        map.put("version", this.version);
+        map.put("device_info", this.deviceInfo);
+        map.put("receipt", this.receipt);
+        map.put("body", this.body);
+        map.put("detail", this.detail);
+        map.put("attach", this.attach);
+        map.put("out_trade_no", this.outTradeNo);
+        map.put("fee_type", this.feeType);
+        map.put("total_fee", this.totalFee.toString());
+        map.put("spbill_create_ip", this.spbillCreateIp);
+        map.put("time_start", this.timeStart);
+        map.put("time_expire", this.timeExpire);
+        map.put("goods_tag", this.goodsTag);
+        map.put("notify_url", this.notifyUrl);
+        map.put("trade_type", this.tradeType);
+        map.put("product_id",this. productId);
+        map.put("limit_pay", this.limitPay);
+        map.put("openid", this.openid);
+        map.put("sub_openid", this.subOpenid);
+        map.put("scene_info", this.sceneInfo);
+        map.put("fingerprint", this.fingerprint);
+        map.put("profit_sharing", this.profitSharing);
         map.put("user_creid", this.userCreid);
         map.put("user_truename", this.userTruename);
     }
