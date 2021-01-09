@@ -49,7 +49,7 @@ public class WxRiskGetCertficatesResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadXML(Document d) {
-        this.certificates = readXMLString(d, "certificates");
+    protected void loadxml(Document d) {
+        this.certificates = readXmlString(d, "certificates");
     }
 }

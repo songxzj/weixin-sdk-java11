@@ -26,7 +26,7 @@ public class WxUploadMediaResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadXML(Document d) {
-        this.mediaId = readXMLString(d, "media_id");
+    protected void loadxml(Document d) {
+        this.mediaId = readXmlString(d, "media_id");
     }
 }

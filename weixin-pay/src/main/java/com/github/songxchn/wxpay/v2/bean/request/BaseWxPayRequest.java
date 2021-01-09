@@ -174,7 +174,7 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
      *
      * @return the string
      */
-    public String toXML() {
+    public String toXml() {
         if (XmlConfig.fastMode) {
             return toFastXml();
         }

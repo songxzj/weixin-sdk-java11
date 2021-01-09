@@ -1,8 +1,12 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+package com.github.songxchn.wxpay.v2.bean.result.notify;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.google.common.collect.Lists;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.w3c.dom.Document;
 
 import java.io.Serializable;
@@ -12,19 +16,8 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxPayOrderNotifyResult extends BaseWxPayResult {
+public class WxPayNotifyResult extends BaseWxPayResult {
     private static final long serialVersionUID = -1910216372973299972L;
-
-    /**
-     * 签名类型
-     * sign_type
-     * 否
-     * String(32)
-     * HMAC-SHA256
-     * 签名类型，目前支持HMAC-SHA256和MD5，默认为MD5
-     */
-    @XStreamAlias("sign_type")
-    private String signType;
 
     /**
      * 设备号.
@@ -239,8 +232,9 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult {
      * 示例值：[{"promotion_detail":[{"promotion_id":"109519","name":"单品惠-6","scope":"SINGLE","type":"DISCOUNT","amount":5,"activity_id":"931386","wxpay_contribute":0,"merchant_contribute":0,"other_contribute":5,"goods_detail":[{"goods_id":"a_goods1","goods_remark":"商品备注","quantity":7,"price":1,"discount_amount":4},{"goods_id":"a_goods2","goods_remark":"商品备注","quantity":1,"price":2,"discount_amount":1}]}]}
      * 描述：单品优惠专用参数，详见https://pay.weixin.qq.com/wiki/doc/api/danpin.php?chapter=9_201&index=3
      */
-  /*@XStreamAlias("promotion_detail")
-  private String promotionDetail;*/
+    @XStreamAlias("promotion_detail")
+    private String promotionDetail;
+
     @Override
     public void compose() {
         composeCoupons();
@@ -266,35 +260,32 @@ public class WxPayOrderNotifyResult extends BaseWxPayResult {
      * @param d Document
      */
     @Override
-    protected void loadXML(Document d) {
-        signType = readXMLString(d, "sign_type");
-        deviceInfo = readXMLString(d, "device_info");
-        openid = readXMLString(d, "openid");
-        isSubscribe = readXMLString(d, "is_subscribe");
-        subOpenid = readXMLString(d, "sub_openid");
-        subIsSubscribe = readXMLString(d, "sub_is_subscribe");
-        tradeType = readXMLString(d, "trade_type");
-        bankType = readXMLString(d, "bank_type");
-        totalFee = readXMLInteger(d, "total_fee");
-        feeType = readXMLString(d, "fee_type");
-        settlementTotalFee = readXMLInteger(d, "settlement_total_fee");
-        cashFee = readXMLInteger(d, "cash_fee");
-        cashFeeType = readXMLString(d, "cash_fee_type");
-        couponFee = readXMLInteger(d, "coupon_fee");
-        couponCount = readXMLInteger(d, "coupon_count");
-        transactionId = readXMLString(d, "transaction_id");
-        outTradeNo = readXMLString(d, "out_trade_no");
-        attach = readXMLString(d, "attach");
-        timeEnd = readXMLString(d, "time_end");
-        //promotionDetail = readXMLString(d, "promotion_detail");
-
+    protected void loadxml(Document d) {
+        deviceInfo = readXmlString(d, "device_info");
+        openid = readXmlString(d, "openid");
+        isSubscribe = readXmlString(d, "is_subscribe");
+        subOpenid = readXmlString(d, "sub_openid");
+        subIsSubscribe = readXmlString(d, "sub_is_subscribe");
+        tradeType = readXmlString(d, "trade_type");
+        bankType = readXmlString(d, "bank_type");
+        totalFee = readXmlInteger(d, "total_fee");
+        feeType = readXmlString(d, "fee_type");
+        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        cashFee = readXmlInteger(d, "cash_fee");
+        cashFeeType = readXmlString(d, "cash_fee_type");
+        couponFee = readXmlInteger(d, "coupon_fee");
+        couponCount = readXmlInteger(d, "coupon_count");
+        transactionId = readXmlString(d, "transaction_id");
+        outTradeNo = readXmlString(d, "out_trade_no");
+        attach = readXmlString(d, "attach");
+        timeEnd = readXmlString(d, "time_end");
+        promotionDetail = readXmlString(d, "promotion_detail");
     }
 
     /**
      * The type Coupon.
      */
     @Data
-    @Builder(builderMethodName = "newBuilder")
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Coupon implements Serializable {

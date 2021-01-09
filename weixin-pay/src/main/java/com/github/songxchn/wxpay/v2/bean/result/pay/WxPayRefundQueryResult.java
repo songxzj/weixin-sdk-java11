@@ -182,16 +182,16 @@ public class WxPayRefundQueryResult extends BaseWxPayResult {
      * @param d Document
      */
     @Override
-    protected void loadXML(Document d) {
-        transactionId = readXMLString(d, "transaction_id");
-        outTradeNo = readXMLString(d, "out_trade_no");
-        totalFee = readXMLInteger(d, "total_fee");
-        settlementTotalFee = readXMLInteger(d, "settlement_total_fee");
-        feeType = readXMLString(d, "fee_type");
-        cashFee = readXMLInteger(d, "cash_fee");
-        refundCount = readXMLInteger(d, "refund_count");
-        totalRefundCount = readXMLInteger(d, "total_refund_count");
-        promotionDetail = readXMLString(d, "promotion_detail");
+    protected void loadxml(Document d) {
+        transactionId = readXmlString(d, "transaction_id");
+        outTradeNo = readXmlString(d, "out_trade_no");
+        totalFee = readXmlInteger(d, "total_fee");
+        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        feeType = readXmlString(d, "fee_type");
+        cashFee = readXmlInteger(d, "cash_fee");
+        refundCount = readXmlInteger(d, "refund_count");
+        totalRefundCount = readXmlInteger(d, "total_refund_count");
+        promotionDetail = readXmlString(d, "promotion_detail");
     }
 
     /**

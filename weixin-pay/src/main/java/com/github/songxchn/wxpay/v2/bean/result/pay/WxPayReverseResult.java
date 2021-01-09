@@ -31,8 +31,8 @@ public class WxPayReverseResult extends BaseWxPayResult {
      * @param d Document
      */
     @Override
-    protected void loadXML(Document d) {
-        isRecall = readXMLString(d, "recall");
+    protected void loadxml(Document d) {
+        isRecall = readXmlString(d, "recall");
     }
 
 }

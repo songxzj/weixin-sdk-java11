@@ -181,19 +181,19 @@ public class WxMicroGetUpgradeStateResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadXML(Document d) {
-        this.applymentState = readXMLString(d, "applyment_state");
-        this.applymentStateDesc = readXMLString(d, "applyment_state_desc");
-        this.signQrcode = readXMLString(d, "sign_qrcode");
-        this.signUrl = readXMLString(d, "sign_url");
-        this.auditDetail = readXMLString(d, "audit_detail");
-        this.accountName = readXMLString(d, "account_name");
-        this.payAmount = readXMLString(d, "pay_amount");
-        this.destinationAccountNumber = readXMLString(d, "destination_account_number");
-        this.destinationAccountName = readXMLString(d, "destination_account_name");
-        this.destinationAccountBank = readXMLString(d, "destination_account_bank");
-        this.city = readXMLString(d, "city");
-        this.remark = readXMLString(d, "remark");
-        this.deadlineTime = readXMLString(d, "deadline_time");
+    protected void loadxml(Document d) {
+        this.applymentState = readXmlString(d, "applyment_state");
+        this.applymentStateDesc = readXmlString(d, "applyment_state_desc");
+        this.signQrcode = readXmlString(d, "sign_qrcode");
+        this.signUrl = readXmlString(d, "sign_url");
+        this.auditDetail = readXmlString(d, "audit_detail");
+        this.accountName = readXmlString(d, "account_name");
+        this.payAmount = readXmlString(d, "pay_amount");
+        this.destinationAccountNumber = readXmlString(d, "destination_account_number");
+        this.destinationAccountName = readXmlString(d, "destination_account_name");
+        this.destinationAccountBank = readXmlString(d, "destination_account_bank");
+        this.city = readXmlString(d, "city");
+        this.remark = readXmlString(d, "remark");
+        this.deadlineTime = readXmlString(d, "deadline_time");
     }
 }

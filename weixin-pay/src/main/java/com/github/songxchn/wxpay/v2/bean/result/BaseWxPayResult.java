@@ -19,13 +19,11 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
  * 微信支付结果共用属性类.
- * Created by Binary Wang on 2016-10-24.
  */
 @Data
 public abstract class BaseWxPayResult implements Serializable {
@@ -92,6 +90,13 @@ public abstract class BaseWxPayResult implements Serializable {
     @XStreamAlias("sign")
     private String sign;
 
+    /**
+     * 签名类型
+     */
+    @XStreamAlias("sign_type")
+    private String signType;
+
+
     //以下为辅助属性
     /**
      * xml字符串.
@@ -105,16 +110,6 @@ public abstract class BaseWxPayResult implements Serializable {
     private transient Document xmlDoc;
 
     /**
-     * 将单位分转换成单位圆.
-     *
-     * @param fen 将要被转换为元的分的数值
-     * @return the string
-     */
-    public static String fenToYuan(Integer fen) {
-        return BigDecimal.valueOf(Double.valueOf(fen) / 100).setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString();
-    }
-
-    /**
      * 从xml字符串创建bean对象.
      *
      * @param <T>       the type parameter
@@ -122,16 +117,16 @@ public abstract class BaseWxPayResult implements Serializable {
      * @param clz       the clz
      * @return the t
      */
-    public static <T extends BaseWxPayResult> T fromXML(String xmlString, Class<T> clz) {
+    public static <T extends BaseWxPayResult> T fromxml(String xmlString, Class<T> clz) {
         if (XmlConfig.fastMode) {
             try {
-                BaseWxPayResult t = clz.newInstance();
-                t.setXmlString(xmlString);
-                Document doc = t.getXmlDoc();
-                t.loadBasicXML(doc);
-                t.loadXML(doc);
-                t.compose();
-                return (T) t;
+                BaseWxPayResult result = clz.newInstance();
+                result.setXmlString(xmlString);
+                Document doc = result.getXmlDoc();
+                result.loadBasicXml(doc);
+                result.loadxml(doc);
+                result.compose();
+                return (T) result;
             } catch (Exception e) {
                 throw new RuntimeException("parse xml error", e);
             }
@@ -149,7 +144,7 @@ public abstract class BaseWxPayResult implements Serializable {
      *
      * @param d Document
      */
-    protected abstract void loadXML(Document d);
+    protected abstract void loadxml(Document d);
 
     public void compose() {
     }
@@ -159,23 +154,24 @@ public abstract class BaseWxPayResult implements Serializable {
      *
      * @param d Document
      */
-    private void loadBasicXML(Document d) {
-        this.returnCode = readXMLString(d, "return_code");
-        this.returnMsg = readXMLString(d, "return_msg");
-        this.resultCode = readXMLString(d, "result_code");
-        this.errCode = readXMLString(d, "err_code");
-        this.errCodeDes = readXMLString(d, "err_code_des");
-        this.errParam = readXMLString(d, "err_param");
-        this.appid = readXMLString(d, "appid");
-        this.mchId = readXMLString(d, "mch_id");
-        this.subAppId = readXMLString(d, "sub_appid");
-        this.subMchId = readXMLString(d, "sub_mch_id");
-        this.nonceStr = readXMLString(d, "nonce_str");
-        this.sign = readXMLString(d, "sign");
+    private void loadBasicXml(Document d) {
+        this.returnCode = readXmlString(d, "return_code");
+        this.returnMsg = readXmlString(d, "return_msg");
+        this.resultCode = readXmlString(d, "result_code");
+        this.errCode = readXmlString(d, "err_code");
+        this.errCodeDes = readXmlString(d, "err_code_des");
+        this.errParam = readXmlString(d, "err_param");
+        this.appid = readXmlString(d, "appid");
+        this.mchId = readXmlString(d, "mch_id");
+        this.subAppId = readXmlString(d, "sub_appid");
+        this.subMchId = readXmlString(d, "sub_mch_id");
+        this.nonceStr = readXmlString(d, "nonce_str");
+        this.sign = readXmlString(d, "sign");
+        this.signType = readXmlString(d, "sign_type");
     }
 
 
-    public static String readXMLString(Document d, String tagName) {
+    protected static String readXmlString(Document d, String tagName) {
         NodeList elements = d.getElementsByTagName(tagName);
         if (elements == null || elements.getLength() == 0) {
             return null;
@@ -188,28 +184,36 @@ public abstract class BaseWxPayResult implements Serializable {
         return node.getNodeValue();
     }
 
-    public static String readXMLString(Node d, String tagName) {
-        if (!d.hasChildNodes()) return null;
+    protected static String readXmlString(Node d, String tagName) {
+        if (!d.hasChildNodes()) {
+            return null;
+        }
         NodeList childNodes = d.getChildNodes();
         for (int i = 0, j = childNodes.getLength(); i < j; i++) {
             Node node = childNodes.item(i);
             if (tagName.equals(node.getNodeName())) {
-                if (!node.hasChildNodes()) return null;
+                if (!node.hasChildNodes()) {
+                    return null;
+                }
                 return node.getFirstChild().getNodeValue();
             }
         }
         return null;
     }
 
-    public static Integer readXMLInteger(Node d, String tagName) {
-        String content = readXMLString(d, tagName);
-        if (content == null || content.trim().length() == 0) return null;
+    protected static Integer readXmlInteger(Document d, String tagName) {
+        String content = readXmlString(d, tagName);
+        if (content == null || content.trim().length() == 0) {
+            return null;
+        }
         return Integer.parseInt(content);
     }
 
-    public static Integer readXMLInteger(Document d, String tagName) {
-        String content = readXMLString(d, tagName);
-        if (content == null || content.trim().length() == 0) return null;
+    protected static Integer readXmlInteger(Node d, String tagName) {
+        String content = readXmlString(d, tagName);
+        if (content == null || content.trim().length() == 0) {
+            return null;
+        }
         return Integer.parseInt(content);
     }
 
@@ -236,7 +240,7 @@ public abstract class BaseWxPayResult implements Serializable {
                 result.put(list.item(i).getNodeName(), list.item(i).getTextContent());
             }
         } catch (XPathExpressionException e) {
-            throw new RuntimeException("非法的xml文本内容：" + this.xmlString);
+            throw new RuntimeException("非法的xml文本内容：\n" + this.xmlString);
         }
 
         return result;

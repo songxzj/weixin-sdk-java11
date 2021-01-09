@@ -289,29 +289,29 @@ public class WxPayOrderQueryResult extends BaseWxPayResult {
      * @param d Document
      */
     @Override
-    protected void loadXML(Document d) {
-        deviceInfo = readXMLString(d, "device_info");
-        openid = readXMLString(d, "openid");
-        isSubscribe = readXMLString(d, "is_subscribe");
-        subOpenid = readXMLString(d, "sub_openid");
-        subIsSubscribe = readXMLString(d, "sub_is_subscribe");
-        tradeType = readXMLString(d, "trade_type");
-        tradeState = readXMLString(d, "trade_state");
-        bankType = readXMLString(d, "bank_type");
-        detail = readXMLString(d, "detail");
-        totalFee = readXMLInteger(d, "total_fee");
-        feeType = readXMLString(d, "fee_type");
-        settlementTotalFee = readXMLInteger(d, "settlement_total_fee");
-        cashFee = readXMLInteger(d, "cash_fee");
-        cashFeeType = readXMLString(d, "cash_fee_type");
-        couponFee = readXMLInteger(d, "coupon_fee");
-        couponCount = readXMLInteger(d, "coupon_count");
-        transactionId = readXMLString(d, "transaction_id");
-        outTradeNo = readXMLString(d, "out_trade_no");
-        attach = readXMLString(d, "attach");
-        timeEnd = readXMLString(d, "time_end");
-        tradeStateDesc = readXMLString(d, "trade_state_desc");
-        promotionDetail = readXMLString(d, "promotion_detail");
+    protected void loadxml(Document d) {
+        deviceInfo = readXmlString(d, "device_info");
+        openid = readXmlString(d, "openid");
+        isSubscribe = readXmlString(d, "is_subscribe");
+        subOpenid = readXmlString(d, "sub_openid");
+        subIsSubscribe = readXmlString(d, "sub_is_subscribe");
+        tradeType = readXmlString(d, "trade_type");
+        tradeState = readXmlString(d, "trade_state");
+        bankType = readXmlString(d, "bank_type");
+        detail = readXmlString(d, "detail");
+        totalFee = readXmlInteger(d, "total_fee");
+        feeType = readXmlString(d, "fee_type");
+        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        cashFee = readXmlInteger(d, "cash_fee");
+        cashFeeType = readXmlString(d, "cash_fee_type");
+        couponFee = readXmlInteger(d, "coupon_fee");
+        couponCount = readXmlInteger(d, "coupon_count");
+        transactionId = readXmlString(d, "transaction_id");
+        outTradeNo = readXmlString(d, "out_trade_no");
+        attach = readXmlString(d, "attach");
+        timeEnd = readXmlString(d, "time_end");
+        tradeStateDesc = readXmlString(d, "trade_state_desc");
+        promotionDetail = readXmlString(d, "promotion_detail");
     }
 
     /**

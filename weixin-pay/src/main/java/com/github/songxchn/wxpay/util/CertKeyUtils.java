@@ -26,10 +26,10 @@ import java.security.spec.PKCS8EncodedKeySpec;
 @Slf4j
 public class CertKeyUtils {
 
-    private static final int TAG_LENGTH_BIT = 128;
+    /*private static final int TAG_LENGTH_BIT = 128;
     private static final String CIPHER_PROVIDER = "SunJCE";
     private static final String TRANSFORMATION_NoPadding = "AES/GCM/NoPadding";
-    private static final String ALGORITHM = "AES";
+    private static final String ALGORITHM = "AES";*/
 
 
     /**
@@ -39,7 +39,7 @@ public class CertKeyUtils {
      * @return
      * @throws Exception
      */
-    public static WxPayCertificate decryptCertificate(String apiv3Key, WxPayCertificate wxPayCertificate) throws WxErrorException {
+    /*public static WxPayCertificate decryptCertificate(String apiv3Key, WxPayCertificate wxPayCertificate) throws WxErrorException {
         try {
             WxPayCertificate.EncryptCertificate encryptCertificate = wxPayCertificate.getEncryptCertificate();
 
@@ -54,7 +54,7 @@ public class CertKeyUtils {
             log.error(e.getMessage(), e);
             throw new WxErrorException(WxErrorExceptionFactor.DECRYPT_CERTIFICATE_ERROR);
         }
-    }
+    }*/
 
     /**
      * 加载 v3 商户密钥
