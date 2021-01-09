@@ -40,8 +40,8 @@ public class WxPayJsapiOrderData implements Serializable {
      * String(32)
      */
     private String nonceStr;
-    /**
-     * /**
+
+     /**
      * 订单详情扩展字符串
      * package
      * 是
