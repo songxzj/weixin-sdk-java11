@@ -117,7 +117,7 @@ public abstract class BaseWxPayResult implements Serializable {
      * @param clz       the clz
      * @return the t
      */
-    public static <T extends BaseWxPayResult> T fromxml(String xmlString, Class<T> clz) {
+    public static <T extends BaseWxPayResult> T fromXml(String xmlString, Class<T> clz) {
         if (XmlConfig.fastMode) {
             try {
                 BaseWxPayResult result = clz.newInstance();

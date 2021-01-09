@@ -451,7 +451,7 @@ public class WxPayClient {
      */
     private <T extends BaseWxPayResult> T verifyAndGetResult(String responseContent, BaseWxPayRequest<T> request) throws WxErrorException {
 
-        T result = BaseWxPayResult.fromxml(responseContent, request.getResultClass());
+        T result = BaseWxPayResult.fromXml(responseContent, request.getResultClass());
         //校验返回结果签名
         Map<String, String> map = result.toMap();
         if (result.getSign() != null && !SignUtils.checkSign(map, request.getSignType(), this.mchKey)) {
@@ -473,7 +473,7 @@ public class WxPayClient {
      * @throws WxErrorException
      */
     public WxPayNotifyResult verifyPayNotifyAndGetResult(String responseXml) throws WxErrorException {
-        WxPayNotifyResult result = BaseWxPayResult.fromxml(responseXml, WxPayNotifyResult.class);
+        WxPayNotifyResult result = BaseWxPayResult.fromXml(responseXml, WxPayNotifyResult.class);
         //校验返回结果签名
         Map<String, String> map = result.toMap();
         String signType = !StringUtils.isBlank(result.getSignType()) ? result.getSignType() : WxPayConstants.SignType.MD5;
@@ -496,14 +496,14 @@ public class WxPayClient {
      * @throws WxErrorException
      */
     public WxPayRefundNotifyResult verifyRefundNotifyAndGetResult(String responseXml) throws WxErrorException {
-        WxPayRefundNotifyResult result = BaseWxPayResult.fromxml(responseXml, WxPayRefundNotifyResult.class);
+        WxPayRefundNotifyResult result = BaseWxPayResult.fromXml(responseXml, WxPayRefundNotifyResult.class);
 
         // return_code 不成功
         if (!WxPayConstants.ResultCode.SUCCESS.equals(result.getReturnCode())) {
             throw new WxErrorException(WxErrorExceptionFactor.RESULT_FAIL_CODE, result.getReturnMsg());
         }
         String decryptedReqInfo = DecryptUtils.decryptV2RefundNotify(this.mchKey, result.getReqInfoStr());
-        result.setReqInfo(BaseWxPayResult.fromxml(decryptedReqInfo, WxPayRefundNotifyResult.ReqInfo.class));
+        result.setReqInfo(BaseWxPayResult.fromXml(decryptedReqInfo, WxPayRefundNotifyResult.ReqInfo.class));
 
         return result;
     }
