@@ -208,7 +208,7 @@ public class WxPayRefundResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         transactionId = readXmlString(d, "transaction_id");
         outTradeNo = readXmlString(d, "out_trade_no");
         outRefundNo = readXmlString(d, "out_refund_no");

@@ -25,7 +25,7 @@ public class WxMicroSubmitResult extends BaseWxPayResult {
     private String applymentId;
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         applymentId = readXmlString(d, "applyment_id");
     }
 }

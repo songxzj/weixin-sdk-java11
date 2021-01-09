@@ -124,7 +124,7 @@ public abstract class BaseWxPayResult implements Serializable {
                 result.setXmlString(xmlString);
                 Document doc = result.getXmlDoc();
                 result.loadBasicXml(doc);
-                result.loadxml(doc);
+                result.loadXml(doc);
                 result.compose();
                 return (T) result;
             } catch (Exception e) {
@@ -144,7 +144,7 @@ public abstract class BaseWxPayResult implements Serializable {
      *
      * @param d Document
      */
-    protected abstract void loadxml(Document d);
+    protected abstract void loadXml(Document d);
 
     public void compose() {
     }

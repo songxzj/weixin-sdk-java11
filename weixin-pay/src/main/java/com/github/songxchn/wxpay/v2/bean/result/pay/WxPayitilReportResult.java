@@ -15,7 +15,7 @@ public class WxPayitilReportResult extends BaseWxPayResult {
     private static final long serialVersionUID = -6057942155324516902L;
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
 
     }
 }

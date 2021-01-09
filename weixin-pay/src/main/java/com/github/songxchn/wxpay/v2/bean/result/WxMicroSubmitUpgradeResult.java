@@ -16,6 +16,6 @@ public class WxMicroSubmitUpgradeResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
     }
 }

@@ -86,7 +86,7 @@ public class WxMicroGetStateResult extends BaseWxPayResult {
     private String auditDetail;
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         this.applymentId = readXmlString(d, "applyment_id");
         this.applymentState = readXmlString(d, "applyment_state");
         this.applymentStateDesc = readXmlString(d, "applyment_state_desc");

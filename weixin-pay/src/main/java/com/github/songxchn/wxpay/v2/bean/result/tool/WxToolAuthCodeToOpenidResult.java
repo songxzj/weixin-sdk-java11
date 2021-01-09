@@ -36,7 +36,7 @@ public class WxToolAuthCodeToOpenidResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         openid = readXmlString(d, "openid");
         subOpenid = readXmlString(d, "sub_openid");
     }

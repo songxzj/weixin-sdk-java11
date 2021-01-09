@@ -181,7 +181,7 @@ public class WxMicroGetUpgradeStateResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         this.applymentState = readXmlString(d, "applyment_state");
         this.applymentStateDesc = readXmlString(d, "applyment_state_desc");
         this.signQrcode = readXmlString(d, "sign_qrcode");

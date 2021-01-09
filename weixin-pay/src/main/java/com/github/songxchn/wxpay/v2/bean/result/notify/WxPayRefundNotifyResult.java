@@ -28,7 +28,7 @@ public class WxPayRefundNotifyResult extends BaseWxPayResult {
 
 
     @Override
-    protected void loadxml(Document d) {
+    protected void loadXml(Document d) {
         reqInfoStr = readXmlString(d, "req_info");
     }
 
@@ -160,7 +160,7 @@ public class WxPayRefundNotifyResult extends BaseWxPayResult {
         private String refundRequestSource;
 
         @Override
-        protected void loadxml(Document d) {
+        protected void loadXml(Document d) {
             transactionId = readXmlString(d, "transaction_id");
             outTradeNo = readXmlString(d, "out_trade_no");
             refundId = readXmlString(d, "refund_id");
