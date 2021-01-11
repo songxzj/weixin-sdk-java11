@@ -6,9 +6,8 @@ import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
 import com.github.songxchn.wxpay.v2.bean.result.redpack.WxSendRedPackResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
@@ -22,8 +21,11 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Builder(builderMethodName = "newBuilder")
 @NoArgsConstructor
+@AllArgsConstructor
 @XStreamAlias("xml")
+@Accessors(chain = true)
 public class WxSendRedPackRequest extends BaseWxPayRequest<WxSendRedPackResult> {
     private static final long serialVersionUID = 8372498897686649167L;
 

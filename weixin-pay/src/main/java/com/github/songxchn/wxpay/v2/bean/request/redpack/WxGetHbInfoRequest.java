@@ -5,9 +5,8 @@ import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
 import com.github.songxchn.wxpay.v2.bean.result.redpack.WxGetHbInfoResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.Map;
 
@@ -20,8 +19,11 @@ import java.util.Map;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@Builder(builderMethodName = "newBuilder")
 @NoArgsConstructor
+@AllArgsConstructor
 @XStreamAlias("xml")
+@Accessors(chain = true)
 public class WxGetHbInfoRequest extends BaseWxPayRequest<WxGetHbInfoResult> {
     private static final long serialVersionUID = -6693648543917081768L;
 
