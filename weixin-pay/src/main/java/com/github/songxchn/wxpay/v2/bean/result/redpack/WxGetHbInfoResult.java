@@ -17,7 +17,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxRedPackQueryResult extends BaseWxPayResult {
+public class WxGetHbInfoResult extends BaseWxPayResult {
     private static final long serialVersionUID = 7082760395620617077L;
 
     /**

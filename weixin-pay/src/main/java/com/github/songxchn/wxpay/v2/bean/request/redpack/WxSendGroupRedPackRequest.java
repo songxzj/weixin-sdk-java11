@@ -3,7 +3,7 @@ package com.github.songxchn.wxpay.v2.bean.request.redpack;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
-import com.github.songxchn.wxpay.v2.bean.result.redpack.WxRedPackGroupSendResult;
+import com.github.songxchn.wxpay.v2.bean.result.redpack.WxSendGroupRedPackResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,7 +22,7 @@ import java.util.Map;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxRedPackGroupSendRequest extends BaseWxPayRequest<WxRedPackGroupSendResult> {
+public class WxSendGroupRedPackRequest extends BaseWxPayRequest<WxSendGroupRedPackResult> {
     private static final long serialVersionUID = 8372498897686649167L;
 
     /**
@@ -232,8 +232,8 @@ public class WxRedPackGroupSendRequest extends BaseWxPayRequest<WxRedPackGroupSe
     }
 
     @Override
-    public Class<WxRedPackGroupSendResult> getResultClass() {
-        return WxRedPackGroupSendResult.class;
+    public Class<WxSendGroupRedPackResult> getResultClass() {
+        return WxSendGroupRedPackResult.class;
     }
 
     @Override

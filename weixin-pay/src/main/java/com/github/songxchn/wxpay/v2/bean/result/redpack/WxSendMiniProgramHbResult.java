@@ -11,7 +11,7 @@ import org.w3c.dom.Document;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxRedPackMiniProgramSendResult extends BaseWxPayResult {
+public class WxSendMiniProgramHbResult extends BaseWxPayResult {
     private static final long serialVersionUID = -8671741417825438637L;
 
     /**

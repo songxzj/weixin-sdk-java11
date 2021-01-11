@@ -11,9 +11,8 @@ import org.w3c.dom.Document;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @XStreamAlias("xml")
-public class WxRedPackSendResult extends BaseWxPayResult {
-    private static final long serialVersionUID = 3985881280475018720L;
-
+public class WxSendGroupRedPackResult extends BaseWxPayResult {
+    private static final long serialVersionUID = -8685307763232528724L;
     /**
      * 商户订单号
      * mch_billno
@@ -25,7 +24,6 @@ public class WxRedPackSendResult extends BaseWxPayResult {
      */
     @XStreamAlias("mch_billno")
     private String mchBillno;
-
 
     /**
      * 公众账号appid
