@@ -87,11 +87,6 @@ public class WxDownloadFundFlowRequest extends BaseWxPayRequest<WxDownloadFundFl
     }
 
     @Override
-    public boolean isResponseString() {
-        return false;
-    }
-
-    @Override
     public boolean isUseKey() {
         return true;
     }

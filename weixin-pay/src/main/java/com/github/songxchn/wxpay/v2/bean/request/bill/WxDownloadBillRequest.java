@@ -93,11 +93,6 @@ public class WxDownloadBillRequest extends BaseWxPayRequest<WxDownloadBillResult
     }
 
     @Override
-    public boolean isResponseString() {
-        return false;
-    }
-
-    @Override
     public boolean isUseKey() {
         return false;
     }

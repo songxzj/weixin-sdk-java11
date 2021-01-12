@@ -286,7 +286,7 @@ public class WxPayClient {
     public <T extends BaseWxPayResult> T execute(BaseWxPayRequest<T> request) throws WxErrorException {
         checkAndSign(request);
         String requestUrl = getServerUrl() + request.routing();
-        byte[] bytes = post(requestUrl, request.toXml(), request.isUseKey(), request.isResponseString());
+        byte[] bytes = post(requestUrl, request.toXml(), request.isUseKey());
 
         return verifyAndGetResult(bytes, request);
     }
@@ -337,11 +337,10 @@ public class WxPayClient {
      * @param requestUrl       请求地址
      * @param requestContent   请求信息
      * @param isUseKey         是否使用证书
-     * @param isResponseString 是否返回字符串
      * @return 返回请求结果二进制数据
      * @throws WxErrorException the wx pay exception
      */
-    private byte[] post(String requestUrl, String requestContent, boolean isUseKey, boolean isResponseString) throws WxErrorException {
+    private byte[] post(String requestUrl, String requestContent, boolean isUseKey) throws WxErrorException {
         boolean hasError = false;
         String responseContent = null;
         long begin = System.currentTimeMillis();
@@ -358,9 +357,7 @@ public class WxPayClient {
             }
             byte[] bytes = responseEntity.getBody();
             if (!ObjectUtil.isNull(bytes)) {
-                if (isResponseString) {
-                    responseContent = new String(bytes, StandardCharsets.UTF_8);
-                }
+                responseContent = new String(bytes, StandardCharsets.UTF_8);
             }
 
             return bytes;
@@ -451,14 +448,14 @@ public class WxPayClient {
      * @throws WxErrorException
      */
     private <T extends BaseWxPayResult> T verifyAndGetResult(byte[] bytes, BaseWxPayRequest<T> request) throws WxErrorException {
-        if (!request.isResponseString()) {
+        String responseContent = new String(bytes, StandardCharsets.UTF_8);
+        if (!StringUtils.startsWith(responseContent, "<xml>")) {
             return BaseWxPayResult.createStreamInstance(bytes, request.getResultClass());
         }
 
-        T result = BaseWxPayResult.fromXml(new String(bytes, StandardCharsets.UTF_8), request.getResultClass());
+        T result = BaseWxPayResult.fromXml(responseContent, request.getResultClass());
         //校验返回结果签名
-        Map<String, String> map = result.toMap();
-        if (!StringUtils.isBlank(result.getSign()) && !SignUtils.checkSign(map, request.getSignType(), this.mchKey)) {
+        if (!StringUtils.isBlank(result.getSign()) && !SignUtils.checkSign(result.toMap(), request.getSignType(), this.mchKey)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
         }
         // return_code 不成功
