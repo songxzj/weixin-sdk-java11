@@ -1,29 +1,24 @@
 package com.github.songxchn.wxpay.v2;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.crypto.digest.DigestUtil;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.util.DecryptUtils;
-import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
-import com.github.songxchn.wxpay.v2.bean.request.WxUploadMediaRequest;
-import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
-import com.github.songxchn.wxpay.v2.bean.result.WxUploadMediaResult;
 import com.github.songxchn.wxpay.util.SignUtils;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.github.songxchn.wxpay.v2.bean.result.notify.WxPayNotifyResult;
 import com.github.songxchn.wxpay.v2.bean.result.notify.WxPayRefundNotifyResult;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.ssl.SSLContexts;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.*;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.net.ssl.SSLContext;
@@ -32,9 +27,9 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -219,7 +214,7 @@ public class WxPayClient {
      * @return
      * @throws WxErrorException
      */
-    public WxUploadMediaResult uploadMedia(WxUploadMediaRequest request) throws WxErrorException {
+    /*public WxUploadMediaResult uploadMedia(WxUploadMediaRequest request) throws WxErrorException {
         String MediaHash;
         try {
             InputStream data = new FileInputStream(request.getFile());
@@ -277,7 +272,7 @@ public class WxPayClient {
                             "response content: \n{}",
                     requestUrl, hasError ? "failed" : "succeeded", System.currentTimeMillis() - begin, responseContent);
         }
-    }
+    }*/
 
 
     /**
@@ -291,9 +286,9 @@ public class WxPayClient {
     public <T extends BaseWxPayResult> T execute(BaseWxPayRequest<T> request) throws WxErrorException {
         checkAndSign(request);
         String requestUrl = getServerUrl() + request.routing();
-        String responseContent = post(requestUrl, request.toXml(), request.isUseKey());
+        byte[] bytes = post(requestUrl, request.toXml(), request.isUseKey(), request.isResponseString());
 
-        return verifyAndGetResult(responseContent, request);
+        return verifyAndGetResult(bytes, request);
     }
 
 
@@ -337,15 +332,16 @@ public class WxPayClient {
 
 
     /**
-     * 发送post请求，得到响应字符串.
+     * 发送post请求，得到响应数据
      *
-     * @param requestUrl     请求地址
-     * @param requestContent 请求信息
-     * @param isUseKey       是否使用证书
-     * @return 返回请求结果字符串 string
+     * @param requestUrl       请求地址
+     * @param requestContent   请求信息
+     * @param isUseKey         是否使用证书
+     * @param isResponseString 是否返回字符串
+     * @return 返回请求结果二进制数据
      * @throws WxErrorException the wx pay exception
      */
-    private String post(String requestUrl, String requestContent, boolean isUseKey) throws WxErrorException {
+    private byte[] post(String requestUrl, String requestContent, boolean isUseKey, boolean isResponseString) throws WxErrorException {
         boolean hasError = false;
         String responseContent = null;
         long begin = System.currentTimeMillis();
@@ -355,14 +351,19 @@ public class WxPayClient {
             headers.setContentType(MediaType.parseMediaType(WxPayConstants.APPLICATION_FORM_URLENCODED_UTF8_VALUE));
 
             HttpEntity<String> requestEntity = new HttpEntity<>(requestContent, headers);
-            ResponseEntity<String> responseEntity = restClient.exchange(requestUrl, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<byte[]> responseEntity = restClient.exchange(requestUrl, HttpMethod.POST, requestEntity, byte[].class);
 
             if (responseEntity.getStatusCode() != HttpStatus.OK) {
                 throw new WxErrorException(WxErrorExceptionFactor.HTTP_REQUEST_FAIL_CODE, "http status code error: " + responseEntity.getStatusCodeValue());
             }
+            byte[] bytes = responseEntity.getBody();
+            if (!ObjectUtil.isNull(bytes)) {
+                if (isResponseString) {
+                    responseContent = new String(bytes, StandardCharsets.UTF_8);
+                }
+            }
 
-            responseContent = responseEntity.getBody();
-            return responseContent;
+            return bytes;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             hasError = true;
@@ -444,17 +445,20 @@ public class WxPayClient {
     /**
      * 校验返回结果签名
      *
-     * @param responseContent
+     * @param bytes
      * @param request
      * @param <T>
      * @throws WxErrorException
      */
-    private <T extends BaseWxPayResult> T verifyAndGetResult(String responseContent, BaseWxPayRequest<T> request) throws WxErrorException {
+    private <T extends BaseWxPayResult> T verifyAndGetResult(byte[] bytes, BaseWxPayRequest<T> request) throws WxErrorException {
+        if (!request.isResponseString()) {
+            return BaseWxPayResult.createStreamInstance(bytes, request.getResultClass());
+        }
 
-        T result = BaseWxPayResult.fromXml(responseContent, request.getResultClass());
+        T result = BaseWxPayResult.fromXml(new String(bytes, StandardCharsets.UTF_8), request.getResultClass());
         //校验返回结果签名
         Map<String, String> map = result.toMap();
-        if (result.getSign() != null && !SignUtils.checkSign(map, request.getSignType(), this.mchKey)) {
+        if (!StringUtils.isBlank(result.getSign()) && !SignUtils.checkSign(map, request.getSignType(), this.mchKey)) {
             throw new WxErrorException(WxErrorExceptionFactor.CHECK_SIGN_ERROR);
         }
         // return_code 不成功

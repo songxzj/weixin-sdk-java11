@@ -109,6 +109,8 @@ public abstract class BaseWxPayResult implements Serializable {
      */
     private transient Document xmlDoc;
 
+    private byte[] bytes;
+
     /**
      * 从xml字符串创建bean对象.
      *
@@ -128,7 +130,7 @@ public abstract class BaseWxPayResult implements Serializable {
                 result.compose();
                 return (T) result;
             } catch (Exception e) {
-                throw new RuntimeException("parse xml error", e);
+                throw new RuntimeException("转换 xml 格式失败", e);
             }
         }
         XStream xstream = XStreamInitializer.getInstance();
@@ -139,6 +141,22 @@ public abstract class BaseWxPayResult implements Serializable {
         return result;
     }
 
+    /**
+     * 只有流信息的
+     * @param bytes
+     * @param clz
+     * @param <T>
+     * @return
+     */
+    public static <T extends BaseWxPayResult> T createStreamInstance(byte[] bytes, Class<T> clz) {
+        try {
+            BaseWxPayResult result = clz.newInstance();
+            result.setBytes(bytes);
+            return (T) result;
+        } catch (Exception e) {
+            throw new RuntimeException("创建对象失败", e);
+        }
+    }
     /**
      * 从XML文档中加载属性,供子类覆盖加载额外的属性
      *

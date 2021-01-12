@@ -116,6 +116,13 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
      */
     public abstract boolean isUseKey();
 
+    /**
+     *
+     * 是否返回String
+     */
+    public boolean isResponseString() {
+        return true;
+    }
 
     /**
      * 签名时，是否忽略appid.

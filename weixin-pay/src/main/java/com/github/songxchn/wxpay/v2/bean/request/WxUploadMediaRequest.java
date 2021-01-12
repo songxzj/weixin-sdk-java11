@@ -1,7 +1,10 @@
 package com.github.songxchn.wxpay.v2.bean.request;
 
 
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.crypto.digest.DigestUtil;
 import com.github.songxchn.common.annotation.Required;
+import com.github.songxchn.common.annotation.SignExclude;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxMediaConstants;
 import com.github.songxchn.wxpay.v2.bean.result.WxUploadMediaResult;
@@ -9,8 +12,12 @@ import com.github.songxchn.common.exception.WxErrorException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -20,11 +27,11 @@ import java.util.Map;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Builder(builderMethodName = "newBuilder")
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("xml")
 @Accessors(chain = true)
+@Slf4j
 public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> {
     private static final long serialVersionUID = -3793459253812619225L;
 
@@ -33,6 +40,7 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
      * 图片文件
      */
     @Required
+    @SignExclude
     private File file;
 
     /**
@@ -91,5 +99,31 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
         return true;
     }
 
+    public static class WxUploadMediaRequestBuilder {
+
+        private File file;
+
+        public WxUploadMediaRequestBuilder file(File file) {
+            this.file = file;
+            return this;
+        }
+
+        public WxUploadMediaRequest build() throws WxErrorException {
+            if (ObjectUtil.isNull(this.file)) {
+                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "file 必须提供值");
+            }
+
+            String mediaHash;
+            try {
+                InputStream data = new FileInputStream(this.file);
+                mediaHash = DigestUtil.md5Hex(data).toLowerCase();
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+                throw new WxErrorException(WxErrorExceptionFactor.IMAGE_ERROR);
+            }
+
+            return new WxUploadMediaRequest(this.file, mediaHash);
+        }
+    }
 
 }

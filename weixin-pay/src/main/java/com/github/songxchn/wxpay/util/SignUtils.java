@@ -2,6 +2,7 @@ package com.github.songxchn.wxpay.util;
 
 import cn.hutool.core.util.HexUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.github.songxchn.common.annotation.SignExclude;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
@@ -147,7 +148,7 @@ public class SignUtils {
 
                 if (field.isAnnotationPresent(XStreamAlias.class)) {
                     result.put(field.getAnnotation(XStreamAlias.class).value(), field.get(bean).toString());
-                } else if (!Modifier.isStatic(field.getModifiers())) {
+                } else if (!Modifier.isStatic(field.getModifiers()) || !field.isAnnotationPresent(SignExclude.class)) {
                     //忽略掉静态成员变量
                     result.put(field.getName(), field.get(bean).toString());
                 }
