@@ -3,7 +3,7 @@ package com.github.songxchn.wxpay.v2.bean.request.profitsharing;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
-import com.github.songxchn.wxpay.v2.bean.result.profitsharing.WxProfitSharingResult;
+import com.github.songxchn.wxpay.v2.bean.result.profitsharing.WxProfitSharingFinishResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -11,11 +11,11 @@ import lombok.experimental.Accessors;
 import java.util.Map;
 
 /**
- * 请求单次分账
+ * 完结分账
  * 普通商户
- * <a href="https://pay.weixin.qq.com/wiki/doc/api/allocation.php?chapter=27_1&index=1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/allocation.php?chapter=27_5&index=6">
  * 服务商
- * <a href="https://pay.weixin.qq.com/wiki/doc/api/allocation_sl.php?chapter=25_1&index=1">
+ * <a href="https://pay.weixin.qq.com/wiki/doc/api/allocation_sl.php?chapter=25_5&index=6">
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -24,8 +24,8 @@ import java.util.Map;
 @AllArgsConstructor
 @XStreamAlias("xml")
 @Accessors(chain = true)
-public class WxProfitSharingRequest extends BaseWxPayRequest<WxProfitSharingResult> {
-    private static final long serialVersionUID = -5961154501118633014L;
+public class WxProfitSharingFinishRequest extends BaseWxPayRequest<WxProfitSharingFinishResult> {
+    private static final long serialVersionUID = 8816154780284323528L;
 
     /**
      * 品牌主商户号
@@ -64,39 +64,30 @@ public class WxProfitSharingRequest extends BaseWxPayRequest<WxProfitSharingResu
     private String outOrderNo;
 
     /**
-     * 分账接收方列表
-     * receivers
+     * 分账完结描述
+     * description
      * 是
-     * string(10240)
-     * [
-     *     {
-     *          "type": "MERCHANT_ID",
-     *          "account":"190001001",
-     *          "amount":100,
-     *          "description": "分到商户"
-     * },
-     *     {
-     *          "type": "PERSONAL_OPENID",
-     *          "account":"86693952",
-     *          "amount":888,
-     *          "description": "分到个人"
-     * }
-     * ]
-     * 分账接收方列表，不超过50个json对象，不能设置分账方作为分账接受方
-     * 点击行前的+展开字段详情
+     * string(80)
+     * 分账已完成
+     * 分账完结的原因描述
      */
     @Required
-    @XStreamAlias("receivers")
-    private String receivers;
+    @XStreamAlias("description")
+    private String description;
 
     @Override
-    public String routing() {
-        return "/secapi/pay/profitsharing";
+    public String[] getIgnoredParamsForSign() {
+        return new String[]{"sub_appid"};
     }
 
     @Override
-    public Class<WxProfitSharingResult> getResultClass() {
-        return WxProfitSharingResult.class;
+    public String routing() {
+        return "/secapi/pay/profitsharingfinish";
+    }
+
+    @Override
+    public Class<WxProfitSharingFinishResult> getResultClass() {
+        return WxProfitSharingFinishResult.class;
     }
 
     @Override
@@ -114,6 +105,6 @@ public class WxProfitSharingRequest extends BaseWxPayRequest<WxProfitSharingResu
         map.put("brand_mch_id", this.brandMchId);
         map.put("transaction_id", this.transactionId);
         map.put("out_order_no", this.outOrderNo);
-        map.put("receivers", this.receivers);
+        map.put("description", this.description);
     }
 }

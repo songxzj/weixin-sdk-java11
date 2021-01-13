@@ -111,6 +111,7 @@ public class WxMultiProfitSharingRequest extends BaseWxPayRequest<WxMultiProfitS
 
     @Override
     protected void storeMap(Map<String, String> map) {
+        map.put("brand_mch_id", this.brandMchId);
         map.put("transaction_id", this.transactionId);
         map.put("out_order_no", this.outOrderNo);
         map.put("receivers", this.receivers);
