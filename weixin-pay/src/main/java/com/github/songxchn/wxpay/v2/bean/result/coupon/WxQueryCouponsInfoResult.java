@@ -149,18 +149,18 @@ public class WxQueryCouponsInfoResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        deviceInfo = readXmlString(d, "device_info");
-        couponStockId = readXmlString(d, "coupon_stock_id");
-        couponId = readXmlString(d, "coupon_id");
-        couponValue = readXmlInteger(d, "coupon_value");
-        couponMinimum = readXmlInteger(d, "coupon_minimum");
-        couponName = readXmlString(d, "coupon_name");
-        couponState = readXmlString(d, "coupon_state");
-        couponDesc = readXmlString(d, "coupon_desc");
-        couponUseValue = readXmlInteger(d, "coupon_use_value");
-        couponRemainValue = readXmlInteger(d, "coupon_remain_value");
-        sendSource = readXmlString(d, "send_source");
-        isPartialUse = readXmlString(d, "is_partial_use");
+        this.deviceInfo = readXmlString(d, "device_info");
+        this.couponStockId = readXmlString(d, "coupon_stock_id");
+        this.couponId = readXmlString(d, "coupon_id");
+        this.couponValue = readXmlInteger(d, "coupon_value");
+        this.couponMinimum = readXmlInteger(d, "coupon_minimum");
+        this.couponName = readXmlString(d, "coupon_name");
+        this.couponState = readXmlString(d, "coupon_state");
+        this.couponDesc = readXmlString(d, "coupon_desc");
+        this.couponUseValue = readXmlInteger(d, "coupon_use_value");
+        this.couponRemainValue = readXmlInteger(d, "coupon_remain_value");
+        this.sendSource = readXmlString(d, "send_source");
+        this.isPartialUse = readXmlString(d, "is_partial_use");
     }
 }
 

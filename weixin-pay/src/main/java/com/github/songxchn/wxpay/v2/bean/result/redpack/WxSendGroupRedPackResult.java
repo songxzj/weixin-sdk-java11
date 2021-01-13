@@ -73,11 +73,11 @@ public class WxSendGroupRedPackResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        mchBillno = readXmlString(d, "mch_billno");
-        wxappid = readXmlString(d, "wxappid");
-        reOpenid = readXmlString(d, "re_openid");
-        totalAmount = readXmlInteger(d, "total_amount");
+        this.mchBillno = readXmlString(d, "mch_billno");
+        this.wxappid = readXmlString(d, "wxappid");
+        this.reOpenid = readXmlString(d, "re_openid");
+        this.totalAmount = readXmlInteger(d, "total_amount");
         //sendTime = readXmlString(d, "send_time");
-        sendListid = readXmlString(d, "send_listid");
+        this.sendListid = readXmlString(d, "send_listid");
     }
 }

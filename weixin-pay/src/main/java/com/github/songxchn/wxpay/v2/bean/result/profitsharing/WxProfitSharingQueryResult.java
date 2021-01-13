@@ -108,13 +108,13 @@ public class WxProfitSharingQueryResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        transactionId = readXmlString(d, "transaction_id");
-        outOrderNo = readXmlString(d, "out_order_no");
-        orderId = readXmlString(d, "order_id");
-        status = readXmlString(d, "status");
-        closeReason = readXmlString(d, "close_reason");
-        receivers = readXmlString(d, "receivers");
-        amount = readXmlInteger(d, "amount");
-        description = readXmlString(d, "description");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.outOrderNo = readXmlString(d, "out_order_no");
+        this.orderId = readXmlString(d, "order_id");
+        this.status = readXmlString(d, "status");
+        this.closeReason = readXmlString(d, "close_reason");
+        this.receivers = readXmlString(d, "receivers");
+        this.amount = readXmlInteger(d, "amount");
+        this.description = readXmlString(d, "description");
     }
 }

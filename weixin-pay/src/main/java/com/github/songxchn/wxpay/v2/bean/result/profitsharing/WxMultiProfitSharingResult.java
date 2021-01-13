@@ -60,9 +60,9 @@ public class WxMultiProfitSharingResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        transactionId = readXmlString(d, "transaction_id");
-        outOrderNo = readXmlString(d, "out_order_no");
-        orderId = readXmlString(d, "order_id");
-        brandMchId = readXmlString(d, "brand_mch_id");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.outOrderNo = readXmlString(d, "out_order_no");
+        this.orderId = readXmlString(d, "order_id");
+        this.brandMchId = readXmlString(d, "brand_mch_id");
     }
 }

@@ -158,17 +158,17 @@ public class WxProfitSharingReturnResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        errorMsg = readXmlString(d, "error_msg");
-        orderId = readXmlString(d, "order_id");
-        outOrderNo = readXmlString(d, "out_order_no");
-        outReturnNo = readXmlString(d, "out_return_no");
-        returnNo = readXmlString(d, "return_no");
-        returnAccountType = readXmlString(d, "return_account_type");
-        returnAccount = readXmlString(d, "return_account");
-        returnAmount = readXmlInteger(d, "return_amount");
-        description = readXmlString(d, "description");
-        result = readXmlString(d, "result");
-        failReason = readXmlString(d, "fail_reason");
-        finishTime = readXmlString(d, "finish_time");
+        this.errorMsg = readXmlString(d, "error_msg");
+        this.orderId = readXmlString(d, "order_id");
+        this.outOrderNo = readXmlString(d, "out_order_no");
+        this.outReturnNo = readXmlString(d, "out_return_no");
+        this.returnNo = readXmlString(d, "return_no");
+        this.returnAccountType = readXmlString(d, "return_account_type");
+        this.returnAccount = readXmlString(d, "return_account");
+        this.returnAmount = readXmlInteger(d, "return_amount");
+        this.description = readXmlString(d, "description");
+        this.result = readXmlString(d, "result");
+        this.failReason = readXmlString(d, "fail_reason");
+        this.finishTime = readXmlString(d, "finish_time");
     }
 }

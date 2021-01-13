@@ -261,25 +261,25 @@ public class WxPayNotifyResult extends BaseWxPayResult {
      */
     @Override
     protected void loadXml(Document d) {
-        deviceInfo = readXmlString(d, "device_info");
-        openid = readXmlString(d, "openid");
-        isSubscribe = readXmlString(d, "is_subscribe");
-        subOpenid = readXmlString(d, "sub_openid");
-        subIsSubscribe = readXmlString(d, "sub_is_subscribe");
-        tradeType = readXmlString(d, "trade_type");
-        bankType = readXmlString(d, "bank_type");
-        totalFee = readXmlInteger(d, "total_fee");
-        feeType = readXmlString(d, "fee_type");
-        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
-        cashFee = readXmlInteger(d, "cash_fee");
-        cashFeeType = readXmlString(d, "cash_fee_type");
-        couponFee = readXmlInteger(d, "coupon_fee");
-        couponCount = readXmlInteger(d, "coupon_count");
-        transactionId = readXmlString(d, "transaction_id");
-        outTradeNo = readXmlString(d, "out_trade_no");
-        attach = readXmlString(d, "attach");
-        timeEnd = readXmlString(d, "time_end");
-        promotionDetail = readXmlString(d, "promotion_detail");
+        this.deviceInfo = readXmlString(d, "device_info");
+        this.openid = readXmlString(d, "openid");
+        this.isSubscribe = readXmlString(d, "is_subscribe");
+        this.subOpenid = readXmlString(d, "sub_openid");
+        this.subIsSubscribe = readXmlString(d, "sub_is_subscribe");
+        this.tradeType = readXmlString(d, "trade_type");
+        this.bankType = readXmlString(d, "bank_type");
+        this.totalFee = readXmlInteger(d, "total_fee");
+        this.feeType = readXmlString(d, "fee_type");
+        this.settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        this.cashFee = readXmlInteger(d, "cash_fee");
+        this.cashFeeType = readXmlString(d, "cash_fee_type");
+        this.couponFee = readXmlInteger(d, "coupon_fee");
+        this.couponCount = readXmlInteger(d, "coupon_count");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.outTradeNo = readXmlString(d, "out_trade_no");
+        this.attach = readXmlString(d, "attach");
+        this.timeEnd = readXmlString(d, "time_end");
+        this.promotionDetail = readXmlString(d, "promotion_detail");
     }
 
     /**

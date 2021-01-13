@@ -49,8 +49,8 @@ public class WxProfitSharingOrderAmountQueryResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        errMsg = readXmlString(d, "err_msg");
-        transactionId = readXmlString(d, "transaction_id");
-        unsplitAmount = readXmlInteger(d, "unsplit_amount");
+        this.errMsg = readXmlString(d, "err_msg");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.unsplitAmount = readXmlInteger(d, "unsplit_amount");
     }
 }

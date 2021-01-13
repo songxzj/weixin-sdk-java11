@@ -213,23 +213,23 @@ public class WxPayMicroPayResult extends BaseWxPayResult {
      */
     @Override
     protected void loadXml(Document d) {
-        openid = readXmlString(d, "openid");
-        isSubscribe = readXmlString(d, "is_subscribe");
-        subOpenid = readXmlString(d, "sub_openid");
-        subIsSubscribe = readXmlString(d, "sub_is_subscribe");
-        tradeType = readXmlString(d, "trade_type");
-        bankType = readXmlString(d, "bank_type");
-        feeType = readXmlString(d, "fee_type");
-        totalFee = readXmlInteger(d, "total_fee");
-        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
-        couponFee = readXmlInteger(d, "coupon_fee");
-        cashFeeType = readXmlString(d, "cash_fee_type");
-        cashFee = readXmlInteger(d, "cash_fee");
-        transactionId = readXmlString(d, "transaction_id");
-        outTradeNo = readXmlString(d, "out_trade_no");
-        attach = readXmlString(d, "attach");
-        timeEnd = readXmlString(d, "time_end");
-        promotionDetail = readXmlString(d, "promotion_detail");
+        this.openid = readXmlString(d, "openid");
+        this.isSubscribe = readXmlString(d, "is_subscribe");
+        this.subOpenid = readXmlString(d, "sub_openid");
+        this.subIsSubscribe = readXmlString(d, "sub_is_subscribe");
+        this.tradeType = readXmlString(d, "trade_type");
+        this.bankType = readXmlString(d, "bank_type");
+        this.feeType = readXmlString(d, "fee_type");
+        this.totalFee = readXmlInteger(d, "total_fee");
+        this.settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        this.couponFee = readXmlInteger(d, "coupon_fee");
+        this.cashFeeType = readXmlString(d, "cash_fee_type");
+        this.cashFee = readXmlInteger(d, "cash_fee");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.outTradeNo = readXmlString(d, "out_trade_no");
+        this.attach = readXmlString(d, "attach");
+        this.timeEnd = readXmlString(d, "time_end");
+        this.promotionDetail = readXmlString(d, "promotion_detail");
     }
 
 }

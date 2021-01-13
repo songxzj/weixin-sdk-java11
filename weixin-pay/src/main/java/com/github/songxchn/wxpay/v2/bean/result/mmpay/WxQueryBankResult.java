@@ -120,15 +120,15 @@ public class WxQueryBankResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        partnerTradeNo = readXmlString(d, "partner_trade_no");
-        paymentNo = readXmlString(d, "payment_no");
-        bankNoMd5 = readXmlString(d, "bank_no_md5");
-        trueNameMd5 = readXmlString(d, "true_name_md5");
-        amount = readXmlInteger(d, "amount");
-        status = readXmlString(d, "status");
-        cmmsAmt = readXmlInteger(d, "cmms_amt");
-        createTime = readXmlString(d, "create_time");
-        paySuccTime = readXmlString(d, "pay_succ_time");
-        reason = readXmlString(d, "reason");
+        this.partnerTradeNo = readXmlString(d, "partner_trade_no");
+        this.paymentNo = readXmlString(d, "payment_no");
+        this.bankNoMd5 = readXmlString(d, "bank_no_md5");
+        this.trueNameMd5 = readXmlString(d, "true_name_md5");
+        this.amount = readXmlInteger(d, "amount");
+        this.status = readXmlString(d, "status");
+        this.cmmsAmt = readXmlInteger(d, "cmms_amt");
+        this.createTime = readXmlString(d, "create_time");
+        this.paySuccTime = readXmlString(d, "pay_succ_time");
+        this.reason = readXmlString(d, "reason");
     }
 }

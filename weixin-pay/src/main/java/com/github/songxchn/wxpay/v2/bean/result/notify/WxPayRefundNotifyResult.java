@@ -29,7 +29,7 @@ public class WxPayRefundNotifyResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        reqInfoStr = readXmlString(d, "req_info");
+        this.reqInfoStr = readXmlString(d, "req_info");
     }
 
     /**
@@ -161,19 +161,19 @@ public class WxPayRefundNotifyResult extends BaseWxPayResult {
 
         @Override
         protected void loadXml(Document d) {
-            transactionId = readXmlString(d, "transaction_id");
-            outTradeNo = readXmlString(d, "out_trade_no");
-            refundId = readXmlString(d, "refund_id");
-            outRefundNo = readXmlString(d, "out_refund_no");
-            totalFee = readXmlInteger(d, "total_fee");
-            settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
-            refundFee = readXmlInteger(d, "refund_fee");
-            settlementRefundFee = readXmlInteger(d, "settlement_refund_fee");
-            refundStatus = readXmlString(d, "refund_status");
-            successTime = readXmlString(d, "success_time");
-            refundRecvAccout = readXmlString(d, "refund_recv_accout");
-            refundAccount = readXmlString(d, "refund_account");
-            refundRequestSource = readXmlString(d, "refund_request_source");
+            this.transactionId = readXmlString(d, "transaction_id");
+            this.outTradeNo = readXmlString(d, "out_trade_no");
+            this.refundId = readXmlString(d, "refund_id");
+            this.outRefundNo = readXmlString(d, "out_refund_no");
+            this.totalFee = readXmlInteger(d, "total_fee");
+            this.settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+            this.refundFee = readXmlInteger(d, "refund_fee");
+            this.settlementRefundFee = readXmlInteger(d, "settlement_refund_fee");
+            this.refundStatus = readXmlString(d, "refund_status");
+            this.successTime = readXmlString(d, "success_time");
+            this.refundRecvAccout = readXmlString(d, "refund_recv_accout");
+            this.refundAccount = readXmlString(d, "refund_account");
+            this.refundRequestSource = readXmlString(d, "refund_request_source");
         }
     }
 

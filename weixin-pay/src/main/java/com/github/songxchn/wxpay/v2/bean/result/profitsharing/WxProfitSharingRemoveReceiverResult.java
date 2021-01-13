@@ -28,6 +28,6 @@ public class WxProfitSharingRemoveReceiverResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        receiver = readXmlString(d, "receiver");
+        this.receiver = readXmlString(d, "receiver");
     }
 }

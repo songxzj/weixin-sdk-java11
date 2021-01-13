@@ -198,21 +198,21 @@ public class WxQueryCouponStockResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        deviceInfo = readXmlString(d, "device_info");
-        couponStockId = readXmlString(d, "coupon_stock_id");
-        couponName = readXmlString(d, "coupon_name");
-        couponValue = readXmlInteger(d, "coupon_value");
-        couponMinimum = readXmlInteger(d, "coupon_mininumn");
-        couponStockStatus = readXmlInteger(d, "coupon_stock_status");
-        couponTotal = readXmlInteger(d, "coupon_total");
-        maxQuota = readXmlInteger(d, "max_quota");
-        isSendNum = readXmlInteger(d, "is_send_num");
-        beginTime = readXmlString(d, "begin_time");
-        endTime = readXmlString(d, "end_time");
-        createTime = readXmlString(d, "create_time");
-        couponBudget = readXmlInteger(d, "coupon_budget");
-        beginTimeT = readXmlString(d, "begin_time_t");
-        endTimeT = readXmlString(d, "end_time_t");
-        createTimeT = readXmlString(d, "create_time_t");
+        this.deviceInfo = readXmlString(d, "device_info");
+        this.couponStockId = readXmlString(d, "coupon_stock_id");
+        this.couponName = readXmlString(d, "coupon_name");
+        this.couponValue = readXmlInteger(d, "coupon_value");
+        this.couponMinimum = readXmlInteger(d, "coupon_mininumn");
+        this.couponStockStatus = readXmlInteger(d, "coupon_stock_status");
+        this.couponTotal = readXmlInteger(d, "coupon_total");
+        this. maxQuota = readXmlInteger(d, "max_quota");
+        this.isSendNum = readXmlInteger(d, "is_send_num");
+        this.beginTime = readXmlString(d, "begin_time");
+        this.endTime = readXmlString(d, "end_time");
+        this.createTime = readXmlString(d, "create_time");
+        this.couponBudget = readXmlInteger(d, "coupon_budget");
+        this.beginTimeT = readXmlString(d, "begin_time_t");
+        this.endTimeT = readXmlString(d, "end_time_t");
+        this.createTimeT = readXmlString(d, "create_time_t");
     }
 }

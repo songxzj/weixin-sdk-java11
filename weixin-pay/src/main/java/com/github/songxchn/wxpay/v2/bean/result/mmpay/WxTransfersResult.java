@@ -80,11 +80,11 @@ public class WxTransfersResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        mchAppid = readXmlString(d, "mch_appid");
-        mchid = readXmlString(d, "mchid");
-        deviceInfo = readXmlString(d, "device_info");
-        partnerTradeNo = readXmlString(d, "partner_trade_no");
-        paymentNo = readXmlString(d, "payment_no");
-        paymentTime = readXmlString(d, "payment_time");
+        this.mchAppid = readXmlString(d, "mch_appid");
+        this.mchid = readXmlString(d, "mchid");
+        this.deviceInfo = readXmlString(d, "device_info");
+        this.partnerTradeNo = readXmlString(d, "partner_trade_no");
+        this.paymentNo = readXmlString(d, "payment_no");
+        this.paymentTime = readXmlString(d, "payment_time");
     }
 }

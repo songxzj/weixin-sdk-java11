@@ -50,8 +50,8 @@ public class WxProfitSharingMerchantRatioQueryResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        errMsg = readXmlString(d, "err_msg");
-        maxRatio = readXmlInteger(d, "max_ratio");
-        brandMchId = readXmlString(d, "brand_mch_id");
+        this.errMsg = readXmlString(d, "err_msg");
+        this.maxRatio = readXmlInteger(d, "max_ratio");
+        this.brandMchId = readXmlString(d, "brand_mch_id");
     }
 }

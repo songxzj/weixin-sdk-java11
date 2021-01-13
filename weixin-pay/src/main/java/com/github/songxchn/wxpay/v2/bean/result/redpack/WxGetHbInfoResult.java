@@ -194,23 +194,23 @@ public class WxGetHbInfoResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        mchBillno = readXmlString(d, "mch_billno");
-        detailId = readXmlString(d, "detail_id");
-        status = readXmlString(d, "status");
-        sendType = readXmlString(d, "send_type");
-        hbType = readXmlString(d, "hb_type");
-        totalNum = readXmlInteger(d, "total_num");
-        totalAmount = readXmlInteger(d, "total_amount");
-        reason = readXmlString(d, "reason");
-        sendTime = readXmlString(d, "send_time");
-        refundTime = readXmlString(d, "refund_time");
-        refundAmount = readXmlInteger(d, "refund_amount");
-        wishing = readXmlString(d, "wishing");
-        remark = readXmlString(d, "remark");
-        actName = readXmlString(d, "act_name");
+        this.mchBillno = readXmlString(d, "mch_billno");
+        this.detailId = readXmlString(d, "detail_id");
+        this.status = readXmlString(d, "status");
+        this.sendType = readXmlString(d, "send_type");
+        this.hbType = readXmlString(d, "hb_type");
+        this.totalNum = readXmlInteger(d, "total_num");
+        this.totalAmount = readXmlInteger(d, "total_amount");
+        this.reason = readXmlString(d, "reason");
+        this.sendTime = readXmlString(d, "send_time");
+        this.refundTime = readXmlString(d, "refund_time");
+        this.refundAmount = readXmlInteger(d, "refund_amount");
+        this.wishing = readXmlString(d, "wishing");
+        this.remark = readXmlString(d, "remark");
+        this.actName = readXmlString(d, "act_name");
 
         NodeList nodeList = d.getElementsByTagName("hbinfo");
-        hblist = Lists.newArrayList();
+        this.hblist = Lists.newArrayList();
 
         for (int i = 0, j = nodeList.getLength(); i < j; i++) {
             Node node = nodeList.item(i);
@@ -218,7 +218,7 @@ public class WxGetHbInfoResult extends BaseWxPayResult {
             hbInfo.openid = readXmlString(node, "openid");
             hbInfo.amount = readXmlInteger(node, "amount");
             hbInfo.receiveTime = readXmlString(node, "rcv_time");
-            hblist.add(hbInfo);
+            this.hblist.add(hbInfo);
         }
     }
 

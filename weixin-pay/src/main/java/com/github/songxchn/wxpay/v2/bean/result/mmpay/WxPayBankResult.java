@@ -56,9 +56,9 @@ public class WxPayBankResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        partnerTradeNo = readXmlString(d, "partner_trade_no");
-        amount = readXmlInteger(d, "amount");
-        paymentNo = readXmlString(d, "payment_no");
-        cmmsAmt = readXmlInteger(d, "cmms_amt");
+        this.partnerTradeNo = readXmlString(d, "partner_trade_no");
+        this.amount = readXmlInteger(d, "amount");
+        this.paymentNo = readXmlString(d, "payment_no");
+        this.cmmsAmt = readXmlInteger(d, "cmms_amt");
     }
 }

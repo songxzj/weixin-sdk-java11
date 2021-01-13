@@ -209,20 +209,20 @@ public class WxPayRefundResult extends BaseWxPayResult {
 
     @Override
     protected void loadXml(Document d) {
-        transactionId = readXmlString(d, "transaction_id");
-        outTradeNo = readXmlString(d, "out_trade_no");
-        outRefundNo = readXmlString(d, "out_refund_no");
-        refundId = readXmlString(d, "refund_id");
-        refundFee = readXmlInteger(d, "refund_fee");
-        settlementRefundFee = readXmlInteger(d, "settlement_refund_fee");
-        totalFee = readXmlInteger(d, "total_fee");
-        settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
-        feeType = readXmlString(d, "fee_type");
-        cashFee = readXmlInteger(d, "cash_fee");
-        cashRefundFee = readXmlInteger(d, "cash_refund_fee");
-        couponRefundCount = readXmlInteger(d, "coupon_refund_count");
-        couponRefundFee = readXmlInteger(d, "coupon_refund_fee");
-        promotionDetail = readXmlString(d, "promotion_detail");
+        this.transactionId = readXmlString(d, "transaction_id");
+        this.outTradeNo = readXmlString(d, "out_trade_no");
+        this.outRefundNo = readXmlString(d, "out_refund_no");
+        this.refundId = readXmlString(d, "refund_id");
+        this.refundFee = readXmlInteger(d, "refund_fee");
+        this.settlementRefundFee = readXmlInteger(d, "settlement_refund_fee");
+        this.totalFee = readXmlInteger(d, "total_fee");
+        this.settlementTotalFee = readXmlInteger(d, "settlement_total_fee");
+        this.feeType = readXmlString(d, "fee_type");
+        this.cashFee = readXmlInteger(d, "cash_fee");
+        this.cashRefundFee = readXmlInteger(d, "cash_refund_fee");
+        this.couponRefundCount = readXmlInteger(d, "coupon_refund_count");
+        this.couponRefundFee = readXmlInteger(d, "coupon_refund_fee");
+        this.promotionDetail = readXmlString(d, "promotion_detail");
     }
 
     /**
