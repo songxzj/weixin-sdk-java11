@@ -285,7 +285,8 @@ public class WxPayClient {
      */
     public <T extends BaseWxPayResult> T execute(BaseWxPayRequest<T> request) throws WxErrorException {
         checkAndSign(request);
-        String requestUrl = getServerUrl() + request.routing();
+        String serverUrl = StringUtils.isBlank(request.ownServerUrl()) ? getServerUrl() : request.ownServerUrl();
+        String requestUrl = serverUrl + request.routing();
         byte[] bytes = post(requestUrl, request.toXml(), request.isUseKey());
 
         return verifyAndGetResult(bytes, request);
@@ -334,9 +335,9 @@ public class WxPayClient {
     /**
      * 发送post请求，得到响应数据
      *
-     * @param requestUrl       请求地址
-     * @param requestContent   请求信息
-     * @param isUseKey         是否使用证书
+     * @param requestUrl     请求地址
+     * @param requestContent 请求信息
+     * @param isUseKey       是否使用证书
      * @return 返回请求结果二进制数据
      * @throws WxErrorException the wx pay exception
      */
@@ -449,7 +450,7 @@ public class WxPayClient {
      */
     private <T extends BaseWxPayResult> T verifyAndGetResult(byte[] bytes, BaseWxPayRequest<T> request) throws WxErrorException {
         String responseContent = new String(bytes, StandardCharsets.UTF_8);
-        if (!StringUtils.startsWith(responseContent, "<xml>")) {
+        if (!StringUtils.startsWith(responseContent, "<")) {
             return BaseWxPayResult.createStreamInstance(bytes, request.getResultClass());
         }
 

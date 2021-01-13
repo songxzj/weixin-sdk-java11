@@ -140,6 +140,12 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
         return false;
     }
 
+    /**
+     * 是否有自己特有的请求域名
+     */
+    public String ownServerUrl() {
+        return null;
+    }
 
     /**
      * 将单位为元转换为单位为分.
