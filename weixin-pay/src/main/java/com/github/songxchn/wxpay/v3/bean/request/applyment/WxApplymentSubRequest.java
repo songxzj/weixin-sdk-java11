@@ -4,9 +4,9 @@ import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.bean.BaseV3Inner;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 
-import com.github.songxchn.wxpay.v3.enums.IDDocTypeEnum;
-import com.github.songxchn.wxpay.v3.enums.SalesScenesTypeEnum;
-import com.github.songxchn.wxpay.v3.enums.SubjectTypeEnum;
+import com.github.songxchn.wxpay.v3.bean.request.applyment.enums.IDDocTypeEnum;
+import com.github.songxchn.wxpay.v3.bean.request.applyment.enums.SalesScenesTypeEnum;
+import com.github.songxchn.wxpay.v3.bean.request.applyment.enums.SubjectTypeEnum;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentSubResult;
 import com.github.songxchn.common.exception.WxErrorException;

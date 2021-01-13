@@ -6,7 +6,7 @@ import com.github.songxchn.common.bean.BaseV3Inner;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.result.applyment.WxApplymentAuthorizeSubResult;
-import com.github.songxchn.wxpay.v3.enums.AuthorizeSubjectTypeEnum;
+import com.github.songxchn.wxpay.v3.bean.request.applyment.enums.AuthorizeSubjectTypeEnum;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
