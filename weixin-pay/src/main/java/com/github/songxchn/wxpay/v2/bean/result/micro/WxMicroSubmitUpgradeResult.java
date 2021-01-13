@@ -1,5 +1,7 @@
-package com.github.songxchn.wxpay.v2.bean.result;
+/*
+package com.github.songxchn.wxpay.v2.bean.result.micro;
 
+import com.github.songxchn.wxpay.v2.bean.result.BaseWxPayResult;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,3 +21,4 @@ public class WxMicroSubmitUpgradeResult extends BaseWxPayResult {
     protected void loadXml(Document d) {
     }
 }
+*/

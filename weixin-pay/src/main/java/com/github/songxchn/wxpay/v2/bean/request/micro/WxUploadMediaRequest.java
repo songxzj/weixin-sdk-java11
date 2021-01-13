@@ -1,4 +1,5 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+/*
+package com.github.songxchn.wxpay.v2.bean.request.micro;
 
 
 import cn.hutool.core.util.ObjectUtil;
@@ -7,7 +8,8 @@ import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.annotation.SignExclude;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxMediaConstants;
-import com.github.songxchn.wxpay.v2.bean.result.WxUploadMediaResult;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.micro.WxUploadMediaResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
@@ -20,10 +22,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
+*/
 /**
  * 图片上传API (签名方式用MD5返回验签才不会报错)
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/xiaowei.php?chapter=19_9">
- */
+ *//*
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -36,20 +40,24 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
     private static final long serialVersionUID = -3793459253812619225L;
 
 
-    /**
+    */
+/**
      * 图片文件
-     */
+     *//*
+
     @Required
     @SignExclude
     private File file;
 
-    /**
+    */
+/**
      * 媒体文件内容hash值
      * media_hash
      * 是
      * String(32)
      * 根据媒体文件内容进行MD5计算后的值，注意小写
-     */
+     *//*
+
     @Required
     @XStreamAlias("media_hash")
     private String mediaHash;
@@ -127,3 +135,4 @@ public class WxUploadMediaRequest extends BaseWxPayRequest<WxUploadMediaResult> 
     }
 
 }
+*/

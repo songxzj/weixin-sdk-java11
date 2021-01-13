@@ -1,7 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+/*
+package com.github.songxchn.wxpay.v2.bean.request.micro;
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxMicroGetStateResult;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.micro.WxMicroGetStateResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -11,10 +13,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
 
+*/
 /**
  * 小微商户查询申请状态
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/xiaowei.php?chapter=19_3">
- */
+ *//*
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -27,38 +31,44 @@ public class WxMicroGetStateRequest extends BaseWxPayRequest<WxMicroGetStateResu
     private static final long serialVersionUID = 5493243051548605837L;
 
 
-    /**
+    */
+/**
      * 接口版本号
      * version
      * 是
      * String(32)
      * 1.0
      * 默认值1.0
-     */
+     *//*
+
     @Builder.Default
     @Required
     @XStreamAlias("version")
     private String version = "1.0";
 
-    /**
+    */
+/**
      * 商户申请单号
      * applyment_id
      * 否
      * String(32)
      * 1230000109
      * 微信支付分配的申请单号。applyment_id、business_code两者不能同时为空。
-     */
+     *//*
+
     @XStreamAlias("applyment_id")
     private String applymentId;
 
-    /**
+    */
+/**
      * 业务申请编号
      * business_code
      * 否
      * String(32)
      * 123456
      * 服务商自定义的商户唯一编号。当applyment_id已填写时，此字段无效。
-     */
+     *//*
+
     @XStreamAlias("business_code")
     private String businessCode;
 
@@ -108,3 +118,4 @@ public class WxMicroGetStateRequest extends BaseWxPayRequest<WxMicroGetStateResu
         return true;
     }
 }
+*/

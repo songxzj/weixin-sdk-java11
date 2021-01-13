@@ -117,30 +117,6 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
     public abstract boolean isUseKey();
 
     /**
-     * 签名时，是否忽略appid.
-     * 以防弄错 WxPayClient 构造函数
-     */
-    public boolean isIgnoreAppid() {
-        return false;
-    }
-
-    /**
-     * 签名时，是否忽略sub_appid.
-     * 以防弄错 WxPayClient 构造函数
-     */
-    public boolean isIgnoreSubAppId() {
-        return false;
-    }
-
-    /**
-     * 签名时，是否忽略sub_mch_id.
-     * 以防弄错 WxPayClient 构造函数
-     */
-    public boolean isIgnoreSubMchId() {
-        return false;
-    }
-
-    /**
      * 是否有自己特有的请求域名
      */
     public String ownServerUrl() {

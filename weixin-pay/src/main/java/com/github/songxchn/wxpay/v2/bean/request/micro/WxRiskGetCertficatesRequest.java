@@ -1,7 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+/*
+package com.github.songxchn.wxpay.v2.bean.request.micro;
 
 
-import com.github.songxchn.wxpay.v2.bean.result.WxRiskGetCertficatesResult;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.micro.WxRiskGetCertficatesResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.Builder;
@@ -12,10 +14,12 @@ import lombok.experimental.Accessors;
 
 import java.util.Map;
 
+*/
 /**
  * 获取平台证书
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/xiaowei.php?chapter=19_11">
- */
+ *//*
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -65,3 +69,4 @@ public class WxRiskGetCertficatesRequest extends BaseWxPayRequest<WxRiskGetCertf
         return true;
     }
 }
+*/

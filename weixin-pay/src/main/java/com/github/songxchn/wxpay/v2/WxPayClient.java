@@ -302,23 +302,21 @@ public class WxPayClient {
      */
     private <T extends BaseWxPayResult> void checkAndSign(BaseWxPayRequest<T> request) throws WxErrorException {
         request.checkFields();
-        if (!request.isIgnoreAppid()) {
-            if (StringUtils.isBlank(request.getAppid())) {
-                request.setAppid(this.appId);
-            }
+
+        if (StringUtils.isBlank(request.getAppid())) {
+            request.setAppid(this.appId);
         }
+
         if (StringUtils.isBlank(request.getMchId())) {
             request.setMchId(this.mchId);
         }
-        if (!request.isIgnoreSubAppId()) {
-            if (StringUtils.isBlank(request.getSubAppId())) {
-                request.setSubAppId(this.subAppId);
-            }
+
+        if (StringUtils.isBlank(request.getSubAppId())) {
+            request.setSubAppId(this.subAppId);
         }
-        if (!request.isIgnoreSubMchId()) {
-            if (StringUtils.isBlank(request.getSubMchId())) {
-                request.setSubMchId(this.subMchId);
-            }
+
+        if (StringUtils.isBlank(request.getSubMchId())) {
+            request.setSubMchId(this.subMchId);
         }
 
         setRequestSignType(request);

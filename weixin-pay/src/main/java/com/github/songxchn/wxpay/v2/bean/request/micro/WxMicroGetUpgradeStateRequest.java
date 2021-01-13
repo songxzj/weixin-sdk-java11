@@ -1,7 +1,9 @@
-package com.github.songxchn.wxpay.v2.bean.request;
+/*
+package com.github.songxchn.wxpay.v2.bean.request.micro;
 
 import com.github.songxchn.common.annotation.Required;
-import com.github.songxchn.wxpay.v2.bean.result.WxMicroGetUpgradeStateResult;
+import com.github.songxchn.wxpay.v2.bean.request.BaseWxPayRequest;
+import com.github.songxchn.wxpay.v2.bean.result.micro.WxMicroGetUpgradeStateResult;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import lombok.*;
@@ -9,10 +11,12 @@ import lombok.experimental.Accessors;
 
 import java.util.Map;
 
+*/
 /**
  * 小微商户查询升级申请单状态
  * <a href="https://pay.weixin.qq.com/wiki/doc/api/xiaowei.php?chapter=28_3&index=3">
- */
+ *//*
+
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -23,14 +27,16 @@ import java.util.Map;
 @Accessors(chain = true)
 public class WxMicroGetUpgradeStateRequest extends BaseWxPayRequest<WxMicroGetUpgradeStateResult> {
     private static final long serialVersionUID = -8597240185724291301L;
-    /**
+    */
+/**
      * 接口版本号
      * version
      * 是
      * String(32)
      * 1.0
      * 默认值1.0
-     */
+     *//*
+
     @Builder.Default
     @Required
     @XStreamAlias("version")
@@ -72,3 +78,4 @@ public class WxMicroGetUpgradeStateRequest extends BaseWxPayRequest<WxMicroGetUp
     }
 
 }
+*/
