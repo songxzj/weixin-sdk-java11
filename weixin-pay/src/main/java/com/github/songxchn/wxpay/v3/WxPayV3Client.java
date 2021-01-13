@@ -10,7 +10,7 @@ import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.util.CertKeyUtils;
 import com.github.songxchn.wxpay.util.DecryptUtils;
-import com.github.songxchn.wxpay.util.SensitiveEncryptUtils;
+import com.github.songxchn.wxpay.util.SensitiveUtils;
 import com.github.songxchn.wxpay.util.SignUtils;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.request.WxCertificatesV3Request;
@@ -258,8 +258,11 @@ public class WxPayV3Client {
         String token = checkAndSignAndGetToken(request);
         String requestUrl = getServerUrl() + request.routing();
         String responseContent = restExchange(requestUrl, request, token);
-
-        return BaseWxPayV3Result.fromJson(responseContent, request.getResultClass());
+        T result = BaseWxPayV3Result.fromJson(responseContent, request.getResultClass());
+        if (request.isSensitiveEncrypt()) {
+            SensitiveUtils.decryptFieldsV3(result, this.privateKey);
+        }
+        return result;
     }
 
 
@@ -275,7 +278,7 @@ public class WxPayV3Client {
     private <T extends BaseWxPayV3Result> String checkAndSignAndGetToken(BaseWxPayV3Request<T> request) throws WxErrorException {
         request.checkFields();
         if (request.isSensitiveEncrypt()) {
-            SensitiveEncryptUtils.encryptFieldsV3(request, getWxCertificate(null));
+            SensitiveUtils.encryptFieldsV3(request, getWxCertificate(null));
         }
 
         long timestamp = System.currentTimeMillis() / 1000;

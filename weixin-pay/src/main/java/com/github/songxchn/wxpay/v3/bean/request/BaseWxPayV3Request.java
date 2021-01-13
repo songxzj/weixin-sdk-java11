@@ -40,17 +40,22 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
      * @return the string
      */
     public String toJsonString() {
-        if (HttpMethod.POST.equals(getHttpMethod()) || HttpMethod.PUT.equals(getHttpMethod())) {
+        if (isCreateJson()) {
             return WxGsonBuilder.create().toJson(this);
         }
         return null;
     }
 
     public String toSignString() {
-        if (HttpMethod.POST.equals(getHttpMethod()) || HttpMethod.PUT.equals(getHttpMethod())) {
+        if (isCreateJson()) {
             return WxGsonBuilder.create().toJson(this);
         }
         return "";
+    }
+
+    private boolean isCreateJson() {
+        HttpMethod httpMethod = getHttpMethod();
+        return HttpMethod.POST.equals(httpMethod) || HttpMethod.PUT.equals(httpMethod) || HttpMethod.PATCH.equals(httpMethod);
     }
 
 

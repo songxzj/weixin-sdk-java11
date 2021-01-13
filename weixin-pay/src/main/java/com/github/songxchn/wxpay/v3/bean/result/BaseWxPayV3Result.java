@@ -18,11 +18,18 @@ public abstract class BaseWxPayV3Result implements Serializable {
     public void compose() {
     }
 
+    /**
+     * 默认不进行敏感加密
+     */
+    public boolean isSensitiveEncrypt() {
+        return false;
+    }
+
     public static <T extends BaseWxPayV3Result> T fromJson(String jsonString, Class<T> clz) throws WxErrorException {
         try {
             BaseWxPayV3Result t = WxGsonBuilder.create().fromJson(jsonString, clz);
             if (t == null) {
-                return clz.newInstance();
+                t = clz.newInstance();
             }
             t.compose();
             return (T) t;
