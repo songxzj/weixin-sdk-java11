@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxGoldPlanOpenAdvertisingShowResult extends BaseWxPayV3Result {
+public class WxGoldPlanAdvertisingShowResult extends BaseWxPayV3Result {
     private static final long serialVersionUID = -3522424834110281774L;
 
 }
