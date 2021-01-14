@@ -11,8 +11,5 @@ import lombok.NoArgsConstructor;
 public class WxSmartGuideAssignResult extends BaseWxPayV3Result {
     private static final long serialVersionUID = 2095001639109372467L;
 
-    @Override
-    public boolean isSensitiveEncrypt() {
-        return true;
-    }
+
 }

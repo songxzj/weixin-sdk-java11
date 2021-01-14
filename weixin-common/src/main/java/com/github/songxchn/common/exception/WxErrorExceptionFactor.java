@@ -78,7 +78,9 @@ public class WxErrorExceptionFactor implements Serializable {
     public static final WxErrorExceptionFactor NOTIFY_CONTENT_ERROR =
             new WxErrorExceptionFactor(NOTIFY_CONTENT_ERROR_CODE, "回调通知数据错误");
 
-
+    public static final String CREATE_STREAM_INSTANCE_ERROR_CODE = "80017";
+    public static final WxErrorExceptionFactor CREATE_STREAM_INSTANCE_ERROR =
+            new WxErrorExceptionFactor(CREATE_STREAM_INSTANCE_ERROR_CODE, "创建对象错误");
 
 
 }

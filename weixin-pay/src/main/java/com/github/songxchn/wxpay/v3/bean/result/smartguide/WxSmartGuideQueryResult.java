@@ -53,6 +53,10 @@ public class WxSmartGuideQueryResult extends BaseWxPayV3Result {
     @SerializedName("offset")
     private Integer offset;
 
+    @Override
+    public boolean isSensitiveEncrypt() {
+        return true;
+    }
 
     /**
      * 服务人员

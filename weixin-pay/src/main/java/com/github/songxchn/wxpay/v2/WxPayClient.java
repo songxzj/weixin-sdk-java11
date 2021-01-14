@@ -1,10 +1,9 @@
 package com.github.songxchn.wxpay.v2;
 
-
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
+import com.github.songxchn.common.util.WxIOUtils;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.util.DecryptUtils;
 import com.github.songxchn.wxpay.util.SignUtils;
@@ -355,9 +354,7 @@ public class WxPayClient {
                 throw new WxErrorException(WxErrorExceptionFactor.HTTP_REQUEST_FAIL_CODE, "http status code error: " + responseEntity.getStatusCodeValue());
             }
             byte[] bytes = responseEntity.getBody();
-            if (!ObjectUtil.isNull(bytes)) {
-                responseContent = new String(bytes, StandardCharsets.UTF_8);
-            }
+            responseContent = WxIOUtils.bytesToString(bytes);
 
             return bytes;
         } catch (Exception e) {
@@ -447,8 +444,8 @@ public class WxPayClient {
      * @throws WxErrorException
      */
     private <T extends BaseWxPayResult> T verifyAndGetResult(byte[] bytes, BaseWxPayRequest<T> request) throws WxErrorException {
-        String responseContent = new String(bytes, StandardCharsets.UTF_8);
-        if (!StringUtils.startsWith(responseContent, "<")) {
+        String responseContent = WxIOUtils.bytesToString(bytes);
+        if (!(StringUtils.startsWith(responseContent, "<") && StringUtils.endsWith(responseContent, ">"))) {
             return BaseWxPayResult.createStreamInstance(bytes, request.getResultClass());
         }
 
