@@ -3,6 +3,7 @@ package com.github.songxchn.wxpay.v3.bean.request.goldplan;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
+import com.github.songxchn.wxpay.v3.bean.request.goldplan.enums.SwitchOperationTypeEnum;
 import com.github.songxchn.wxpay.v3.bean.result.goldplan.WxGoldPlanResult;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -42,7 +43,7 @@ public class WxGoldPlanRequest extends BaseWxPayV3Request<WxGoldPlanResult> {
      */
     @Required
     @SerializedName("operation_type")
-    private String operationType;
+    private SwitchOperationTypeEnum operationType;
 
     @Override
     public String routing() {

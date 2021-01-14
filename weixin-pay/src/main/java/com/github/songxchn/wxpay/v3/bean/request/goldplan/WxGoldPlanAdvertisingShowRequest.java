@@ -5,7 +5,7 @@ import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.request.goldplan.enums.AdvertisingShowOperateTypeEnum;
+import com.github.songxchn.wxpay.v3.bean.request.goldplan.enums.SwitchOperationTypeEnum;
 import com.github.songxchn.wxpay.v3.bean.result.goldplan.WxGoldPlanAdvertisingShowResult;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
@@ -37,7 +37,7 @@ public class WxGoldPlanAdvertisingShowRequest extends BaseWxPayV3Request<WxGoldP
      */
     @Required
     @GsonExclude
-    private AdvertisingShowOperateTypeEnum advertisingShowOperateTypeEnum;
+    private SwitchOperationTypeEnum operationType;
 
     /**
      * 特约商户号
@@ -60,7 +60,7 @@ public class WxGoldPlanAdvertisingShowRequest extends BaseWxPayV3Request<WxGoldP
 
     @Override
     public String routing() {
-        return "/v3/goldplan/merchants/" + this.advertisingShowOperateTypeEnum.name().toLowerCase() + "-advertising-show";
+        return "/v3/goldplan/merchants/" + this.operationType.name().toLowerCase() + "-advertising-show";
     }
 
     @Override
@@ -70,10 +70,10 @@ public class WxGoldPlanAdvertisingShowRequest extends BaseWxPayV3Request<WxGoldP
 
     @Override
     public HttpMethod getHttpMethod() {
-        if (AdvertisingShowOperateTypeEnum.OPEN.equals(this.advertisingShowOperateTypeEnum)) {
+        if (SwitchOperationTypeEnum.OPEN.equals(this.operationType)) {
             return HttpMethod.PATCH;
         }
-        if (AdvertisingShowOperateTypeEnum.CLOSE.equals(this.advertisingShowOperateTypeEnum)) {
+        if (SwitchOperationTypeEnum.CLOSE.equals(this.operationType)) {
             return HttpMethod.POST;
         }
         return null;
@@ -81,7 +81,7 @@ public class WxGoldPlanAdvertisingShowRequest extends BaseWxPayV3Request<WxGoldP
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-        if (AdvertisingShowOperateTypeEnum.OPEN.equals(this.advertisingShowOperateTypeEnum)) {
+        if (SwitchOperationTypeEnum.OPEN.equals(this.operationType)) {
             if (CollectionUtils.isEmpty(this.advertisingIndustryFilters) || !(this.advertisingIndustryFilters.size() > 0 && this.advertisingIndustryFilters.size() < 4)) {
                 throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "开通广告展示时，同业过滤标签最少传一个，最多三个");
             }

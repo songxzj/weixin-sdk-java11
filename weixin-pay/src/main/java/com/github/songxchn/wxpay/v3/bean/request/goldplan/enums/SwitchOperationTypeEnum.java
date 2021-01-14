@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AdvertisingShowOperateTypeEnum {
+public enum SwitchOperationTypeEnum {
 
     OPEN,
 
