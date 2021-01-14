@@ -17,7 +17,10 @@ import java.io.File;
  * 图片上传API
  * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/chapter3_1.shtml">
  * 视频上传API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/chapter3_2.shtml"><
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/chapter3_2.shtml">
+ *
+ * 商户上传反馈图片API
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/wxpay/tool/merchant-service/chapter5_1.shtml">
  */
 
 
@@ -37,6 +40,12 @@ public class WxMediaUploadRequest extends BaseWxPayV3Request<WxMediaUploadResult
     @Required
     @GsonExclude
     private File file;
+
+    /**
+     * 区分商户上传反馈图片接口
+     */
+    @GsonExclude
+    private Boolean isFeedback;
 
     /**
      * 文件名称
@@ -59,6 +68,9 @@ public class WxMediaUploadRequest extends BaseWxPayV3Request<WxMediaUploadResult
 
     @Override
     public String routing() {
+        if (this.isFeedback != null && this.isFeedback) {
+            return "/v3/merchant-service/images/upload";
+        }
 
         if (isImageFile()) {
             return "/v3/merchant/media/upload";
