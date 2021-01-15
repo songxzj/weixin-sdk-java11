@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 2887625684715572375L;
+public class WxPayScoreServiceOrderModifyResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = -7173079231487317319L;
 
     /**
      * 应用ID
@@ -79,6 +79,15 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     private String stateDescription;
 
     /**
+     * 商户收款总金额
+     * total_amount
+     * int64
+     * 否
+     */
+    @SerializedName("total_amount")
+    private Integer totalAmount;
+
+    /**
      * 后付费项目
      * post_payments
      * array
@@ -123,6 +132,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @SerializedName("location")
     private Location location;
 
+
     /**
      * 商户数据包	attach
      * string[1,256]
@@ -150,13 +160,23 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     private String orderId;
 
     /**
-     * 跳转微信侧小程序订单数据
-     * package
-     * string[1,300]
-     * 是
+     * 是否需要收款
+     * need_collection
+     * bool
+     * 条件选填
      */
-    @SerializedName("package")
-    private String packageValue;
+    @SerializedName("need_collection")
+    private Boolean needCollection;
+
+    /**
+     * 收款信息
+     * collection
+     * object
+     * 条件选填
+     */
+    @SerializedName("collection")
+    private Collection collection;
+
 
     /**
      * 后付费项目
@@ -164,7 +184,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class PostPayment implements Serializable {
-        private static final long serialVersionUID = -4694931039858907062L;
+        private static final long serialVersionUID = 3577993284180228184L;
 
         /**
          * 付费项目名称
@@ -209,7 +229,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class PostDiscount implements Serializable {
-        private static final long serialVersionUID = -1235417652093452035L;
+        private static final long serialVersionUID = 1317212739959343141L;
 
         /**
          * 优惠名称
@@ -254,7 +274,8 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class TimeRange implements Serializable {
-        private static final long serialVersionUID = -4530028594283254202L;
+        private static final long serialVersionUID = -4379067513081471305L;
+
         /**
          * 服务开始时间
          * start_time
@@ -298,7 +319,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class Location implements Serializable {
-        private static final long serialVersionUID = 275418943155817014L;
+        private static final long serialVersionUID = -3175687538155785470L;
 
         /**
          * 服务开始地点
@@ -325,7 +346,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @Data
     @NoArgsConstructor
     public static class RiskFund implements Serializable {
-        private static final long serialVersionUID = 5853198509551872666L;
+        private static final long serialVersionUID = 6818412991914115766L;
 
         /**
          * 风险金名称
@@ -353,6 +374,114 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
          */
         @SerializedName("description")
         private String description;
+    }
+
+    /**
+     * 收款信息
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Collection implements Serializable {
+        private static final long serialVersionUID = 941227224643811080L;
+
+        /**
+         * 收款状态
+         * state
+         * string[1,32]
+         * 是
+         */
+        @SerializedName("state")
+        private String state;
+
+        /**
+         * 总收款金额
+         * total_amount
+         * int64
+         * 否
+         */
+        @SerializedName("total_amount")
+        private Integer totalAmount;
+
+        /**
+         * 待收金额
+         * paying_amount
+         * int64
+         * 否
+         */
+        @SerializedName("paying_amount")
+        private Integer payingAmount;
+
+        /**
+         * 已收金额
+         * paid_amount
+         * int64
+         * 否
+         */
+        @SerializedName("paid_amount")
+        private Integer paidAmount;
+
+        /**
+         * 收款明细列表
+         * details
+         * array
+         * 否
+         */
+        @SerializedName("details")
+        private List<Detail> details;
+    }
+
+    /**
+     * 收款明细
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Detail implements Serializable {
+        private static final long serialVersionUID = -3133792388164156405L;
+
+        /**
+         * 收款序号
+         * seq
+         * int
+         * 否
+         */
+        @SerializedName("seq")
+        private Integer seq;
+
+        /**
+         * 单笔收款金额
+         * amount
+         * int64
+         * 否
+         */
+        @SerializedName("amount")
+        private Integer amount;
+
+        /**
+         * 收款成功渠道
+         * paid_type
+         * string[1,32]
+         * 否
+         */
+        @SerializedName("paid_type")
+        private String paidType;
+
+        /**
+         * 收款成功时间
+         * paid_time
+         * string[1,14]
+         * 否
+         */
+        @SerializedName("paid_time")
+        private String paidTime;
+
+        /**
+         * 微信支付交易单号
+         * transaction_id
+         * string[1,200]
+         * 否
+         */
+        @SerializedName("transaction_id")
+        private String transactionId;
     }
 
 

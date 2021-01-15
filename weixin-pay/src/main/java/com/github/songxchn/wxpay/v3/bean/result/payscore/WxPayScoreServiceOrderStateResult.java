@@ -12,8 +12,8 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 2887625684715572375L;
+public class WxPayScoreServiceOrderStateResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = -3817731917565636784L;
 
     /**
      * 应用ID
@@ -79,6 +79,15 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     private String stateDescription;
 
     /**
+     * 商户收款总金额
+     * total_amount
+     * int64
+     * 否
+     */
+    @SerializedName("total_amount")
+    private Integer totalAmount;
+
+    /**
      * 后付费项目
      * post_payments
      * array
@@ -123,6 +132,7 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     @SerializedName("location")
     private Location location;
 
+
     /**
      * 商户数据包	attach
      * string[1,256]
@@ -150,13 +160,31 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
     private String orderId;
 
     /**
-     * 跳转微信侧小程序订单数据
-     * package
-     * string[1,300]
-     * 是
+     * 是否需要收款
+     * need_collection
+     * bool
+     * 条件选填
      */
-    @SerializedName("package")
-    private String packageValue;
+    @SerializedName("need_collection")
+    private Boolean needCollection;
+
+    /**
+     * 收款信息
+     * collection
+     * object
+     * 条件选填
+     */
+    @SerializedName("collection")
+    private Collection collection;
+
+    /**
+     * 用户标识
+     * openid
+     * string[1,128]
+     * 否
+     */
+    @SerializedName("openid")
+    private String openid;
 
     /**
      * 后付费项目
@@ -355,5 +383,283 @@ public class WxPayScoreServiceOrderResult extends BaseWxPayV3Result {
         private String description;
     }
 
+    /**
+     * 收款信息
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Collection implements Serializable {
+        private static final long serialVersionUID = -6425746106571022141L;
+
+        /**
+         * 收款状态
+         * state
+         * string[1,32]
+         * 是
+         */
+        @SerializedName("state")
+        private String state;
+
+        /**
+         * 总收款金额
+         * total_amount
+         * int64
+         * 否
+         */
+        @SerializedName("total_amount")
+        private Integer totalAmount;
+
+        /**
+         * 待收金额
+         * paying_amount
+         * int64
+         * 否
+         */
+        @SerializedName("paying_amount")
+        private Integer payingAmount;
+
+        /**
+         * 已收金额
+         * paid_amount
+         * int64
+         * 否
+         */
+        @SerializedName("paid_amount")
+        private Integer paidAmount;
+
+        /**
+         * 收款明细列表
+         * details
+         * array
+         * 否
+         */
+        @SerializedName("details")
+        private List<Detail> details;
+    }
+
+    /**
+     * 收款明细
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Detail implements Serializable {
+        private static final long serialVersionUID = 399893006872476354L;
+
+        /**
+         * 收款序号
+         * seq
+         * int
+         * 否
+         */
+        @SerializedName("seq")
+        private Integer seq;
+
+        /**
+         * 单笔收款金额
+         * amount
+         * int64
+         * 否
+         */
+        @SerializedName("amount")
+        private Integer amount;
+
+        /**
+         * 收款成功渠道
+         * paid_type
+         * string[1,32]
+         * 否
+         */
+        @SerializedName("paid_type")
+        private String paidType;
+
+        /**
+         * 收款成功时间
+         * paid_time
+         * string[1,14]
+         * 否
+         */
+        @SerializedName("paid_time")
+        private String paidTime;
+
+        /**
+         * 微信支付交易单号
+         * transaction_id
+         * string[1,200]
+         * 否
+         */
+        @SerializedName("transaction_id")
+        private String transactionId;
+
+        /**
+         * 优惠功能
+         * promotion_detail
+         * array
+         * 否
+         */
+        @SerializedName("promotion_detail")
+        private List<Promotion> promotionDetail;
+    }
+
+    /**
+     * 优惠
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Promotion implements Serializable {
+        private static final long serialVersionUID = -4548270935733744595L;
+
+        /**
+         * 券ID
+         * coupon_id
+         * string[1,32]
+         * 是
+         */
+        @SerializedName("coupon_id")
+        private String couponId;
+
+        /**
+         * 优惠名称
+         * name
+         * string[1,64]
+         * 否
+         */
+        @SerializedName("name")
+        private String name;
+
+        /**
+         * 优惠范围
+         * scope
+         * string[1,12]
+         * 否
+         */
+        @SerializedName("scope")
+        private String scope;
+
+        /**
+         * 优惠类型
+         * type
+         * string[1,12]
+         * 否
+         */
+        @SerializedName("type")
+        private String type;
+
+        /**
+         * 优惠券面额
+         * amount
+         * int
+         * 是
+         */
+        @SerializedName("amount")
+        private Integer amount;
+
+        /**
+         * 活动ID
+         * stock_id
+         * string[1,32]
+         * 否
+         */
+        @SerializedName("stock_id")
+        private String stockId;
+
+        /**
+         * 微信出资
+         * wechatpay_contribute
+         * int
+         * 否
+         */
+        @SerializedName("wechatpay_contribute")
+        private Integer wechatpayContribute;
+
+        /**
+         * 商户出资
+         * merchant_contribute
+         * int64
+         * 否
+         */
+        @SerializedName("merchant_contribute")
+        private Integer merchantContribute;
+
+        /**
+         * 其他出资
+         * other_contribute
+         * int64
+         * 否
+         */
+        @SerializedName("other_contribute")
+        private Integer otherContribute;
+
+        /**
+         * 优惠币种
+         * currency
+         * string
+         * 否
+         */
+        @SerializedName("currency")
+        private String currency;
+
+        /**
+         * 单品列表
+         * goods_detail
+         * array
+         * 否
+         */
+        @SerializedName("goods_detail")
+        private List<Goods> goodsDetail;
+    }
+
+    /**
+     * 单品
+     */
+    @Data
+    @NoArgsConstructor
+    public static class Goods implements Serializable {
+        private static final long serialVersionUID = 8205243700113245772L;
+
+        /**
+         * 商品编码
+         * goods_id
+         * string[1,32]
+         * 是
+         */
+        @SerializedName("goods_id")
+        private String goodsId;
+
+        /**
+         * 商品数量
+         * quantity
+         * uint32
+         * 否
+         */
+        @SerializedName("quantity")
+        private Integer quantity;
+
+        /**
+         * 商品价格
+         * unit_price
+         * int64
+         * 否
+         */
+        @SerializedName("unit_price")
+        private Integer unitPrice;
+
+        /**
+         * 商品优惠金额
+         * discount_amount
+         * int64
+         * 否
+         */
+        @SerializedName("discount_amount")
+        private Integer discountAmount;
+
+        /**
+         * 商品备注
+         * goods_remark
+         * string[1,128]
+         * 否
+         */
+        @SerializedName("goods_remark")
+        private String goodsRemark;
+    }
 
 }

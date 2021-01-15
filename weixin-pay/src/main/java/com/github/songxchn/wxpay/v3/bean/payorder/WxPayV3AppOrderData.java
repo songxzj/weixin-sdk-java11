@@ -1,4 +1,4 @@
-package com.github.songxchn.wxpay.v3.bean.order;
+package com.github.songxchn.wxpay.v3.bean.payorder;
 
 
 import cn.hutool.core.util.RandomUtil;
