@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxPayScorePermissionStateResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = -3181199945383714094L;
+public class WxPayScorePermissionAuthorizationCodeStateResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = -5371045792744269137L;
+
 
     /**
      * 服务ID
@@ -40,31 +41,13 @@ public class WxPayScorePermissionStateResult extends BaseWxPayV3Result {
     private String mchid;
 
     /**
-     * 商户签约单号
-     * out_request_no
-     * string[1,64]
-     * 否
-     */
-    @SerializedName("out_request_no")
-    private String outRequestNo;
-
-    /**
      * 用户标识
      * openid
      * string[1,128]
-     * 是
+     * 否
      */
     @SerializedName("openid")
     private String openid;
-
-    /**
-     * 回调状态
-     * user_service_status
-     * string[1,32]
-     * 否
-     */
-    @SerializedName("user_service_status")
-    private String userServiceStatus;
 
     /**
      * 授权协议号
@@ -76,12 +59,39 @@ public class WxPayScorePermissionStateResult extends BaseWxPayV3Result {
     private String authorizationCode;
 
     /**
-     * 服务开启/解除授权时间
-     * openorclose_time
+     * 授权状态
+     * authorization_state
+     * string[1, 16]
+     * 是
+     */
+    @SerializedName("authorization_state")
+    private String authorizationState;
+
+    /**
+     * 授权通知地址
+     * notify_url
+     * string[1,255]
+     * 否
+     */
+    @SerializedName("notify_url")
+    private String notifyUrl;
+
+    /**
+     * 最近一次解除授权时间
+     * cancel_authorization_time
+     * string[1.32]
+     * 否
+     */
+    @SerializedName("cancel_authorization_time")
+    private String cancelAuthorizationTime;
+
+    /**
+     * 最近一次授权成功时间
+     * authorization_success_time
      * string[1,32]
      * 否
      */
-    @SerializedName("openorclose_time")
-    private String openorcloseTime;
+    @SerializedName("authorization_success_time")
+    private String authorizationSuccessTime;
 
 }

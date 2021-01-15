@@ -4,7 +4,7 @@ import com.github.songxchn.common.annotation.GsonExclude;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.payscore.WxPayScorePermissionTerminateResult;
+import com.github.songxchn.wxpay.v3.bean.result.payscore.WxPayScorePermissionAuthorizationCodeTerminateResult;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpMethod;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxPayScorePermissionTerminateRequest extends BaseWxPayV3Request<WxPayScorePermissionTerminateResult> {
+public class WxPayScorePermissionAuthorizationCodeTerminateRequest extends BaseWxPayV3Request<WxPayScorePermissionAuthorizationCodeTerminateResult> {
     private static final long serialVersionUID = 8051715736307318551L;
 
     /**
@@ -62,8 +62,8 @@ public class WxPayScorePermissionTerminateRequest extends BaseWxPayV3Request<WxP
     }
 
     @Override
-    public Class<WxPayScorePermissionTerminateResult> getResultClass() {
-        return WxPayScorePermissionTerminateResult.class;
+    public Class<WxPayScorePermissionAuthorizationCodeTerminateResult> getResultClass() {
+        return WxPayScorePermissionAuthorizationCodeTerminateResult.class;
     }
 
     @Override
