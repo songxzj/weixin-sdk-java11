@@ -3,21 +3,19 @@ package com.github.songxchn.wxpay.v3.bean.request.payscore;
 import com.github.songxchn.common.annotation.Required;
 import com.github.songxchn.common.bean.BaseV3Inner;
 import com.github.songxchn.common.exception.WxErrorException;
-import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
-import com.github.songxchn.wxpay.v3.bean.result.payscore.WxPayScoreServiceOrderResult;
+import com.github.songxchn.wxpay.v3.bean.result.payscore.WxPayScoreServiceOrderDirectCompleteResult;
 import com.google.gson.annotations.SerializedName;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpMethod;
 
 import java.util.List;
 
 /**
- * version:2020.03.05
- * 创建支付分订单API
- * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_14.shtml">
+ * version:2020.04.23
+ * 创单结单合并API
+ * <a href="https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter6_1_1.shtml">
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,7 +23,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
-public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScoreServiceOrderResult> {
+public class WxPayScoreServiceOrderDirectCompleteRequest extends BaseWxPayV3Request<WxPayScoreServiceOrderDirectCompleteResult> {
     private static final long serialVersionUID = -2778638176133803381L;
     /**
      * 商户服务订单号
@@ -46,6 +44,16 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     @Required
     @SerializedName("appid")
     private String appid;
+
+    /**
+     * 用户标识
+     * openid
+     * string[1,128]
+     * 是
+     */
+    @Required
+    @SerializedName("openid")
+    private String openid;
 
     /**
      * 服务ID
@@ -71,8 +79,9 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
      * 后付费项目
      * post_payments
      * array
-     * 否
+     * 是
      */
+    @Required
     @SerializedName("post_payments")
     private List<PostPayment> postPayments;
 
@@ -105,14 +114,32 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     private Location location;
 
     /**
-     * 订单风险金
-     * risk_fund
-     * object
+     * 总金额
+     * total_amount
+     * uint64
      * 是
      */
     @Required
-    @SerializedName("risk_fund")
-    private RiskFund riskFund;
+    @SerializedName("total_amount")
+    private Integer totalAmount;
+
+    /**
+     * 微信支付服务分账标记
+     * profit_sharing
+     * bool
+     * 否
+     */
+    @SerializedName("profit_sharing")
+    private Boolean profitSharing;
+
+    /**
+     * 订单优惠标记
+     * goods_tag
+     * string（32）
+     * 否
+     */
+    @SerializedName("goods_tag")
+    private String goodsTag;
 
     /**
      * 商户数据包	attach
@@ -126,38 +153,19 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
      * 商户回调地址
      * notify_url
      * string[1,255]
-     * 是
+     * 否
      */
-    @Required
     @SerializedName("notify_url")
     private String notifyUrl;
 
-    /**
-     * 用户标识
-     * openid
-     * string[1,128]
-     * 条件选填
-     */
-    @SerializedName("openid")
-    private String openid;
-
-    /**
-     * 是否需要用户确认
-     * need_user_confirm
-     * bool
-     * 否
-     */
-    @SerializedName("need_user_confirm")
-    private Boolean needUserConfirm;
-
     @Override
     public String routing() {
-        return "/v3/payscore/serviceorder";
+        return "/payscore/serviceorder/direct-complete";
     }
 
     @Override
-    public Class<WxPayScoreServiceOrderResult> getResultClass() {
-        return WxPayScoreServiceOrderResult.class;
+    public Class<WxPayScoreServiceOrderDirectCompleteResult> getResultClass() {
+        return WxPayScoreServiceOrderDirectCompleteResult.class;
     }
 
     @Override
@@ -167,9 +175,6 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-        if (Boolean.FALSE.equals(this.needUserConfirm) && StringUtils.isBlank(this.openid)) {
-            throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "免确认订单, openid 必填");
-        }
         if (this.postPayments != null) {
             for (PostPayment postPayment : this.postPayments) {
                 postPayment.checkConstraints();
@@ -186,9 +191,6 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
         if (this.location != null) {
             this.location.checkConstraints();
         }
-        if (this.riskFund != null) {
-            this.riskFund.checkConstraints();
-        }
     }
 
     /**
@@ -200,14 +202,15 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PostPayment extends BaseV3Inner {
-        private static final long serialVersionUID = 7820763185898251788L;
+        private static final long serialVersionUID = -645077212140602809L;
 
         /**
          * 付费项目名称
          * name
          * string[1,20]
-         * 否
+         * 是
          */
+        @Required
         @SerializedName("name")
         private String name;
 
@@ -215,8 +218,9 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
          * 金额
          * amount
          * int64
-         * 条件选填
+         * 是
          */
+        @Required
         @SerializedName("amount")
         private Integer amount;
 
@@ -224,8 +228,9 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
          * 计费说明
          * description
          * string[1,30]
-         * 条件选填
+         * 是
          */
+        @Required
         @SerializedName("description")
         private String description;
 
@@ -240,9 +245,7 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (!StringUtils.isBlank(this.name) && this.amount == null && StringUtils.isBlank(this.description)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "如果填写了付费项目名称，则 amount 或 description 必须填写其一，或都填");
-            }
+
         }
     }
 
@@ -255,14 +258,15 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     @NoArgsConstructor
     @AllArgsConstructor
     public static class PostDiscount extends BaseV3Inner {
-        private static final long serialVersionUID = -6178714010700804131L;
+        private static final long serialVersionUID = 2801415728666604095L;
 
         /**
          * 优惠名称
          * name
          * string[1,20]
-         * 条件选填
+         * 是
          */
+        @Required
         @SerializedName("name")
         private String name;
 
@@ -270,19 +274,21 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
          * 优惠说明
          * description
          * string[1,30]
-         * 条件选填
+         * 是
          */
+        @Required
         @SerializedName("description")
         private String description;
 
         /**
          * 优惠金额
          * amount
-         * int
-         * 否
+         * uint64
+         * 是
          */
         @SerializedName("amount")
         private Integer amount;
+
         /**
          * 优惠数量
          * count
@@ -294,9 +300,7 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (StringUtils.isBlank(this.name) != StringUtils.isBlank(this.description)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "name 和 description 若填写，则必须同时填写");
-            }
+
         }
     }
 
@@ -309,7 +313,7 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TimeRange extends BaseV3Inner {
-        private static final long serialVersionUID = -1155305009687654119L;
+        private static final long serialVersionUID = 5040385910316119623L;
 
         /**
          * 服务开始时间
@@ -334,8 +338,9 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
          * 预计服务结束时间
          * end_time
          * string[1,14]
-         * 否
+         * 是
          */
+        @Required
         @SerializedName("end_time")
         private String endTime;
 
@@ -363,14 +368,15 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Location extends BaseV3Inner {
-        private static final long serialVersionUID = -853074253184172517L;
+        private static final long serialVersionUID = 2703342595586907921L;
 
         /**
          * 服务开始地点
          * start_location
          * string[1,50]
-         * 否
+         * 是
          */
+        @Required
         @SerializedName("start_location")
         private String startLocation;
 
@@ -378,64 +384,18 @@ public class WxPayScoreServiceOrderRequest extends BaseWxPayV3Request<WxPayScore
          * 预计服务结束位置
          * end_location
          * string[1,50]
-         * 条件选填
+         * 是
          */
+        @Required
         @SerializedName("end_location")
         private String endLocation;
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (StringUtils.isBlank(this.startLocation) && !StringUtils.isBlank(endLocation)) {
-                throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "填写了服务开始地点，才能填写服务结束地点");
-            }
-        }
-    }
-
-    /**
-     * 订单风险金
-     */
-    @Data
-    @EqualsAndHashCode(callSuper = true)
-    @Builder(builderMethodName = "newBuilder")
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class RiskFund extends BaseV3Inner {
-        private static final long serialVersionUID = -3213871596818444960L;
-
-        /**
-         * 风险金名称
-         * name
-         * string[1,64]
-         * 是
-         */
-        @Required
-        @SerializedName("name")
-        private String name;
-
-        /**
-         * 风险金额
-         * amount
-         * int64
-         * 是
-         */
-        @Required
-        @SerializedName("amount")
-        private Integer amount;
-
-        /**
-         * 风险说明
-         * description
-         * string[1,30]
-         * 否
-         */
-        @SerializedName("description")
-        private String description;
-
-        @Override
-        public void checkConstraints() throws WxErrorException {
 
         }
     }
+
 
 
 }

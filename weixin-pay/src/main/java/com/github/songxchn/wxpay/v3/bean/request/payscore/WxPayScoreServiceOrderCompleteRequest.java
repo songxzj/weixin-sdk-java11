@@ -143,7 +143,22 @@ public class WxPayScoreServiceOrderCompleteRequest extends BaseWxPayV3Request<Wx
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-
+        if (this.postPayments != null) {
+            for (PostPayment postPayment : this.postPayments) {
+                postPayment.checkConstraints();
+            }
+        }
+        if (this.postDiscounts != null) {
+            for (PostDiscount postDiscount : this.postDiscounts) {
+                postDiscount.checkConstraints();
+            }
+        }
+        if (this.timeRange != null) {
+            this.timeRange.checkConstraints();
+        }
+        if (this.location != null) {
+            this.location.checkConstraints();
+        }
     }
 
     /**

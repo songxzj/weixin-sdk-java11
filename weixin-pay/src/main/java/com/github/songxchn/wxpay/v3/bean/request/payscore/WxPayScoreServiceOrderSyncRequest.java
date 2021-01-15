@@ -92,7 +92,9 @@ public class WxPayScoreServiceOrderSyncRequest extends BaseWxPayV3Request<WxPayS
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-
+        if (this.detail != null) {
+            detail.checkConstraints();
+        }
     }
 
     /**

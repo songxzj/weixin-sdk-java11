@@ -118,7 +118,16 @@ public class WxPayScoreServiceOrderModifyRequest extends BaseWxPayV3Request<WxPa
 
     @Override
     protected void checkConstraints() throws WxErrorException {
-
+        if (this.postPayments != null) {
+            for (PostPayment postPayment : this.postPayments) {
+                postPayment.checkConstraints();
+            }
+        }
+        if (this.postDiscounts != null) {
+            for (PostDiscount postDiscount : this.postDiscounts) {
+                postDiscount.checkConstraints();
+            }
+        }
     }
 
     /**
