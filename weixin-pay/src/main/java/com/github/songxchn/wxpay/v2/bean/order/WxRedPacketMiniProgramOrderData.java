@@ -1,6 +1,7 @@
 package com.github.songxchn.wxpay.v2.bean.order;
 
 import cn.hutool.core.util.RandomUtil;
+import com.github.songxchn.common.annotation.SignExclude;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
 import com.github.songxchn.wxpay.constant.WxPayConstants;
@@ -50,6 +51,7 @@ public class WxRedPacketMiniProgramOrderData implements Serializable {
      * 是
      * String(32)
      */
+    @SignExclude
     private String signType;
 
     /**
@@ -117,7 +119,7 @@ public class WxRedPacketMiniProgramOrderData implements Serializable {
                 throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "signType 必须提供值");
             }
             WxRedPacketMiniProgramOrderData data = new WxRedPacketMiniProgramOrderData(this.appId, this.signType, URLEncoder.encode(this.packageValue, WxPayConstants.DEFAULT_CHARSET));
-            data.paySign = SignUtils.createSign(data, data.getSignType(), mchKey, new String[]{"signType"});
+            data.paySign = SignUtils.createSign(data, data.getSignType(), mchKey, new String[0]);
 
             return data;
         }

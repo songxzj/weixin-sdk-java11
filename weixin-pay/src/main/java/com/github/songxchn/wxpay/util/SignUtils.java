@@ -148,7 +148,7 @@ public class SignUtils {
 
                 if (field.isAnnotationPresent(XStreamAlias.class)) {
                     result.put(field.getAnnotation(XStreamAlias.class).value(), field.get(bean).toString());
-                } else if (!Modifier.isStatic(field.getModifiers()) || !field.isAnnotationPresent(SignExclude.class)) {
+                } else if (!Modifier.isStatic(field.getModifiers()) && !field.isAnnotationPresent(SignExclude.class)) {
                     //忽略掉静态成员变量
                     result.put(field.getName(), field.get(bean).toString());
                 }
