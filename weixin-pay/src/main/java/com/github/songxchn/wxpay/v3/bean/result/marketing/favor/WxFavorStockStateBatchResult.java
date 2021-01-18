@@ -1,4 +1,4 @@
-package com.github.songxchn.wxpay.v3.bean.result.complaint;
+package com.github.songxchn.wxpay.v3.bean.result.marketing.favor;
 
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.google.gson.annotations.SerializedName;
@@ -11,20 +11,20 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxComplaintBatchResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 6009014042667751249L;
+public class WxFavorStockStateBatchResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = 4288553761386876664L;
 
     /**
-     * 用户投诉信息详情
+     * 批次详情
      * data
      * array
      * 是
      */
     @SerializedName("data")
-    private List<WxComplaintResult> data;
+    private List<WxFavorStockStateResult> data;
 
     /**
-     * 分页开始位置
+     * 分页页码
      * offset
      * uint32
      * 是
@@ -42,12 +42,13 @@ public class WxComplaintBatchResult extends BaseWxPayV3Result {
     private Integer limit;
 
     /**
-     * 投诉总条数
+     * 批次总数
      * total_count
-     * uint64
-     * 否
+     * int64
+     * 是
      */
     @SerializedName("total_count")
     private Integer totalCount;
+
 
 }

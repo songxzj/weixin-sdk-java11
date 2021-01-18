@@ -1,4 +1,4 @@
-package com.github.songxchn.wxpay.v3.bean.result.complaint;
+package com.github.songxchn.wxpay.v3.bean.result.marketing.favor;
 
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.google.gson.annotations.SerializedName;
@@ -11,20 +11,11 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
-public class WxComplaintBatchResult extends BaseWxPayV3Result {
-    private static final long serialVersionUID = 6009014042667751249L;
+public class WxFavorStockItemResult extends BaseWxPayV3Result {
+    private static final long serialVersionUID = -3741314566670358595L;
 
     /**
-     * 用户投诉信息详情
-     * data
-     * array
-     * 是
-     */
-    @SerializedName("data")
-    private List<WxComplaintResult> data;
-
-    /**
-     * 分页开始位置
+     * 分页页码
      * offset
      * uint32
      * 是
@@ -42,12 +33,32 @@ public class WxComplaintBatchResult extends BaseWxPayV3Result {
     private Integer limit;
 
     /**
-     * 投诉总条数
+     * 批次总数
      * total_count
-     * uint64
-     * 否
+     * uint32
+     * 是
      */
     @SerializedName("total_count")
     private Integer totalCount;
+
+    /**
+     * 可用单品编码
+     * data
+     * array
+     * 否
+     */
+    @SerializedName("data")
+    private List<String> data;
+
+    /**
+     * 批次号
+     * stock_id
+     * string[1,20]
+     * 是
+     */
+    @SerializedName("stock_id")
+    private String stockId;
+
+
 
 }
