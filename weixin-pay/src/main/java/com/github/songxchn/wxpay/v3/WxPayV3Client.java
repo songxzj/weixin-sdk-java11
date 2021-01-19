@@ -323,7 +323,7 @@ public class WxPayV3Client {
         long begin = System.currentTimeMillis();
         try {
             RestTemplate restClient = getRestClient();
-            HttpHeaders requestHeaders = getRequestHeaders(token);
+            HttpHeaders requestHeaders = getRequestHeaders(token, request.getIdempotencyKey());
             requestHeaderStr = requestHeaders.toString();
 
             HttpEntity<String> requestEntity = new HttpEntity<>(requestContent, requestHeaders);
@@ -595,16 +595,20 @@ public class WxPayV3Client {
      * 获取请求头
      *
      * @param token
+     * @param idempotencyKey
      * @return
      * @throws WxErrorException
      */
-    private HttpHeaders getRequestHeaders(String token) throws WxErrorException {
+    private HttpHeaders getRequestHeaders(String token, String idempotencyKey) throws WxErrorException {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
         requestHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         requestHeaders.set("Authorization", getSchema() + " " + token);
         if (!StringUtils.isBlank(this.wxSerialNo)) {
             requestHeaders.set("Wechatpay-Serial", this.wxSerialNo);
+        }
+        if (!StringUtils.isBlank(idempotencyKey)) {
+            requestHeaders.set("Idempotency-Key", idempotencyKey);
         }
         return requestHeaders;
     }
