@@ -7,6 +7,7 @@ import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.v2.bean.cert.WxPayCertificate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.ResourceUtils;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.GCMParameterSpec;
@@ -25,10 +26,10 @@ import java.security.spec.PKCS8EncodedKeySpec;
 @Slf4j
 public class CertKeyUtils {
 
-    private static final int TAG_LENGTH_BIT = 128;
+    /*private static final int TAG_LENGTH_BIT = 128;
     private static final String CIPHER_PROVIDER = "SunJCE";
     private static final String TRANSFORMATION_NoPadding = "AES/GCM/NoPadding";
-    private static final String ALGORITHM = "AES";
+    private static final String ALGORITHM = "AES";*/
 
 
     /**
@@ -38,7 +39,7 @@ public class CertKeyUtils {
      * @return
      * @throws Exception
      */
-    public static WxPayCertificate decryptCertificate(String apiv3Key, WxPayCertificate wxPayCertificate) throws WxErrorException {
+    /*public static WxPayCertificate decryptCertificate(String apiv3Key, WxPayCertificate wxPayCertificate) throws WxErrorException {
         try {
             WxPayCertificate.EncryptCertificate encryptCertificate = wxPayCertificate.getEncryptCertificate();
 
@@ -53,7 +54,7 @@ public class CertKeyUtils {
             log.error(e.getMessage(), e);
             throw new WxErrorException(WxErrorExceptionFactor.DECRYPT_CERTIFICATE_ERROR);
         }
-    }
+    }*/
 
     /**
      * 加载 v3 商户密钥
@@ -132,7 +133,7 @@ public class CertKeyUtils {
 
 
     /**
-     * 从配置路径 加载文件 信息（本地路径、网络url）
+     * 从配置路径 加载文件 信息（classpath、本地路径、网络url）
      *
      * @param filePath 配置路径
      * @return
@@ -150,14 +151,10 @@ public class CertKeyUtils {
                 throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
             }
         } else {
-            File file = new File(filePath);
-            if (!file.exists()) {
-                throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
-            }
-
             try {
-                inputStream = new FileInputStream(file);
+                inputStream = new FileInputStream(ResourceUtils.getFile(filePath));
             } catch (FileNotFoundException e) {
+                log.error(e.getMessage(), e);
                 throw new WxErrorException(WxErrorExceptionFactor.KEY_FILE_NOT_EXIST);
             }
         }

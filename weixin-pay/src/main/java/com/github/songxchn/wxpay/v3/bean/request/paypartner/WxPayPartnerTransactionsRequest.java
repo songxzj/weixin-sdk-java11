@@ -329,8 +329,8 @@ public class WxPayPartnerTransactionsRequest extends BaseWxPayV3Request<WxPayTra
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (goodsDetails != null) {
-                for (GoodsDetail goodsDetail : goodsDetails) {
+            if (this.goodsDetails != null) {
+                for (GoodsDetail goodsDetail : this.goodsDetails) {
                     goodsDetail.checkConstraints();
                 }
             }
@@ -452,11 +452,11 @@ public class WxPayPartnerTransactionsRequest extends BaseWxPayV3Request<WxPayTra
 
         @Override
         public void checkConstraints() throws WxErrorException {
-            if (storeInfo != null) {
-                storeInfo.checkConstraints();
+            if (this.storeInfo != null) {
+                this.storeInfo.checkConstraints();
             }
-            if (h5Info != null) {
-                h5Info.checkConstraints();
+            if (this.h5Info != null) {
+                this.h5Info.checkConstraints();
             }
         }
     }
@@ -599,17 +599,20 @@ public class WxPayPartnerTransactionsRequest extends BaseWxPayV3Request<WxPayTra
             throw new WxErrorException(WxErrorExceptionFactor.INVALID_PARAMETER_CODE, "H5 支付，场景信息必填");
         }
 
-        if (amount != null) {
-            amount.checkConstraints();
+        if (this.settleInfo != null) {
+            this.settleInfo.checkConstraints();
         }
-        if (payer != null) {
-            payer.checkConstraints();
+        if (this.amount != null) {
+            this.amount.checkConstraints();
         }
-        if (detail != null) {
-            detail.checkConstraints();
+        if (this.payer != null) {
+            this.payer.checkConstraints();
         }
-        if (sceneInfo != null) {
-            sceneInfo.checkConstraints();
+        if (this.detail != null) {
+            this.detail.checkConstraints();
+        }
+        if (this.sceneInfo != null) {
+            this.sceneInfo.checkConstraints();
         }
 
 

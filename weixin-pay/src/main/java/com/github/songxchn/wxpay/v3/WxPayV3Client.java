@@ -8,26 +8,25 @@ import cn.hutool.crypto.digest.DigestUtil;
 import com.github.songxchn.common.bean.SignatureHeader;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.exception.WxErrorExceptionFactor;
+import com.github.songxchn.common.util.WxIOUtils;
+import com.github.songxchn.wxpay.constant.WxPayConstants;
 import com.github.songxchn.wxpay.util.CertKeyUtils;
 import com.github.songxchn.wxpay.util.DecryptUtils;
-import com.github.songxchn.wxpay.util.SensitiveEncryptUtils;
+import com.github.songxchn.wxpay.util.SensitiveUtils;
 import com.github.songxchn.wxpay.util.SignUtils;
+import com.github.songxchn.wxpay.v3.bean.cert.WxPayV3Certificate;
 import com.github.songxchn.wxpay.v3.bean.request.BaseWxPayV3Request;
 import com.github.songxchn.wxpay.v3.bean.request.WxCertificatesV3Request;
-import com.github.songxchn.wxpay.v3.bean.request.bill.WxBillDownloadBillRequest;
-import com.github.songxchn.wxpay.v3.bean.request.media.WxMediaUploadV3Request;
+import com.github.songxchn.wxpay.v3.bean.request.media.WxMediaUploadRequest;
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
 import com.github.songxchn.wxpay.v3.bean.result.WxCertificatesV3Result;
-import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadV3Result;
-import com.github.songxchn.wxpay.v3.bean.cert.WxPayV3Certificate;
-import com.github.songxchn.wxpay.constant.WxPayConstants;
+import com.github.songxchn.wxpay.v3.bean.result.media.WxMediaUploadResult;
 import com.github.songxchn.wxpay.v3.bean.result.notify.WxNotifyResult;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -123,6 +122,26 @@ public class WxPayV3Client {
      * apiv3 密钥
      */
     private final String apiv3Key;
+
+    public String getMchId() {
+        return mchId;
+    }
+
+    public String getSerialNo() {
+        return serialNo;
+    }
+
+    public X509Certificate getCertificate() {
+        return certificate;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
+    public String getApiv3Key() {
+        return apiv3Key;
+    }
 
     private X509Certificate getWxCertificate(String responseWxSerialNo) throws WxErrorException {
         if (!StringUtils.isBlank(responseWxSerialNo) && responseWxSerialNo.equals(this.wxSerialNo)) {
@@ -237,9 +256,22 @@ public class WxPayV3Client {
     public <T extends BaseWxPayV3Result> T execute(BaseWxPayV3Request<T> request) throws WxErrorException {
         String token = checkAndSignAndGetToken(request);
         String requestUrl = getServerUrl() + request.routing();
-        String responseContent = restExchange(requestUrl, request, token);
+        byte[] bytes = restExchange(requestUrl, request, token);
 
-        return BaseWxPayV3Result.fromJson(responseContent, request.getResultClass());
+        return bytesToResult(bytes, request.getResultClass());
+    }
+
+    private <T extends BaseWxPayV3Result> T bytesToResult(byte[] bytes, Class<T> clz) throws WxErrorException {
+        String responseContent = WxIOUtils.bytesToString(bytes);
+        if (!(StringUtils.startsWith(responseContent, "{") && StringUtils.endsWith(responseContent, "}"))) {
+            return BaseWxPayV3Result.createStreamInstance(bytes, clz);
+        }
+
+        T result = BaseWxPayV3Result.fromJson(responseContent, clz);
+        if (result.isSensitiveEncrypt()) {
+            SensitiveUtils.decryptFieldsV3(result, this.privateKey);
+        }
+        return result;
     }
 
 
@@ -255,7 +287,7 @@ public class WxPayV3Client {
     private <T extends BaseWxPayV3Result> String checkAndSignAndGetToken(BaseWxPayV3Request<T> request) throws WxErrorException {
         request.checkFields();
         if (request.isSensitiveEncrypt()) {
-            SensitiveEncryptUtils.encryptFieldsV3(request, getWxCertificate(null));
+            SensitiveUtils.encryptFieldsV3(request, getWxCertificate(null));
         }
 
         long timestamp = System.currentTimeMillis() / 1000;
@@ -281,7 +313,7 @@ public class WxPayV3Client {
         return token.toString();
     }
 
-    private <T extends BaseWxPayV3Result> String restExchange(String requestUrl, BaseWxPayV3Request<T> request, String token) throws WxErrorException {
+    private <T extends BaseWxPayV3Result> byte[] restExchange(String requestUrl, BaseWxPayV3Request<T> request, String token) throws WxErrorException {
         boolean hasError = false;
         String requestHeaderStr = null;
         String requestContent = request.toJsonString();
@@ -291,15 +323,16 @@ public class WxPayV3Client {
         long begin = System.currentTimeMillis();
         try {
             RestTemplate restClient = getRestClient();
-            HttpHeaders requestHeaders = getRequestHeaders(token);
+            HttpHeaders requestHeaders = getRequestHeaders(token, request.getIdempotencyKey());
             requestHeaderStr = requestHeaders.toString();
 
             HttpEntity<String> requestEntity = new HttpEntity<>(requestContent, requestHeaders);
-            ResponseEntity<String> responseEntity = restClient.exchange(requestUrl, request.getHttpMethod(), requestEntity, String.class);
+            ResponseEntity<byte[]> responseEntity = restClient.exchange(requestUrl, request.getHttpMethod(), requestEntity, byte[].class);
 
             httpStatus = responseEntity.getStatusCode();
             HttpHeaders responseHeaders = responseEntity.getHeaders();
-            responseContent = responseEntity.getBody();
+            byte[] bytes = responseEntity.getBody();
+            responseContent = WxIOUtils.bytesToString(bytes);
 
             responseHeaderStr = responseHeaders.toString();
 
@@ -308,7 +341,7 @@ public class WxPayV3Client {
                 checkResult(responseHeaders, responseContent);
             }
 
-            return responseContent;
+            return bytes;
         } catch (Exception e) {
             String errMsg = e.getMessage();
             if (e instanceof HttpStatusCodeException) {
@@ -337,7 +370,7 @@ public class WxPayV3Client {
      * @return
      * @throws WxErrorException
      */
-    public WxMediaUploadV3Result uploadMedia(WxMediaUploadV3Request request) throws WxErrorException {
+    public WxMediaUploadResult uploadMedia(WxMediaUploadRequest request) throws WxErrorException {
         String sha256;
         File file = request.getFile();
         try {
@@ -404,57 +437,7 @@ public class WxPayV3Client {
 
     }
 
-
-    /**
-     * 下载账单特定
-     *
-     * @param request
-     * @return
-     * @throws WxErrorException
-     */
-    public InputStream downloadBill(WxBillDownloadBillRequest request) throws WxErrorException {
-
-        String token = checkAndSignAndGetToken(request);
-        String requestUrl = getServerUrl() + request.routing();
-
-        boolean hasError = false;
-        String requestHeaderStr = null;
-        String requestContent = request.toJsonString();
-        HttpStatus httpStatus = null;
-
-        long begin = System.currentTimeMillis();
-        try {
-            RestTemplate restClient = getRestClient();
-            HttpHeaders requestHeaders = getRequestHeaders(token);
-            requestHeaderStr = requestHeaders.toString();
-
-            HttpEntity<String> requestEntity = new HttpEntity<>(requestContent, requestHeaders);
-            ResponseEntity<Resource> responseEntity = restClient.exchange(requestUrl, request.getHttpMethod(), requestEntity, Resource.class);
-
-            httpStatus = responseEntity.getStatusCode();
-
-            return responseEntity.getBody().getInputStream();
-        } catch (Exception e) {
-            e.printStackTrace();
-            String errMsg = e.getMessage();
-            if (e instanceof HttpStatusCodeException) {
-                HttpStatusCodeException e1 = (HttpStatusCodeException) e;
-                httpStatus = e1.getStatusCode();
-                errMsg = e1.getMessage() + e1.getResponseBodyAsString();
-            }
-            log.error(errMsg, e);
-            hasError = true;
-            throw new WxErrorException(WxErrorExceptionFactor.HTTP_REQUEST_FAIL_CODE, errMsg);
-        } finally {
-            log.warn("wxpay url: {}\n" +
-                            "request header: \n{}\n" +
-                            "request content: \n{}\n" +
-                            "wxpay request {}, cost time: {}, http status code: {}\n",
-                    requestUrl, requestHeaderStr, requestContent, hasError ? "failed" : "succeeded", System.currentTimeMillis() - begin, httpStatus);
-        }
-    }
-
-    private ByteArrayOutputStream getRequestByteArray(WxMediaUploadV3Request request) throws WxErrorException {
+    private ByteArrayOutputStream getRequestByteArray(WxMediaUploadRequest request) throws WxErrorException {
         StringBuffer sb1 = new StringBuffer();
         sb1.append("--boundary").append("\r\n")
                 .append("Content-Disposition: form-data; name=\"meta\";").append("\r\n")
@@ -612,16 +595,20 @@ public class WxPayV3Client {
      * 获取请求头
      *
      * @param token
+     * @param idempotencyKey
      * @return
      * @throws WxErrorException
      */
-    private HttpHeaders getRequestHeaders(String token) throws WxErrorException {
+    private HttpHeaders getRequestHeaders(String token, String idempotencyKey) throws WxErrorException {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
         requestHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE);
         requestHeaders.set("Authorization", getSchema() + " " + token);
         if (!StringUtils.isBlank(this.wxSerialNo)) {
             requestHeaders.set("Wechatpay-Serial", this.wxSerialNo);
+        }
+        if (!StringUtils.isBlank(idempotencyKey)) {
+            requestHeaders.set("Idempotency-Key", idempotencyKey);
         }
         return requestHeaders;
     }

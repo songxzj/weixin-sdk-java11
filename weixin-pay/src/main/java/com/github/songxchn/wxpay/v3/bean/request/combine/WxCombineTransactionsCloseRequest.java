@@ -124,5 +124,10 @@ public class WxCombineTransactionsCloseRequest extends BaseWxPayV3Request<WxComb
 
     @Override
     protected void checkConstraints() throws WxErrorException {
+        if (this.subOrders != null) {
+            for (SubOrder subOrder : this.subOrders) {
+                subOrder.checkConstraints();
+            }
+        }
     }
 }

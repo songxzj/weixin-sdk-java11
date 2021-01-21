@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 通用如下：
+ * 支付通知（https://pay.weixin.qq.com/wiki/doc/apiv3/apis/chapter5_1_13.shtml）
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor

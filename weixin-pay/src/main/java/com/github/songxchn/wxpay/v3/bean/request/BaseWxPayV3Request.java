@@ -1,10 +1,12 @@
 package com.github.songxchn.wxpay.v3.bean.request;
 
 
+import com.github.songxchn.common.annotation.GsonExclude;
 import com.github.songxchn.common.exception.WxErrorException;
 import com.github.songxchn.common.json.WxGsonBuilder;
 import com.github.songxchn.common.util.WxBeanUtils;
 import com.github.songxchn.wxpay.v3.bean.result.BaseWxPayV3Result;
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.http.HttpMethod;
@@ -17,6 +19,14 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
     private static final long serialVersionUID = -501560305156478941L;
 
 
+    /**
+     * 业务请求幂等值
+     * Idempotency-Key
+     * string[1,48）
+     */
+    @GsonExclude
+    @SerializedName("Idempotency-Key")
+    protected String idempotencyKey;
     /**
      * 具体路由
      */
@@ -40,17 +50,22 @@ public abstract class BaseWxPayV3Request<T extends BaseWxPayV3Result> implements
      * @return the string
      */
     public String toJsonString() {
-        if (HttpMethod.POST.equals(getHttpMethod()) || HttpMethod.PUT.equals(getHttpMethod())) {
+        if (isCreateJson()) {
             return WxGsonBuilder.create().toJson(this);
         }
         return null;
     }
 
     public String toSignString() {
-        if (HttpMethod.POST.equals(getHttpMethod()) || HttpMethod.PUT.equals(getHttpMethod())) {
+        if (isCreateJson()) {
             return WxGsonBuilder.create().toJson(this);
         }
         return "";
+    }
+
+    private boolean isCreateJson() {
+        HttpMethod httpMethod = getHttpMethod();
+        return HttpMethod.POST.equals(httpMethod) || HttpMethod.PUT.equals(httpMethod) || HttpMethod.PATCH.equals(httpMethod);
     }
 
 

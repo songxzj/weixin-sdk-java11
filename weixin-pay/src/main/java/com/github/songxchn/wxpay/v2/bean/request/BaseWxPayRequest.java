@@ -116,31 +116,12 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
      */
     public abstract boolean isUseKey();
 
-
     /**
-     * 签名时，是否忽略appid.
-     * 以防弄错 WxPayClient 构造函数
+     * 是否有自己特有的请求域名
      */
-    public boolean isIgnoreAppid() {
-        return false;
+    public String ownServerUrl() {
+        return null;
     }
-
-    /**
-     * 签名时，是否忽略sub_appid.
-     * 以防弄错 WxPayClient 构造函数
-     */
-    public boolean isIgnoreSubAppId() {
-        return false;
-    }
-
-    /**
-     * 签名时，是否忽略sub_mch_id.
-     * 以防弄错 WxPayClient 构造函数
-     */
-    public boolean isIgnoreSubMchId() {
-        return false;
-    }
-
 
     /**
      * 将单位为元转换为单位为分.
@@ -174,7 +155,7 @@ public abstract class BaseWxPayRequest<T extends BaseWxPayResult> implements Ser
      *
      * @return the string
      */
-    public String toXML() {
+    public String toXml() {
         if (XmlConfig.fastMode) {
             return toFastXml();
         }
