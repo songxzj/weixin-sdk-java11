@@ -137,7 +137,7 @@ public class WxBusifavorCouponSendStateResult extends BaseWxPayV3Result {
          * 否
          */
         @SerializedName("hall_belong_mch_id")
-        private Integer hallBelongMchId;
+        private String hallBelongMchId;
 
         /**
          * 会员卡ID
